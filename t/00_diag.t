@@ -12,7 +12,6 @@ my $post_diag;
 $modules{$_} = $_ for qw(
   Alien::curl
   ExtUtils::MakeMaker
-  FFI::Build::MM
   FFI::CheckLib
   FFI::Platypus
   FFI::Platypus::Buffer

@@ -43,7 +43,10 @@ foreach my $line ($curl_h->lines)
     $total++;
 
     next if $name =~ /^OBSOLETE/;
-    next if $Net::Swirl::CurlEasy::opt{lc $name};
+    next if do {
+      no warnings 'once';
+      $Net::Swirl::CurlEasy::opt{lc $name}
+    };
 
     if($type =~ /^(STRINGPOINT|LONG|OFF_T|SLISTPOINT)$/ && $init)
     {
@@ -56,7 +59,7 @@ foreach my $line ($curl_h->lines)
     }
     else
     {
-      push $missing{options}->{$type}->@*, $name;
+      push $missing{options}->{$type}->@*, "$name:$init";
       $missing++;
     }
 

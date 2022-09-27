@@ -110,6 +110,8 @@ namespace for other parts of the C<libcurl> API.
 This creates a new instance of this class.  Throws a string exception
 in the unlikely event that the instance cannot be created.
 
+( L<curl_easy_init|https://curl.se/libcurl/c/curl_easy_init.html> )
+
 =cut
 
   $ffi->attach( [init => 'new'] => [] => 'opaque' => sub {
@@ -139,7 +141,7 @@ so that they can be chained.
 Perform the curl request.  Throws a L<Net::Swirl::CurlEasy::Exception> on
 error.
 
-L<curl_easy_perform|https://curl.se/libcurl/c/curl_easy_perform.html>
+( L<curl_easy_perform|https://curl.se/libcurl/c/curl_easy_perform.html> )
 
 =cut
 
@@ -165,7 +167,7 @@ on error.  Supported options include:
 
 The URL to work with.
 
-L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_URL.html>
+( L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_URL.html> )
 
 =item writefunction
 
@@ -178,7 +180,7 @@ without having to copy it).  If an exception is thrown, then an
 error will be passed back to curl (in the form of zero bytes
 handled).
 
-L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html>
+( L<CURLOPT_WRITEFUNCTION|https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html> )
 
 =back
 
@@ -236,6 +238,8 @@ L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html>
 =item L<Alien::curl>
 
 =item L<FFI::Platypus>
+
+=item L<https://curl.se>
 
 =back
 

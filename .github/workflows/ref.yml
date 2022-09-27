@@ -1,0 +1,35 @@
+name: ref
+
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+
+env:
+  REF_BUILD_FLAGS: "--cache-from plicease/libcurl-ref:0.00"
+
+jobs:
+  perl:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build libcurl reference docker image
+        run: ./maint/ref-build
+
+      - name: Run symbols script
+        run: ./maint/ref-symbols
+
+      - name: Run update script
+        run: ./maint/ref-update
+
+      - name: Test against reference build
+        run: ./maint/ref-test

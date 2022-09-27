@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -ex
+
+. ./maint/ref-config
+
+if [ -z "${REF_BUILD_FLAGS}" ]; then
+  export REF_BUILD_FLAGS="--build-arg BUILDKIT_INLINE_CACHE=1"
+fi
+
+cd maint
+docker build -t plicease/libcurl-ref:$REF_TAG \
+  --build-arg latest=$REF_LATEST              \
+  --build-arg basetag=$REF_BASE_TAG           \
+  --build-arg debarch=$REF_DEBARCH            \
+  $REF_BUILD_FLAGS                            \
+  .

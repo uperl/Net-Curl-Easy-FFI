@@ -26,31 +26,36 @@ and [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) to simplify developm
 my $curl = Net::Curl::Easy::FFI->new;
 ```
 
-This creates a new instance of this class.  Throws an exception
+This creates a new instance of this class.  Throws a string exception
 in the unlikely event that the instance cannot be created.
 
 # METHODS
 
+Methods without a return value specified here return the [Net::Curl::Easy::FFI](https://metacpan.org/pod/Net::Curl::Easy::FFI) instance
+so that they can be chained.
+
 ## perform
 
-```perl
-my $code = $curl->perform;
+```
+$curl->perform;
 ```
 
-Perform the curl request.
+Perform the curl request.  Throws a [Net::Curl::Easy::FFI::Exception](https://metacpan.org/pod/Net::Curl::Easy::FFI::Exception) on
+error.
 
 ## setopt
 
 ```perl
-my $code = $curl->setopt( $option => $parameter );
+$curl->setopt( $option => $parameter );
 ```
 
-Sets the given curl option.  Supported options include:
+Sets the given curl option.  Throws a [Net::Curl::Easy::FFI::Exception](https://metacpan.org/pod/Net::Curl::Easy::FFI::Exception)
+on error.  Supported options include:
 
 - url (CURLOPT\_URL)
 
     ```perl
-    my $code = $curl->setopt( url => $url );
+    $curl->setopt( url => $url );
     ```
 
     The URL to work with.

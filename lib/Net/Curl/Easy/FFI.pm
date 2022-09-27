@@ -39,13 +39,45 @@ and L<FFI::Platypus> to simplify development.
   $ffi->mangler(sub ($name) { "curl_easy_$name" });
   $ffi->type( 'object(Net::Curl::Easy::FFI)' => 'CURL' );
 
+  package Net::Curl::Easy::FFI::Exception {
+
+    use overload
+      '""' => sub { shift->as_string },
+      bool => sub { 1 }, fallback => 1;
+
+    sub throw ($code) {
+      my($package, $filename, $line) = caller(1);
+      die bless {
+        code     => $code,
+        package  => $package,
+        filename => $filename,
+        line     => $line,
+      }, __PACKAGE__;
+    }
+
+    sub code     ($self) { $self->{code}     }
+    sub package  ($self) { $self->{package}  }
+    sub filename ($self) { $self->{filename} }
+    sub line     ($self) { $self->{line}     }
+
+    $ffi->attach( strerror => ['enum'] => 'string' => sub ($xsub, $self) {
+      $xsub->($self->{code});
+    });
+
+    sub as_string ($self)
+    {
+      sprintf "%s at %s line %s.", $self->strerror, $self->filename, $self->line;
+    }
+
+  }
+
 =head1 CONSTRUCTOR
 
 =head2 new
 
  my $curl = Net::Curl::Easy::FFI->new;
 
-This creates a new instance of this class.  Throws an exception
+This creates a new instance of this class.  Throws a string exception
 in the unlikely event that the instance cannot be created.
 
 =cut
@@ -67,27 +99,37 @@ in the unlikely event that the instance cannot be created.
 
 =head1 METHODS
 
+Methods without a return value specified here return the L<Net::Curl::Easy::FFI> instance
+so that they can be chained.
+
 =head2 perform
 
- my $code = $curl->perform;
+ $curl->perform;
 
-Perform the curl request.
+Perform the curl request.  Throws a L<Net::Curl::Easy::FFI::Exception> on
+error.
 
 =cut
 
-  $ffi->attach( perform => ['CURL'] => 'enum' );
+  $ffi->attach( perform => ['CURL'] => 'enum' => sub {
+    my($xsub, $self) = @_;
+    my $code = $xsub->($self);
+    Net::Curl::Easy::FFI::Exception::throw($code) if $code;
+    $self;
+  });
 
 =head2 setopt
 
- my $code = $curl->setopt( $option => $parameter );
+ $curl->setopt( $option => $parameter );
 
-Sets the given curl option.  Supported options include:
+Sets the given curl option.  Throws a L<Net::Curl::Easy::FFI::Exception>
+on error.  Supported options include:
 
 =over 4
 
 =item url (CURLOPT_URL)
 
- my $code = $curl->setopt( url => $url );
+ $curl->setopt( url => $url );
 
 The URL to work with.
 
@@ -131,8 +173,11 @@ handled).
   sub setopt ($self, $key, $value)
   {
     my($key_id, $xsub,$cb) = $opt{$key}->@*;
+    # TODO: should throw an object
     croak "unknown option $key" unless defined $key_id;
-    $xsub->($self, $key_id, $value);
+    my $code = $xsub->($self, $key_id, $value);
+    Net::Curl::Easy::FFI::Exception::throw($code) if $code;
+    $self;
   }
 
 }

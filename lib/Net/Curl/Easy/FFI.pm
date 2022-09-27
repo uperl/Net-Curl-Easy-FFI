@@ -4,9 +4,9 @@ package Net::Curl::Easy::FFI {
   use 5.020;
   use experimental qw( signatures postderef );
   use FFI::Platypus 2.00;
-  use Alien::curl;
   use Carp qw( croak );
   use FFI::Platypus::Buffer qw( window );
+  use Net::Curl::Easy::FFI::Lib;
 
 # ABSTRACT: Perl interface to curl's "easy" interface
 
@@ -31,7 +31,7 @@ and L<FFI::Platypus> to simplify development.
   BEGIN {
     $ffi = FFI::Platypus->new(
       api => 2,
-      lib => [Alien::curl->dynamic_libs],
+      lib => [Net::Curl::Easy::FFI::Lib->lib],
     );
     $ffi->bundle;
   }

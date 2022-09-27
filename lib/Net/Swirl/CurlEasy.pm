@@ -154,9 +154,13 @@ URL scheme used for the most recent connection done.
 =cut
 
   $ffi->attach( [getinfo => '_getinfo_string'] => ['CURL','enum'] => ['string*'] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_double'] => ['CURL','enum'] => ['double*'] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_long'  ] => ['CURL','enum'] => ['long*'  ] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_off_t' ] => ['CURL','enum'] => ['off_t*' ] => 'enum' );
+
+  require Net::Swirl::CurlEasy::Info unless $Net::Swirl::CurlEasy::no_gen;
 
   our %info = (%info,
-    scheme => [1048625, \&_getinfo_string],
   );
 
   sub getinfo ($self, $key)

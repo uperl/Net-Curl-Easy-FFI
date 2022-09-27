@@ -11,6 +11,7 @@ pod_spelling_system:
     - macOS
     - TLS
     - writefunction
+    - getinfo
 
 pod_coverage:
   skip: 0

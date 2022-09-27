@@ -20,6 +20,14 @@ subtest 'very basic' => sub {
 
   try_ok { $curl->perform } "\$curl->perform";
 
+  is
+    $curl,
+    object {
+      call [ isa => 'Net::Swirl::CurlEasy' ] => T();
+      call [ getinfo => 'scheme' ] => 'FILE';
+    },
+    'final object state';
+
   is $content, path(__FILE__)->slurp_raw, 'content matches';
 
   try_ok { undef $curl } 'did not crash I guess?';

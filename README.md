@@ -42,6 +42,22 @@ in the unlikely event that the instance cannot be created.
 Methods without a return value specified here return the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance
 so that they can be chained.
 
+## getinfo
+
+```perl
+my $value = $curl->getinfo($name);
+```
+
+Request internal information from the curl session with this function.
+
+( [curl\_easy\_getinfo](https://curl.se/libcurl/c/curl_easy_getinfo.html) )
+
+- scheme
+
+    URL scheme used for the most recent connection done.
+
+    ( [CURLINFO\_SCHEME](https://curl.se/libcurl/c/CURLINFO_SCHEME.html) )
+
 ## perform
 
 ```
@@ -61,6 +77,8 @@ $curl->setopt( $option => $parameter );
 
 Sets the given curl option.  Throws a [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception)
 on error.  Supported options include:
+
+( [curl\_easy\_setopt](https://curl.se/libcurl/c/curl_easy_setopt.html) )
 
 - url
 

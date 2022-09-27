@@ -49,6 +49,8 @@ $curl->perform;
 Perform the curl request.  Throws a [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception) on
 error.
 
+[curl\_easy\_perform](https://curl.se/libcurl/c/curl_easy_perform.html)
+
 ## setopt
 
 ```perl
@@ -58,13 +60,15 @@ $curl->setopt( $option => $parameter );
 Sets the given curl option.  Throws a [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception)
 on error.  Supported options include:
 
-- url (CURLOPT\_URL)
+- url
 
     ```perl
     $curl->setopt( url => $url );
     ```
 
     The URL to work with.
+
+    [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_URL.html)
 
 - writefunction (CURLOPT\_WRITEFUNCTION)
 
@@ -78,6 +82,8 @@ on error.  Supported options include:
     without having to copy it).  If an exception is thrown, then an
     error will be passed back to curl (in the form of zero bytes
     handled).
+
+    [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html)
 
 # SEE ALSO
 

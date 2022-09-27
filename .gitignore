@@ -1,0 +1,5 @@
+Net-Curl-Easy-FFI-*
+/.build/
+*.swp
+
+

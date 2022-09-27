@@ -1,0 +1,4 @@
+export REF_BASE_TAG=5.36-bullseye
+export REF_TAG=0.00
+export REF_LATEST=7.85.0
+export REF_DEBARCH=x86_64-linux-gnu

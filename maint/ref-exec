@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -ex
+
+. ./maint/ref-config
+
+docker run --rm -v `pwd`:/work plicease/libcurl-ref:$REF_TAG "$@"

@@ -1,5 +1,4 @@
 Net-Curl-Easy-FFI-*
 /.build/
 *.swp
-
-
+/ffi/_build

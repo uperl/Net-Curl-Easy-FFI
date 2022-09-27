@@ -1,15 +1,14 @@
-package Net::Curl::Easy::FFI;
+package Net::Curl::Easy::FFI {
 
-use warnings;
-use 5.020;
-use experimental qw( signatures postderef );
-use FFI::Platypus 2.00;
-use Alien::curl;
-use Carp qw( croak );
-use FFI::Platypus::Buffer qw( window );
+  use warnings;
+  use 5.020;
+  use experimental qw( signatures postderef );
+  use FFI::Platypus 2.00;
+  use Alien::curl;
+  use Carp qw( croak );
+  use FFI::Platypus::Buffer qw( window );
 
 # ABSTRACT: Perl interface to curl's "easy" interface
-# VERSION
 
 =head1 SYNOPSIS
 
@@ -27,18 +26,18 @@ and L<FFI::Platypus> to simplify development.
 
 =cut
 
-my $ffi;
+  my $ffi;
 
-BEGIN {
-  $ffi = FFI::Platypus->new(
-    api => 2,
-    lib => [Alien::curl->dynamic_libs],
-  );
-  $ffi->bundle;
-}
+  BEGIN {
+    $ffi = FFI::Platypus->new(
+      api => 2,
+      lib => [Alien::curl->dynamic_libs],
+    );
+    $ffi->bundle;
+  }
 
-$ffi->mangler(sub ($name) { "curl_easy_$name" });
-$ffi->type( 'object(Net::Curl::Easy::FFI)' => 'CURL' );
+  $ffi->mangler(sub ($name) { "curl_easy_$name" });
+  $ffi->type( 'object(Net::Curl::Easy::FFI)' => 'CURL' );
 
 =head1 CONSTRUCTOR
 
@@ -51,20 +50,20 @@ in the unlikely event that the instance cannot be created.
 
 =cut
 
-$ffi->attach( [init => 'new'] => [] => 'opaque' => sub {
-  my($xsub, $class) = @_;
-  my $ptr = $xsub->();
-  croak "unable to create curl easy instance" unless $ptr;
-  bless \$ptr, $class;
-});
+  $ffi->attach( [init => 'new'] => [] => 'opaque' => sub {
+    my($xsub, $class) = @_;
+    my $ptr = $xsub->();
+    croak "unable to create curl easy instance" unless $ptr;
+    bless \$ptr, $class;
+  });
 
-our %keep;
+  our %keep;
 
-$ffi->attach( [cleanup => 'DESTROY'] => ['CURL'] => 'void' => sub {
-  my($xsub, $self) = @_;
-  delete $keep{$$self};
-  $xsub->($self);
-});
+  $ffi->attach( [cleanup => 'DESTROY'] => ['CURL'] => 'void' => sub {
+    my($xsub, $self) = @_;
+    delete $keep{$$self};
+    $xsub->($self);
+  });
 
 =head1 METHODS
 
@@ -76,7 +75,7 @@ Perform the curl request.
 
 =cut
 
-$ffi->attach( perform => ['CURL'] => 'enum' );
+  $ffi->attach( perform => ['CURL'] => 'enum' );
 
 =head2 setopt
 
@@ -107,33 +106,35 @@ handled).
 
 =cut
 
-$ffi->attach( [setopt => '_setopt_string'  ] => ['CURL','enum'] => ['string'] => 'enum' );
+  $ffi->attach( [setopt => '_setopt_string'  ] => ['CURL','enum'] => ['string'] => 'enum' );
 
-$ffi->attach( [setopt => '_setopt_write_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub {
-  my($xsub, $self, $key_id, $cb) = @_;
-  my $closure = $keep{$$self}->{$key_id} = $ffi->closure(sub ($ptr, $size, $nm, $) {
-    window my $data, $ptr, $size*$nm;
-    local $@ = '';
-    eval {
-      $cb->($data)
-    };
-    # TODO: should we warn?  make a callback?
-    return 0 if $@;
-    return $size*$nm;
+  $ffi->attach( [setopt => '_setopt_write_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub {
+    my($xsub, $self, $key_id, $cb) = @_;
+    my $closure = $keep{$$self}->{$key_id} = $ffi->closure(sub ($ptr, $size, $nm, $) {
+      window my $data, $ptr, $size*$nm;
+      local $@ = '';
+      eval {
+        $cb->($data)
+      };
+      # TODO: should we warn?  make a callback?
+      return 0 if $@;
+      return $size*$nm;
+    });
+    $xsub->($self, $key_id, $closure);
   });
-  $xsub->($self, $key_id, $closure);
-});
 
-my %opt = (
-  url           => [CURLOPT_URL,           \&_setopt_string,   0],
-  writefunction => [CURLOPT_WRITEFUNCTION, \&_setopt_write_cb, 1],
-);
+  my %opt = (
+    url           => [CURLOPT_URL,           \&_setopt_string,   0],
+    writefunction => [CURLOPT_WRITEFUNCTION, \&_setopt_write_cb, 1],
+  );
 
-sub setopt ($self, $key, $value)
-{
-  my($key_id, $xsub,$cb) = $opt{$key}->@*;
-  croak "unknown option $key" unless defined $key_id;
-  $xsub->($self, $key_id, $value);
+  sub setopt ($self, $key, $value)
+  {
+    my($key_id, $xsub,$cb) = $opt{$key}->@*;
+    croak "unknown option $key" unless defined $key_id;
+    $xsub->($self, $key_id, $value);
+  }
+
 }
 
 1;

@@ -167,7 +167,7 @@ The URL to work with.
 
 L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_URL.html>
 
-=item writefunction (CURLOPT_WRITEFUNCTION)
+=item writefunction
 
  my $code = $curl->setopt( writefunction => sub ($data) { ... } );
 

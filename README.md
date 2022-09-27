@@ -70,7 +70,7 @@ on error.  Supported options include:
 
     [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_URL.html)
 
-- writefunction (CURLOPT\_WRITEFUNCTION)
+- writefunction
 
     ```perl
     my $code = $curl->setopt( writefunction => sub ($data) { ... } );

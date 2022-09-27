@@ -1,11 +1,11 @@
 use Test2::V0 -no_srand => 1;
-use Net::Curl::Easy::FFI;
+use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
 
 subtest 'very basic' => sub {
-  my $curl = Net::Curl::Easy::FFI->new;
-  isa_ok $curl, 'Net::Curl::Easy::FFI';
+  my $curl = Net::Swirl::CurlEasy->new;
+  isa_ok $curl, 'Net::Swirl::CurlEasy';
 
   my $url = URI::file->new_abs(__FILE__);
   try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";

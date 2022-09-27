@@ -17,5 +17,5 @@ pod_coverage:
   # format is "Class#method" or "Class",regex allowed
   # for either Class or method.
   private:
-    - Net::Curl::Easy::FFI::Lib#lib
+    - Net::Swirl::CurlEasy::FFI#lib
 

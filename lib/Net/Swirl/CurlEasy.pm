@@ -1,4 +1,4 @@
-package Net::Curl::Easy::FFI {
+package Net::Swirl::CurlEasy {
 
   use warnings;
   use 5.020;
@@ -6,23 +6,29 @@ package Net::Curl::Easy::FFI {
   use FFI::Platypus 2.00;
   use Carp qw( croak );
   use FFI::Platypus::Buffer qw( window );
-  use Net::Curl::Easy::FFI::Lib;
+  use Net::Swirl::CurlEasy::FFI;
 
 # ABSTRACT: Perl interface to curl's "easy" interface
 
 =head1 SYNOPSIS
 
- use Net::Curl::Easy::FFI;
+ use Net::Swirl::CurlEasy;
  
- my $curl = Net::Curl::Easy::FFI->new;
- $curl->setopt( url => "https://metacpan.org" );
- $curl->perform;
+ Net::Swirl::CurlEasy
+   ->new
+   ->setopt( url => "https://metacpan.org" );
+   ->perform;
 
 =head1 DESCRIPTION
 
 This is an experimental interface to curl's "easy" API interface.
 It uses L<Alien::curl> to provide native TLS support on Windows and macOS,
 and L<FFI::Platypus> to simplify development.
+
+This module uses the C<Net::Swirl> prefix as swirl is a synonym I liked
+that google suggested for "curl".  I felt the C<Net::Curl::> namespace was
+already a little crowded, and I plan on adding additional modules in this
+namespace for other parts of the C<libcurl> API.
 
 =cut
 
@@ -31,15 +37,15 @@ and L<FFI::Platypus> to simplify development.
   BEGIN {
     $ffi = FFI::Platypus->new(
       api => 2,
-      lib => [Net::Curl::Easy::FFI::Lib->lib],
+      lib => [Net::Swirl::CurlEasy::FFI->lib],
     );
     $ffi->bundle;
   }
 
   $ffi->mangler(sub ($name) { "curl_easy_$name" });
-  $ffi->type( 'object(Net::Curl::Easy::FFI)' => 'CURL' );
+  $ffi->type( 'object(Net::Swirl::CurlEasy)' => 'CURL' );
 
-  package Net::Curl::Easy::FFI::Exception {
+  package Net::Swirl::CurlEasy::Exception {
 
     use overload
       '""' => sub { shift->as_string },
@@ -75,7 +81,7 @@ and L<FFI::Platypus> to simplify development.
 
 =head2 new
 
- my $curl = Net::Curl::Easy::FFI->new;
+ my $curl = Net::Swirl::CurlEasy->new;
 
 This creates a new instance of this class.  Throws a string exception
 in the unlikely event that the instance cannot be created.
@@ -99,14 +105,14 @@ in the unlikely event that the instance cannot be created.
 
 =head1 METHODS
 
-Methods without a return value specified here return the L<Net::Curl::Easy::FFI> instance
+Methods without a return value specified here return the L<Net::Swirl::CurlEasy> instance
 so that they can be chained.
 
 =head2 perform
 
  $curl->perform;
 
-Perform the curl request.  Throws a L<Net::Curl::Easy::FFI::Exception> on
+Perform the curl request.  Throws a L<Net::Swirl::CurlEasy::Exception> on
 error.
 
 =cut
@@ -114,7 +120,7 @@ error.
   $ffi->attach( perform => ['CURL'] => 'enum' => sub {
     my($xsub, $self) = @_;
     my $code = $xsub->($self);
-    Net::Curl::Easy::FFI::Exception::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     $self;
   });
 
@@ -122,7 +128,7 @@ error.
 
  $curl->setopt( $option => $parameter );
 
-Sets the given curl option.  Throws a L<Net::Curl::Easy::FFI::Exception>
+Sets the given curl option.  Throws a L<Net::Swirl::CurlEasy::Exception>
 on error.  Supported options include:
 
 =over 4
@@ -176,7 +182,7 @@ handled).
     # TODO: should throw an object
     croak "unknown option $key" unless defined $key_id;
     my $code = $xsub->($self, $key_id, $value);
-    Net::Curl::Easy::FFI::Exception::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     $self;
   }
 

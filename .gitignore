@@ -1,4 +1,4 @@
-Net-Curl-Easy-FFI-*
+Net-Swirl-CurlEasy-*
 /.build/
 *.swp
 /ffi/_build

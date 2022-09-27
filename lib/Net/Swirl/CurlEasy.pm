@@ -39,7 +39,6 @@ namespace for other parts of the C<libcurl> API.
       api => 2,
       lib => [Net::Swirl::CurlEasy::FFI->lib],
     );
-    $ffi->bundle;
   }
 
   $ffi->type( 'object(Net::Swirl::CurlEasy)' => 'CURL' );
@@ -212,7 +211,7 @@ handled).
   require Net::Swirl::CurlEasy::Options unless $Net::Swirl::CurlEasy::no_gen;
 
   our %opt = (%opt,
-    writefunction => [CURLOPT_WRITEFUNCTION, \&_setopt_write_cb,   ],
+    writefunction => [20011, \&_setopt_write_cb,   ],
   );
 
   sub setopt ($self, $key, $value)

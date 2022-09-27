@@ -35,6 +35,8 @@ my $curl = Net::Swirl::CurlEasy->new;
 This creates a new instance of this class.  Throws a string exception
 in the unlikely event that the instance cannot be created.
 
+( [curl\_easy\_init](https://curl.se/libcurl/c/curl_easy_init.html) )
+
 # METHODS
 
 Methods without a return value specified here return the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance
@@ -49,7 +51,7 @@ $curl->perform;
 Perform the curl request.  Throws a [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception) on
 error.
 
-[curl\_easy\_perform](https://curl.se/libcurl/c/curl_easy_perform.html)
+( [curl\_easy\_perform](https://curl.se/libcurl/c/curl_easy_perform.html) )
 
 ## setopt
 
@@ -68,7 +70,7 @@ on error.  Supported options include:
 
     The URL to work with.
 
-    [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_URL.html)
+    ( [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_URL.html) )
 
 - writefunction
 
@@ -83,13 +85,14 @@ on error.  Supported options include:
     error will be passed back to curl (in the form of zero bytes
     handled).
 
-    [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html)
+    ( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
 
 # SEE ALSO
 
 - [Net::Curl::Easy](https://metacpan.org/pod/Net::Curl::Easy)
 - [Alien::curl](https://metacpan.org/pod/Alien::curl)
 - [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus)
+- [https://curl.se](https://curl.se)
 
 # AUTHOR
 

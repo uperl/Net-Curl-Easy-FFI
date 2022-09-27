@@ -133,6 +133,42 @@ in the unlikely event that the instance cannot be created.
 Methods without a return value specified here return the L<Net::Swirl::CurlEasy> instance
 so that they can be chained.
 
+=head2 getinfo
+
+ my $value = $curl->getinfo($name);
+
+Request internal information from the curl session with this function.
+
+( L<curl_easy_getinfo|https://curl.se/libcurl/c/curl_easy_getinfo.html> )
+
+=over 4
+
+=item scheme
+
+URL scheme used for the most recent connection done.
+
+( L<CURLINFO_SCHEME|https://curl.se/libcurl/c/CURLINFO_SCHEME.html> )
+
+=back
+
+=cut
+
+  $ffi->attach( [getinfo => '_getinfo_string'] => ['CURL','enum'] => ['string*'] => 'enum' );
+
+  our %info = (%info,
+    scheme => [1048625, \&_getinfo_string],
+  );
+
+  sub getinfo ($self, $key)
+  {
+    my($key_id, $xsub) = $info{$key}->@*;
+    # TODO: should thow an object
+    croak "unknown info $key" unless defined $key_id;
+    my $code = $xsub->($self, $key_id, \my $value);
+    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
+    return $value;
+  }
+
 =head2 perform
 
  $curl->perform;
@@ -157,6 +193,8 @@ error.
 
 Sets the given curl option.  Throws a L<Net::Swirl::CurlEasy::Exception>
 on error.  Supported options include:
+
+( L<curl_easy_setopt|https://curl.se/libcurl/c/curl_easy_setopt.html> )
 
 =over 4
 

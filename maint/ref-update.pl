@@ -88,6 +88,11 @@ foreach my $line ($curl_h->lines)
 
     $total++;
 
+    next if do {
+      no warnings 'once';
+      $Net::Swirl::CurlEasy::info{lc $name}
+    };
+
     if($type =~ /^(STRING|DOUBLE|LONG|OFF_T)$/ && $init)
     {
       push @info, {

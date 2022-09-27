@@ -44,6 +44,11 @@ RUN apt-get purge curl libcurl4                      \
  && cd /usr/include/${debarch}                       \
  && ln -s /opt/curl/${latest}/include/* .
 
-RUN cpanm -vn                                        \
+RUN cpanm -n                                         \
     https://dist.wdlabs.com/App-castyml-0.01.tar.gz  \
+    Template                                         \
+ && rm -rf ~/.cpanm
+
+RUN cpanm -n                                         \
+    FFI::Platypus                                    \
  && rm -rf ~/.cpanm

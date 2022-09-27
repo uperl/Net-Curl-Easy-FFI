@@ -42,8 +42,32 @@ namespace for other parts of the C<libcurl> API.
     $ffi->bundle;
   }
 
-  $ffi->mangler(sub ($name) { "curl_easy_$name" });
   $ffi->type( 'object(Net::Swirl::CurlEasy)' => 'CURL' );
+
+  $ffi->mangler(sub ($name) { "curl_slist_$name" });
+
+  package Net::Swirl::CurlEasy::Slist {
+
+    sub new ($, @items) {
+      my $ptr;
+      my $self = bless \$ptr, __PACKAGE__;
+      $self->append($_) for @items;
+    }
+
+    sub ptr ($self) { $$self }
+
+    $ffi->attach( append => ['opaque', 'string'] => 'opaque' => sub ($xsub, $self, $value) {
+      $$self = $xsub->($$self, $value);
+    });
+
+    $ffi->attach( [ free_all => 'DESTROY' ] => ['opaque'] => 'void' => sub ($xsub, $self) {
+      $xsub->($$self) if defined $$self;
+      $$self = undef;
+    });
+
+  }
+
+  $ffi->mangler(sub ($name) { "curl_easy_$name" });
 
   package Net::Swirl::CurlEasy::Exception {
 
@@ -115,6 +139,8 @@ so that they can be chained.
 Perform the curl request.  Throws a L<Net::Swirl::CurlEasy::Exception> on
 error.
 
+L<curl_easy_perform|https://curl.se/libcurl/c/curl_easy_perform.html>
+
 =cut
 
   $ffi->attach( perform => ['CURL'] => 'enum' => sub {
@@ -133,11 +159,13 @@ on error.  Supported options include:
 
 =over 4
 
-=item url (CURLOPT_URL)
+=item url
 
  $curl->setopt( url => $url );
 
 The URL to work with.
+
+L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_URL.html>
 
 =item writefunction (CURLOPT_WRITEFUNCTION)
 
@@ -150,14 +178,22 @@ without having to copy it).  If an exception is thrown, then an
 error will be passed back to curl (in the form of zero bytes
 handled).
 
+L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html>
+
 =back
 
 =cut
 
-  $ffi->attach( [setopt => '_setopt_string'  ] => ['CURL','enum'] => ['string'] => 'enum' );
+  $ffi->attach( [setopt => '_setopt_stringpoint'  ] => ['CURL','enum'] => ['string'] => 'enum' );
+  $ffi->attach( [setopt => '_setopt_long'         ] => ['CURL','enum'] => ['long']   => 'enum' );
+  $ffi->attach( [setopt => '_setopt_off_t'        ] => ['CURL','enum'] => ['off_t']  => 'enum' );
 
-  $ffi->attach( [setopt => '_setopt_write_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub {
-    my($xsub, $self, $key_id, $cb) = @_;
+  $ffi->attach( [setopt => '_setopt_slistpoint'   ] => ['CURL','enum'] => ['opaque'] => 'enum' => sub ($xsub, $self, $key_id, @items) {
+    my $slist = Net::Swirl::CurlEasy->new(@items);
+    $xsub->($self, $key_id, $slist->ptr);
+  });
+
+  $ffi->attach( [setopt => '_setopt_write_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb) {
     my $closure = $keep{$$self}->{$key_id} = $ffi->closure(sub ($ptr, $size, $nm, $) {
       window my $data, $ptr, $size*$nm;
       local $@ = '';
@@ -171,9 +207,10 @@ handled).
     $xsub->($self, $key_id, $closure);
   });
 
-  my %opt = (
-    url           => [CURLOPT_URL,           \&_setopt_string,   0],
-    writefunction => [CURLOPT_WRITEFUNCTION, \&_setopt_write_cb, 1],
+  require Net::Swirl::CurlEasy::Options unless $Net::Swirl::CurlEasy::no_gen;
+
+  our %opt = (%opt,
+    writefunction => [CURLOPT_WRITEFUNCTION, \&_setopt_write_cb,   ],
   );
 
   sub setopt ($self, $key, $value)

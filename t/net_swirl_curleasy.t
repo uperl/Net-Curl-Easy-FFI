@@ -1,6 +1,6 @@
 use Test2::V0 -no_srand => 1;
 use 5.020;
-use experimental qw( postderef );
+use experimental qw( postderef signatures );
 use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
@@ -9,14 +9,14 @@ subtest 'very basic' => sub {
   my $curl = Net::Swirl::CurlEasy->new;
   isa_ok $curl, 'Net::Swirl::CurlEasy';
 
-  my $url = URI::file->new_abs(__FILE__);
+  my $url = URI::file->new_abs('corpus/data.txt');
   try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";
 
   my $content;
 
   try_ok {
-    $curl->setopt( writefunction => sub {
-      $content .= $_[0];
+    $curl->setopt( writefunction => sub ($, $data, $) {
+      $content .= $data;
     });
   } "\$curl->setopt( writefunction => sub { ... } )";
 
@@ -30,9 +30,30 @@ subtest 'very basic' => sub {
     },
     'final object state';
 
-  is $content, path(__FILE__)->slurp_raw, 'content matches';
+  is $content, path('corpus/data.txt')->slurp_raw, 'content matches';
 
   note "ssl_engines:$_" for $curl->getinfo('ssl_engines')->@*;
+
+  try_ok { undef $curl } 'did not crash I guess?';
+};
+
+subtest 'writedata' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+
+  my $url = URI::file->new_abs('corpus/data.txt');
+  try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";
+
+  my $content;
+
+  try_ok {
+    open my $fh, ">", \$content;
+    $curl->setopt( writedata => $fh );
+  } "\$curl->setopt( writedata => \$fh )";
+
+  try_ok { $curl->perform } "\$curl->perform";
+
+  is $content, path('corpus/data.txt')->slurp_raw, 'content matches';
 
   try_ok { undef $curl } 'did not crash I guess?';
 };

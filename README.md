@@ -99,15 +99,20 @@ on error.  Supported options include:
 - writefunction
 
     ```perl
-    my $code = $curl->setopt( writefunction => sub ($data) { ... } );
+    my $code = $curl->setopt( writefunction => sub ($curl, $content, $writedata) {
+      ...
+    });
     ```
 
-    The write function will be called for each block of data returned.
-    The data is passed as a single scalar argument (the scalar uses
+    The writefunction callback will be called for each block of content
+    returned.  The content is passed as the second argument (the scalar uses
     ["window" in FFI::Platypus::Buffer](https://metacpan.org/pod/FFI::Platypus::Buffer#window) to efficiently expose the data
     without having to copy it).  If an exception is thrown, then an
     error will be passed back to curl (in the form of zero bytes
     handled).
+
+    The callback also gets passed the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance as
+    its first argument, and the `writedata` option as its third argument.
 
     ( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
 
@@ -232,6 +237,100 @@ to its `-L` option.
 
 By default curl writes the body of the response to STDOUT, which is why we see it printed
 when the example is run.
+
+## Capture Response Body With writedata
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+my $content;
+open my $wd, '>', \$content;
+
+$curl->setopt(url => 'http://localhost:5000/hello-world')
+     ->setopt(writedata => $wd)
+     ->perform;
+
+# the server includes a new line
+chomp $content;
+
+say "the server said '$content'";
+```
+
+### execute
+
+```
+$ perl examples/writedata.pl 
+the server said 'Hello World!'
+```
+
+### notes
+
+Normally when using `libcurl` programmatically you don't want to print the response body to
+`STDOUT`, you want to capture it in a variable to store or manipulate as appropriate.  The
+`writedata` option allows you to do this.  The default implementation treats this option as
+a file handle, so you can use any Perl object that supports the file handle interface.  Here
+we use a handle that is redirecting to a scalar variable.  The reason the first example sends
+output to `STDOUT` is that `STDOUT` is the default for this option!
+
+## Capture Response Body With writefunction
+
+### source 
+
+```perl
+use warnings;
+use 5.020;
+use experimental qw( signatures );
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+my $content = '';
+
+$curl->setopt(url => 'http://localhost:5000/hello-world')
+     ->setopt(writefunction => sub ($, $data, $) {
+       $content .= $data;
+     })
+     ->perform;
+
+# the server includes a new line
+chomp $content;
+
+say "the server said '$content'";
+```
+
+### execute
+
+```
+$ perl examples/writefunction.pl
+the server said 'Hello World!'
+```
+
+### notes
+
+You might want to route the data into a database or other store in chunks so that you do not
+have to keep the entire response body in memory at one time.  In this example we use the
+`writefunction` option to define a callback function that will be called for each chunk
+of the response.  The size of the chunks can vary depending on `libcurl`.  You could have a
+large chunk or even a chunk of zero bytes!
+
+You may have noticed that the `writefunction` callback takes two arguments, the second of
+which we do not use.  This is the `writedata` option.  As mentioned in the previous example,
+the default `writefunction` callback treats this as a file handle, but it could be any
+Perl data structure.
+
+The default `writefunction` callback looks like this:
+
+```perl
+$curl->setopt( writefunction => sub ($, $data, $fh) {
+  print $fh $data;
+});
+```
 
 # SEE ALSO
 

@@ -73,6 +73,7 @@ foreach my $line ($curl_h->lines)
     {
       push @options, {
         perl_name => lc $name,
+        c_name    => "CURLOPT_$name",
         xsub_name => "_setopt_@{[ lc $type ]}",
         init      => $init,
       };
@@ -104,6 +105,7 @@ foreach my $line ($curl_h->lines)
     {
       push @info, {
         perl_name => lc $name,
+        c_name    => "CURLINFO_$name",
         xsub_name => "_getinfo_@{[ lc $type ]}",
         init      => $init,
       };
@@ -131,16 +133,22 @@ my $tt = Template->new({
 foreach my $name (qw( Options Info ))
 {
   $tt->process("$name.pm.tt", {
-    curl => { options => \@options, infos => \@info  },
+    curl => {
+      options => \@options,
+      infos => \@info,
+      missing => {
+        options => [sort map { s/:.*$//r } map { $_->@* } values $missing{options}->%*],
+        infos   => [sort map { s/:.*$//r } map { $_->@* } values $missing{info}->%*  ]
+      }
+    },
   }, "lib/Net/Swirl/CurlEasy/$name.pm" ) or do {
     say "Error generating lib/Net/Swirl/CurlEasy/$name.pm @{[ $tt->error ]}";
     exit 2;
   };
 }
 
-
 push $missing{options}->{UNKNOWN}->@*, sort keys %option_init if %option_init;
-push $missing{options}->{UNKNOWN}->@*, sort keys %info_init   if %info_init;
+push $missing{info}->{UNKNOWN}->@*, sort keys %info_init   if %info_init;
 
 print YAML::Dump({ missing => \%missing });
 say "missing: $missing/$total";

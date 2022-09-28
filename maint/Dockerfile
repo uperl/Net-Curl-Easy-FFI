@@ -54,6 +54,7 @@ RUN cpanm -n                                         \
     File::chdir                                      \
     Test2::V0                                        \
     Test::Script                                     \
+    Devel::Cycle                                     \
  && rm -rf ~/.cpanm
 
 ENV TEST_EXAMPLES 1

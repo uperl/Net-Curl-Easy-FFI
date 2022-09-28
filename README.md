@@ -48,7 +48,8 @@ so that they can be chained.
 my $value = $curl->getinfo($name);
 ```
 
-Request internal information from the curl session with this function.
+Request internal information from the curl session with this function.  This will
+throw [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception) in the event of an error.
 
 ( [curl\_easy\_getinfo](https://curl.se/libcurl/c/curl_easy_getinfo.html) )
 

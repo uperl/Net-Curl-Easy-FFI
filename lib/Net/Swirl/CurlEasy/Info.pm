@@ -54,6 +54,8 @@ This is a private class for L<Net::Swirl::CurlEasy> see the main documentation f
       proxyauth_avail => [ 2097176, \&_getinfo_long ],
       os_errno => [ 2097177, \&_getinfo_long ],
       num_connects => [ 2097178, \&_getinfo_long ],
+      ssl_engines => [ 4194331, \&_getinfo_slist ],
+      cookielist => [ 4194332, \&_getinfo_slist ],
       lastsocket => [ 2097181, \&_getinfo_long ],
       ftp_entry_path => [ 1048606, \&_getinfo_string ],
       redirect_url => [ 1048607, \&_getinfo_string ],

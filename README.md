@@ -166,7 +166,7 @@ $curl->setopt(url => 'http://localhost:5000')
      ->perform;
 ```
 
-### run
+### execute
 
 ```
 $ perl examples/simple.pl 
@@ -180,10 +180,12 @@ do not otherwise return a useful value return the [Net::Swirl::CurlEasy](https:/
 be chained like this.
 
 The basic flow of most requests will work like this, once [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance is
-created, you can set what options you want, and then call [perform](#perform) to make the
-actual request.  The only **required** option is `url`.  We also set `followlocation` to
-follow any redirects, since our server PSGI redirects `/` to `/hello-world`.  If you are
-used to using the `curl` command line interface, this is equivalent to its `-L` option.
+created, you can set what options you want using [setopt](#setopt), and then call
+[perform](#perform) to make the actual request.  The only **required** option is `url`.  We
+also set `followlocation` to follow any redirects, since our server PSGI redirects `/` to
+`/hello-world`.  If you did not set this option, then you would get the 301 response
+instead.  If you are used to using the `curl` command line interface, this is equivalent
+to its `-L` option.
 
 By default curl writes the body of the response to STDOUT, which is why we see it printed
 when the example is run.

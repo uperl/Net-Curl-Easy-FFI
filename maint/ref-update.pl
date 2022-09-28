@@ -6,6 +6,7 @@ use YAML ();
 use Path::Tiny qw( path );
 use Clang::CastXML;
 use Template;
+use Pod::Abstract;
 
 $Net::Swirl::CurlEasy::no_gen =
 $Net::Swirl::CurlEasy::no_gen = 1;
@@ -46,6 +47,29 @@ my %info_init;
     $header->{inner}->@*;
 };
 
+my %hand_pod;
+
+{
+  my $pa = Pod::Abstract->load_file("lib/Net/Swirl/CurlEasy.pm");
+  $_->detach for $pa->select('//#cut');
+
+  foreach my $option ($pa->select('/head1[@heading =~ {METHODS}]/head2[@heading =~ {setopt}]/head3'))
+  {
+    my $name = $option->param('heading')->pod;
+    my $pod = $option->pod =~ s/=head3/=head2/r;
+    chomp $pod;
+    $hand_pod{option}->{$name} = $pod;
+  }
+
+  foreach my $option ($pa->select('/head1[@heading =~ {METHODS}]/head2[@heading =~ {getinfo}]/head3'))
+  {
+    my $name = $option->param('heading')->pod;
+    my $pod = $option->pod =~ s/=head3/=head2/r;
+    chomp $pod;
+    $hand_pod{info}->{$name} = $pod;
+  }
+}
+
 # These enum values aren't actually used, they just signify the
 # start or end of the list.
 delete $info_init{NONE};
@@ -64,18 +88,16 @@ foreach my $line ($curl_h->lines)
     $total++;
 
     next if $name =~ /^OBSOLETE/;
-    next if do {
-      no warnings 'once';
-      $Net::Swirl::CurlEasy::opt{lc $name}
-    };
 
-    if($type =~ /^(STRINGPOINT|LONG|OFF_T|SLISTPOINT)$/ && $init)
+    if(($type =~ /^(STRINGPOINT|LONG|OFF_T|SLISTPOINT)$/ || $Net::Swirl::CurlEasy::opt{lc $name}) && $init)
     {
       push @options, {
         perl_name => lc $name,
         c_name    => "CURLOPT_$name",
         xsub_name => "_setopt_@{[ lc $type ]}",
         init      => $init,
+        hand_pod  => delete $hand_pod{option}->{lc $name},
+        hand_code => !!$Net::Swirl::CurlEasy::opt{lc $name},
       };
     }
     else
@@ -91,23 +113,19 @@ foreach my $line ($curl_h->lines)
     my $name = $1;
     my $type = $2;
 
-
     my $init = delete $info_init{$name};
 
     $total++;
 
-    next if do {
-      no warnings 'once';
-      $Net::Swirl::CurlEasy::info{lc $name}
-    };
-
-    if($type =~ /^(STRING|DOUBLE|LONG|OFF_T|SLIST)$/ && $init)
+    if(($type =~ /^(STRING|DOUBLE|LONG|OFF_T|SLIST)$/ || $Net::Swirl::CurlEasy::info{lc $name}) && $init)
     {
       push @info, {
         perl_name => lc $name,
         c_name    => "CURLINFO_$name",
         xsub_name => "_getinfo_@{[ lc $type ]}",
         init      => $init,
+        hand_pod  => delete $hand_pod{info}->{lc $name},
+        hand_code => !!$Net::Swirl::CurlEasy::info{lc $name},
       };
     }
     else
@@ -149,6 +167,8 @@ foreach my $name (qw( Options Info ))
 
 push $missing{options}->{UNKNOWN}->@*, sort keys %option_init if %option_init;
 push $missing{info}->{UNKNOWN}->@*, sort keys %info_init   if %info_init;
+push $missing{options}->{pod}->@*, sort keys $hand_pod{option}->%* if $hand_pod{option}->%*;
+push $missing{info}->{pod}->@*, sort keys $hand_pod{info}->%* if $hand_pod{info}->%*;
 
 print YAML::Dump({ missing => \%missing });
 say "missing: $missing/$total";

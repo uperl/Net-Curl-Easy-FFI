@@ -26,12 +26,15 @@ These options are set via the L<setopt method|Net::Swirl::CurlEasy/setopt>.
 =end stopwords
 
 [%- FOREACH option IN curl.options %]
+[%- IF option.hand_pod %]
+[% option.hand_pod %][%- ELSE %]
 =head2 [% option.perl_name %]
 
  $curl->setopt( [% option.perl_name %] => $value );
 
 ( L<[% option.c_name %]|https://curl.se/libcurl/c/[% option.c_name %].html> )
 
+[%- END -%]
 [%- END -%]
 
 =head1 CAVEATS
@@ -52,9 +55,9 @@ L<Net::Swirl::CurlEasy>:
 
   package Net::Swirl::CurlEasy {
     our %opt = (%opt,
-      [%- FOREACH option IN curl.options %]
+      [%- FOREACH option IN curl.options %][%- UNLESS option.hand_code %]
       [% option.perl_name %] => [ [% option.init %], \&[% option.xsub_name %] ],
-      [%- END -%]
+      [%- END -%][%- END -%]
 
     );
   }

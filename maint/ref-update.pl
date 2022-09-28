@@ -46,6 +46,12 @@ my %info_init;
     $header->{inner}->@*;
 };
 
+# These enum values aren't actually used, they just signify the
+# start or end of the list.
+delete $info_init{NONE};
+delete $info_init{LASTONE};
+delete $option_init{LASTENTRY};
+
 foreach my $line ($curl_h->lines)
 {
   if($line =~ /CURLOPT\(\s*CURLOPT_(\S+)\s*,\s*CURLOPTTYPE_(\S+)\s*,\s*\S+\s*\)/)
@@ -83,6 +89,7 @@ foreach my $line ($curl_h->lines)
   {
     my $name = $1;
     my $type = $2;
+
 
     my $init = delete $info_init{$name};
 
@@ -132,8 +139,8 @@ foreach my $name (qw( Options Info ))
 }
 
 
-push $missing{options}->{UNKNOWN}->@*, sort keys %option_init;
+push $missing{options}->{UNKNOWN}->@*, sort keys %option_init if %option_init;
+push $missing{options}->{UNKNOWN}->@*, sort keys %info_init   if %info_init;
 
-print YAML::Dump({ options => \@options });
 print YAML::Dump({ missing => \%missing });
 say "missing: $missing/$total";

@@ -22,7 +22,7 @@ package Net::Swirl::CurlEasy {
 
 =head1 DESCRIPTION
 
-This is an experimental interface to curl's "easy" API interface.
+This is an alternative interface to curl's "easy" API interface.
 It uses L<Alien::curl> to provide native TLS support on Windows and macOS,
 and L<FFI::Platypus> to simplify development.
 
@@ -30,6 +30,9 @@ This module uses the C<Net::Swirl> prefix as swirl is a synonym I liked
 that google suggested for "curl".  I felt the C<Net::Curl::> namespace was
 already a little crowded, and I plan on adding additional modules in this
 namespace for other parts of the C<libcurl> API.
+
+If you are just beginning you should start out with the L<example section|/EXAMPLES>
+below.
 
 =cut
 

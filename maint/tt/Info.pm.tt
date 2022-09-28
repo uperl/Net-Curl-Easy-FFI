@@ -26,12 +26,15 @@ L<getinfo method|Net::Swirl::CurlEasy/getinfo>.
 =end stopwords
 
 [%- FOREACH info IN curl.infos %]
+[%- IF info.hand_pod %]
+[% info.hand_pod %][%- ELSE %]
 =head2 [% info.perl_name %]
 
  my $value = $getinfo('[% info.perl_name %]');
 
 ( L<[% info.c_name %]|https://curl.se/libcurl/c/[% info.c_name %].html> )
 
+[%- END -%]
 [%- END -%]
 
 =head1 CAVEATS
@@ -52,9 +55,9 @@ L<Net::Swirl::CurlEasy>:
 
   package Net::Swirl::CurlEasy {
     our %info = (%info,
-      [%- FOREACH info IN curl.infos %]
+      [%- FOREACH info IN curl.infos %][%- UNLESS info.hand_code %]
       [% info.perl_name %] => [ [% info.init %], \&[% info.xsub_name %] ],
-      [%- END -%]
+      [%- END -%][%- END -%]
 
     );
   }

@@ -188,6 +188,8 @@ available information is listed in L<Net::Swirl::CurlEasy::Info>.
 
 =head3 scheme
 
+ my $scheme = $curl->getinfo('scheme');
+
 URL scheme used for the most recent connection done.
 
 ( L<CURLINFO_SCHEME|https://curl.se/libcurl/c/CURLINFO_SCHEME.html> )

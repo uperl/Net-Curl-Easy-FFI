@@ -62,6 +62,10 @@ available information is listed in [Net::Swirl::CurlEasy::Info](https://metacpan
 
 ### scheme
 
+```perl
+my $scheme = $curl->getinfo('scheme');
+```
+
 URL scheme used for the most recent connection done.
 
 ( [CURLINFO\_SCHEME](https://curl.se/libcurl/c/CURLINFO_SCHEME.html) )

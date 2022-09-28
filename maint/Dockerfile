@@ -57,4 +57,8 @@ RUN cpanm -n                                         \
     Devel::Cycle                                     \
  && rm -rf ~/.cpanm
 
+RUN cpanm -n                                         \
+    Pod::Abstract                                    \
+ && rm -rf ~/.cpanm
+
 ENV TEST_EXAMPLES 1

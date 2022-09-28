@@ -45,7 +45,8 @@ $post_diag = sub {
     diag '';
     diag '';
     diag 'NOT TESTING EXAMPLES.';
-    diag '(you can test examples by setting env TEST_EXAMPLES=1';
+    diag '(you can test examples by setting env TEST_EXAMPLES=1)';
+    diag '(screen, Plack and other deps may be required)';
   }
 };
 

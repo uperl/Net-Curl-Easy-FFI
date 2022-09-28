@@ -51,17 +51,8 @@ RUN cpanm -n                                         \
     FFI::Platypus                                    \
     FFI::C                                           \
     Plack::Component                                 \
- && rm -rf ~/.cpanm
-
-RUN cpanm -n                                         \
     File::chdir                                      \
- && rm -rf ~/.cpanm
-
-RUN cpanm -n                                         \
     Test2::V0                                        \
- && rm -rf ~/.cpanm
-
-RUN cpanm -n                                         \
     Test::Script                                     \
  && rm -rf ~/.cpanm
 

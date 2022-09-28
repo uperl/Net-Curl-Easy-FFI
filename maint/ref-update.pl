@@ -93,7 +93,7 @@ foreach my $line ($curl_h->lines)
       $Net::Swirl::CurlEasy::info{lc $name}
     };
 
-    if($type =~ /^(STRING|DOUBLE|LONG|OFF_T)$/ && $init)
+    if($type =~ /^(STRING|DOUBLE|LONG|OFF_T|SLIST)$/ && $init)
     {
       push @info, {
         perl_name => lc $name,

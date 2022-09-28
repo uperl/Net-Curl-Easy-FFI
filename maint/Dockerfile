@@ -52,3 +52,7 @@ RUN cpanm -n                                         \
 RUN cpanm -n                                         \
     FFI::Platypus                                    \
  && rm -rf ~/.cpanm
+
+RUN cpanm -n                                         \
+    FFI::C                                           \
+ && rm -rf ~/.cpanm

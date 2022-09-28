@@ -12,12 +12,14 @@ my $post_diag;
 $modules{$_} = $_ for qw(
   Alien::curl
   ExtUtils::MakeMaker
+  FFI::C
   FFI::CheckLib
   FFI::Platypus
   FFI::Platypus::Buffer
   Path::Tiny
   Test2::V0
   URI::file
+  YAML
 );
 
 

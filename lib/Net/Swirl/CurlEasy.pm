@@ -7,6 +7,7 @@ package Net::Swirl::CurlEasy {
   use Carp qw( croak );
   use FFI::Platypus::Buffer qw( window );
   use Net::Swirl::CurlEasy::FFI;
+  use FFI::C;
 
 # ABSTRACT: Perl interface to curl's "easy" interface
 
@@ -45,18 +46,46 @@ namespace for other parts of the C<libcurl> API.
 
   $ffi->mangler(sub ($name) { "curl_slist_$name" });
 
+  # There is almost certainly a better way to do this.
+  package Net::Swirl::CurlEasy::SlistStruct {
+    FFI::C->ffi($ffi);
+    FFI::C->struct([
+      _data => 'opaque',
+      _next => 'opaque',
+    ]);
+
+    sub data ($self) { $ffi->cast( opaque => 'string', $self->_data ) }
+    sub next ($self) { defined $self->_next ? $ffi->cast( opaque => 'slist_struct_t', $self->_next ) : undef }
+
+  }
+
   package Net::Swirl::CurlEasy::Slist {
 
     sub new ($, @items) {
       my $ptr;
       my $self = bless \$ptr, __PACKAGE__;
       $self->append($_) for @items;
+      $self;
     }
 
     sub ptr ($self) { $$self }
 
+    sub as_list ($self)
+    {
+      return [] unless defined $$self;
+      my $struct = $ffi->cast( opaque => 'slist_struct_t', $$self );
+      my @list;
+      while(defined $struct)
+      {
+        push @list, $struct->data;
+        $struct = $struct->next;
+      }
+      \@list;
+    }
+
     $ffi->attach( append => ['opaque', 'string'] => 'opaque' => sub ($xsub, $self, $value) {
       $$self = $xsub->($$self, $value);
+      $self;
     });
 
     $ffi->attach( [ free_all => 'DESTROY' ] => ['opaque'] => 'void' => sub ($xsub, $self) {
@@ -137,7 +166,8 @@ so that they can be chained.
 
  my $value = $curl->getinfo($name);
 
-Request internal information from the curl session with this function.
+Request internal information from the curl session with this function.  This will
+throw L<Net::Swirl::CurlEasy::Exception> in the event of an error.
 
 ( L<curl_easy_getinfo|https://curl.se/libcurl/c/curl_easy_getinfo.html> )
 
@@ -157,6 +187,16 @@ URL scheme used for the most recent connection done.
   $ffi->attach( [getinfo => '_getinfo_double'] => ['CURL','enum'] => ['double*'] => 'enum' );
   $ffi->attach( [getinfo => '_getinfo_long'  ] => ['CURL','enum'] => ['long*'  ] => 'enum' );
   $ffi->attach( [getinfo => '_getinfo_off_t' ] => ['CURL','enum'] => ['off_t*' ] => 'enum' );
+
+  $ffi->attach( [getinfo => '_getinfo_slist' ] => ['CURL','enum'] => ['opaque*'] => 'enum' => sub ($xsub, $self, $key_id, $value) {
+    my $code = $xsub->($self, $key_id, \my $ptr);
+    unless($code)
+    {
+      my $slist = bless \$ptr, 'Net::Swirl::CurlEasy::Slist';
+      $$value = $slist->as_list;
+    }
+    return $code;
+  });
 
   require Net::Swirl::CurlEasy::Info unless $Net::Swirl::CurlEasy::no_gen;
 
@@ -231,8 +271,8 @@ handled).
   $ffi->attach( [setopt => '_setopt_long'         ] => ['CURL','enum'] => ['long']   => 'enum' );
   $ffi->attach( [setopt => '_setopt_off_t'        ] => ['CURL','enum'] => ['off_t']  => 'enum' );
 
-  $ffi->attach( [setopt => '_setopt_slistpoint'   ] => ['CURL','enum'] => ['opaque'] => 'enum' => sub ($xsub, $self, $key_id, @items) {
-    my $slist = Net::Swirl::CurlEasy->new(@items);
+  $ffi->attach( [setopt => '_setopt_slistpoint'   ] => ['CURL','enum'] => ['opaque'] => 'enum' => sub ($xsub, $self, $key_id, $items) {
+    my $slist = Net::Swirl::CurlEasy->new($items->@*);
     $xsub->($self, $key_id, $slist->ptr);
   });
 
@@ -253,12 +293,12 @@ handled).
   require Net::Swirl::CurlEasy::Options unless $Net::Swirl::CurlEasy::no_gen;
 
   our %opt = (%opt,
-    writefunction => [20011, \&_setopt_write_cb,   ],
+    writefunction => [20011, \&_setopt_write_cb ],
   );
 
   sub setopt ($self, $key, $value)
   {
-    my($key_id, $xsub,$cb) = $opt{$key}->@*;
+    my($key_id, $xsub) = $opt{$key}->@*;
     # TODO: should throw an object
     croak "unknown option $key" unless defined $key_id;
     my $code = $xsub->($self, $key_id, $value);

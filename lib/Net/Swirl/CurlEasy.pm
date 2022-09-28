@@ -183,15 +183,13 @@ event of an error.
 
 ( L<curl_easy_getinfo|https://curl.se/libcurl/c/curl_easy_getinfo.html> )
 
-=over 4
+What follows is a partial list of supported information:
 
-=item scheme
+=head3 scheme
 
 URL scheme used for the most recent connection done.
 
 ( L<CURLINFO_SCHEME|https://curl.se/libcurl/c/CURLINFO_SCHEME.html> )
-
-=back
 
 =cut
 
@@ -249,27 +247,58 @@ L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> on error.
 
 Sets the given curl option.  Throws a
 L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception>
-on error.  Supported options include:
+on error.
 
 ( L<curl_easy_setopt|https://curl.se/libcurl/c/curl_easy_setopt.html> )
 
-=over 4
+What follows is a partial list of supported options:
 
-=item url
+=head3 followlocation
+
+ $curl->setopt( followlocation => $bool );
+
+Set this to 1 (the default is 0) to follow redirect responses.
+The maximum number of redirects can be controlled by
+L<maxredirs|/maxredirs>.
+
+( L<CURLOPT_FOLLOWLOCATION|https://curl.se/libcurl/c/CURLOPT_FOLLOWLOCATION.html> )
+
+=head3 maxredirs
+
+ $curl->setopt( maxredirs => $max );
+
+Sets the maximum number of redirects.  Setting the limit to C<0> will force
+L<Net::Swirl::CurlEasy> refuse any redirect.  Set to C<-1> for an infinite
+number of redirects.
+
+( L<CURLOPT_MAXREDIRS|https://curl.se/libcurl/c/CURLOPT_MAXREDIRS.html> )
+
+=head3 url
 
  $curl->setopt( url => $url );
 
-The URL to work with.
+The URL to work with.  This is the only required option.
 
 ( L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_URL.html> )
 
-=item writefunction
+=head3 writedata
 
- my $code = $curl->setopt( writefunction => sub ($curl, $content, $writedata) {
+ $curl->setopt( writedata => $value );
+
+The C<writedata> option is used by the L<writefunction callback|/writefunction>.
+This can be any Perl data type, but the default L<writefunction callback|/writefunction>
+expects it to be a file handle, and the default value for C<writedata> is
+C<STDOUT>.
+
+( L<CURLOPT_WRITEDATA|https://curl.se/libcurl/c/CURLOPT_WRITEDATA.html> )
+
+=head3 writefunction
+
+ $curl->setopt( writefunction => sub ($curl, $content, $writedata) {
    ...
  });
 
-The writefunction callback will be called for each block of content
+The C<writefunction> callback will be called for each block of content
 returned.  The content is passed as the second argument (the scalar uses
 L<FFI::Platypus::Buffer/window> to efficiently expose the data
 without having to copy it).  If an exception is thrown, then an
@@ -277,11 +306,9 @@ error will be passed back to curl (in the form of zero bytes
 handled).
 
 The callback also gets passed the L<Net::Swirl::CurlEasy> instance as
-its first argument, and the C<writedata> option as its third argument.
+its first argument, and the L<writedata|/writedata> option as its third argument.
 
 ( L<CURLOPT_WRITEFUNCTION|https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html> )
-
-=back
 
 =cut
 
@@ -409,9 +436,9 @@ be chained like this.
 
 The basic flow of most requests will work like this, once L<Net::Swirl::CurlEasy> instance is
 created, you can set what options you want using L<setopt|/setopt>, and then call
-L<perform|/perform> to make the actual request.  The only B<required> option is C<url>.  We
-also set C<followlocation> to follow any redirects, since our server PSGI redirects C</> to
-C</hello-world>.  If you did not set this option, then you would get the 301 response
+L<perform|/perform> to make the actual request.  The only B<required> option is
+L<url|/url>.  We also set L<followlocation|/followlocation> to follow any redirects, since
+our server PSGI redirects C</> to C</hello-world>.  If you did not set this option, then you would get the 301 response
 instead.  If you are used to using the C<curl> command line interface, this is equivalent
 to its C<-L> option.
 
@@ -433,7 +460,7 @@ when the example is run.
 
 Normally when using C<libcurl> programmatically you don't want to print the response body to
 C<STDOUT>, you want to capture it in a variable to store or manipulate as appropriate.  The
-C<writedata> option allows you to do this.  The default implementation treats this option as
+L<writedata|/writedata> option allows you to do this.  The default implementation treats this option as
 a file handle, so you can use any Perl object that supports the file handle interface.  Here
 we use a handle that is redirecting to a scalar variable.  The reason the first example sends
 output to C<STDOUT> is that C<STDOUT> is the default for this option!
@@ -453,16 +480,16 @@ output to C<STDOUT> is that C<STDOUT> is the default for this option!
 
 You might want to route the data into a database or other store in chunks so that you do not
 have to keep the entire response body in memory at one time.  In this example we use the
-C<writefunction> option to define a callback function that will be called for each chunk
-of the response.  The size of the chunks can vary depending on C<libcurl>.  You could have a
-large chunk or even a chunk of zero bytes!
+L<writefunction|/writefunction> option to define a callback function that will be called for
+each chunk of the response.  The size of the chunks can vary depending on C<libcurl>.  You
+could have a large chunk or even a chunk of zero bytes!
 
-You may have noticed that the C<writefunction> callback takes two arguments, the second of
-which we do not use.  This is the C<writedata> option.  As mentioned in the previous example,
-the default C<writefunction> callback treats this as a file handle, but it could be any
-Perl data structure.
+You may have noticed that the L<writefunction|/writefunction> callback takes two arguments,
+the second of which we do not use.  This is the L<writedata|/writedata> option.  As mentioned
+in the previous example, the default C<writefunction> callback treats this as a file handle,
+but it could be any Perl data structure.
 
-The default C<writefunction> callback looks like this:
+The default L<writefunction|/writefunction> callback looks like this:
 
  $curl->setopt( writefunction => sub ($, $data, $fh) {
    print $fh $data;

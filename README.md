@@ -57,11 +57,13 @@ event of an error.
 
 ( [curl\_easy\_getinfo](https://curl.se/libcurl/c/curl_easy_getinfo.html) )
 
-- scheme
+What follows is a partial list of supported information:
 
-    URL scheme used for the most recent connection done.
+### scheme
 
-    ( [CURLINFO\_SCHEME](https://curl.se/libcurl/c/CURLINFO_SCHEME.html) )
+URL scheme used for the most recent connection done.
+
+( [CURLINFO\_SCHEME](https://curl.se/libcurl/c/CURLINFO_SCHEME.html) )
 
 ## perform
 
@@ -82,39 +84,78 @@ $curl->setopt( $option => $parameter );
 
 Sets the given curl option.  Throws a
 [Net::Swirl::CurlEasy::Exception](#net-swirl-curleasy-exception)
-on error.  Supported options include:
+on error.
 
 ( [curl\_easy\_setopt](https://curl.se/libcurl/c/curl_easy_setopt.html) )
 
-- url
+What follows is a partial list of supported options:
 
-    ```perl
-    $curl->setopt( url => $url );
-    ```
+### followlocation
 
-    The URL to work with.
+```perl
+$curl->setopt( followlocation => $bool );
+```
 
-    ( [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_URL.html) )
+Set this to 1 (the default is 0) to follow redirect responses.
+The maximum number of redirects can be controlled by
+[maxredirs](#maxredirs).
 
-- writefunction
+( [CURLOPT\_FOLLOWLOCATION](https://curl.se/libcurl/c/CURLOPT_FOLLOWLOCATION.html) )
 
-    ```perl
-    my $code = $curl->setopt( writefunction => sub ($curl, $content, $writedata) {
-      ...
-    });
-    ```
+### maxredirs
 
-    The writefunction callback will be called for each block of content
-    returned.  The content is passed as the second argument (the scalar uses
-    ["window" in FFI::Platypus::Buffer](https://metacpan.org/pod/FFI::Platypus::Buffer#window) to efficiently expose the data
-    without having to copy it).  If an exception is thrown, then an
-    error will be passed back to curl (in the form of zero bytes
-    handled).
+```perl
+$curl->setopt( maxredirs => $max );
+```
 
-    The callback also gets passed the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance as
-    its first argument, and the `writedata` option as its third argument.
+Sets the maximum number of redirects.  Setting the limit to `0` will force
+[Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) refuse any redirect.  Set to `-1` for an infinite
+number of redirects.
 
-    ( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
+( [CURLOPT\_MAXREDIRS](https://curl.se/libcurl/c/CURLOPT_MAXREDIRS.html) )
+
+### url
+
+```perl
+$curl->setopt( url => $url );
+```
+
+The URL to work with.  This is the only required option.
+
+( [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_URL.html) )
+
+### writedata
+
+```perl
+$curl->setopt( writedata => $value );
+```
+
+The `writedata` option is used by the [writefunction callback](#writefunction).
+This can be any Perl data type, but the default [writefunction callback](#writefunction)
+expects it to be a file handle, and the default value for `writedata` is
+`STDOUT`.
+
+( [CURLOPT\_WRITEDATA](https://curl.se/libcurl/c/CURLOPT_WRITEDATA.html) )
+
+### writefunction
+
+```perl
+$curl->setopt( writefunction => sub ($curl, $content, $writedata) {
+  ...
+});
+```
+
+The `writefunction` callback will be called for each block of content
+returned.  The content is passed as the second argument (the scalar uses
+["window" in FFI::Platypus::Buffer](https://metacpan.org/pod/FFI::Platypus::Buffer#window) to efficiently expose the data
+without having to copy it).  If an exception is thrown, then an
+error will be passed back to curl (in the form of zero bytes
+handled).
+
+The callback also gets passed the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance as
+its first argument, and the [writedata](#writedata) option as its third argument.
+
+( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
 
 # EXCEPTIONS
 
@@ -229,9 +270,9 @@ be chained like this.
 
 The basic flow of most requests will work like this, once [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance is
 created, you can set what options you want using [setopt](#setopt), and then call
-[perform](#perform) to make the actual request.  The only **required** option is `url`.  We
-also set `followlocation` to follow any redirects, since our server PSGI redirects `/` to
-`/hello-world`.  If you did not set this option, then you would get the 301 response
+[perform](#perform) to make the actual request.  The only **required** option is
+[url](#url).  We also set [followlocation](#followlocation) to follow any redirects, since
+our server PSGI redirects `/` to `/hello-world`.  If you did not set this option, then you would get the 301 response
 instead.  If you are used to using the `curl` command line interface, this is equivalent
 to its `-L` option.
 
@@ -273,7 +314,7 @@ the server said 'Hello World!'
 
 Normally when using `libcurl` programmatically you don't want to print the response body to
 `STDOUT`, you want to capture it in a variable to store or manipulate as appropriate.  The
-`writedata` option allows you to do this.  The default implementation treats this option as
+[writedata](#writedata) option allows you to do this.  The default implementation treats this option as
 a file handle, so you can use any Perl object that supports the file handle interface.  Here
 we use a handle that is redirecting to a scalar variable.  The reason the first example sends
 output to `STDOUT` is that `STDOUT` is the default for this option!
@@ -315,16 +356,16 @@ the server said 'Hello World!'
 
 You might want to route the data into a database or other store in chunks so that you do not
 have to keep the entire response body in memory at one time.  In this example we use the
-`writefunction` option to define a callback function that will be called for each chunk
-of the response.  The size of the chunks can vary depending on `libcurl`.  You could have a
-large chunk or even a chunk of zero bytes!
+[writefunction](#writefunction) option to define a callback function that will be called for
+each chunk of the response.  The size of the chunks can vary depending on `libcurl`.  You
+could have a large chunk or even a chunk of zero bytes!
 
-You may have noticed that the `writefunction` callback takes two arguments, the second of
-which we do not use.  This is the `writedata` option.  As mentioned in the previous example,
-the default `writefunction` callback treats this as a file handle, but it could be any
-Perl data structure.
+You may have noticed that the [writefunction](#writefunction) callback takes two arguments,
+the second of which we do not use.  This is the [writedata](#writedata) option.  As mentioned
+in the previous example, the default `writefunction` callback treats this as a file handle,
+but it could be any Perl data structure.
 
-The default `writefunction` callback looks like this:
+The default [writefunction](#writefunction) callback looks like this:
 
 ```perl
 $curl->setopt( writefunction => sub ($, $data, $fh) {

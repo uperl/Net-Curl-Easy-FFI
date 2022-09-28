@@ -1,4 +1,6 @@
 use Test2::V0 -no_srand => 1;
+use 5.020;
+use experimental qw( postderef );
 use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
@@ -30,8 +32,7 @@ subtest 'very basic' => sub {
 
   is $content, path(__FILE__)->slurp_raw, 'content matches';
 
-  use YAML ();
-  note YAML::Dump($curl->getinfo('ssl_engines'));
+  note "ssl_engines:$_" for $curl->getinfo('ssl_engines')->@*;
 
   try_ok { undef $curl } 'did not crash I guess?';
 };

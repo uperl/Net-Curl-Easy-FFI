@@ -18,6 +18,7 @@ $modules{$_} = $_ for qw(
   FFI::Platypus::Buffer
   Path::Tiny
   Test2::V0
+  Test::Script
   URI::file
 );
 

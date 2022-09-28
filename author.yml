@@ -12,6 +12,8 @@ pod_spelling_system:
     - TLS
     - writefunction
     - getinfo
+    - AirPlay
+    - plackup
 
 pod_coverage:
   skip: 0

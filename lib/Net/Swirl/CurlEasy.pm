@@ -310,6 +310,46 @@ handled).
 
 1;
 
+=head1 EXAMPLES
+
+All of the examples are provided in the C<examples> subdirectory of this distribution.
+
+These examples will work against this very simple PSGI app that you can run locally.
+
+# EXAMPLE: examples/server.psgi
+
+You can start it up by running C<plackup examples/server.psgi> and it will listen to port 5000
+by default.  (If you are running on a recent version of macOS that also runs "AirPlay Receiver"
+on that port, you can either change the port number and by passing C<-p 5001> to plackup, and
+in each of these examples or by stopping "AirPlay Receiver" in the sharing dialog of the
+control panel).
+
+=head2 Simple GET
+
+=head3 source
+
+# EXAMPLE: examples/simple.pl
+
+=head3 run
+
+ $ perl examples/simple.pl 
+ Hello World!
+
+=head3 notes
+
+This is a very simple GET.  If any method fails it will throw an exception, and methods that
+do not otherwise return a useful value return the L<Net::Swirl::CurlEasy> object so they can
+be chained like this.
+
+The basic flow of most requests will work like this, once L<Net::Swirl::CurlEasy> instance is
+created, you can set what options you want, and then call L<perform|/perform> to make the
+actual request.  The only B<required> option is C<url>.  We also set C<followlocation> to
+follow any redirects, since our server PSGI redirects C</> to C</hello-world>.  If you are
+used to using the C<curl> command line interface, this is equivalent to its C<-L> option.
+
+By default curl writes the body of the response to STDOUT, which is why we see it printed
+when the example is run.
+
 =head1 SEE ALSO
 
 =over 4

@@ -57,7 +57,8 @@ event of an error.
 
 ( [curl\_easy\_getinfo](https://curl.se/libcurl/c/curl_easy_getinfo.html) )
 
-What follows is a partial list of supported information:
+What follows is a partial list of supported information.  The full list of
+available information is listed in [Net::Swirl::CurlEasy::Info](https://metacpan.org/pod/Net::Swirl::CurlEasy::Info).
 
 ### scheme
 
@@ -88,7 +89,8 @@ on error.
 
 ( [curl\_easy\_setopt](https://curl.se/libcurl/c/curl_easy_setopt.html) )
 
-What follows is a partial list of supported options:
+What follows is a partial list of supported options.  The full list of
+options can be found in [Net::Swirl::CurlEasy::Options](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options).
 
 ### followlocation
 
@@ -375,10 +377,25 @@ $curl->setopt( writefunction => sub ($, $data, $fh) {
 
 # SEE ALSO
 
+- [Net::Swirl::CurlEasy::Options](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options)
+
+    Full list of options available to this API.
+
+- [Net::Swirl::CurlEasy::Info](https://metacpan.org/pod/Net::Swirl::CurlEasy::Info)
+
+    Full list of information items available to this API.
+
 - [Net::Curl::Easy](https://metacpan.org/pod/Net::Curl::Easy)
+
+    Older more mature XS based interface to the `libcurl` "easy" API.
+
 - [Alien::curl](https://metacpan.org/pod/Alien::curl)
-- [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus)
+
+    [Alien](https://metacpan.org/pod/Alien) used by this module if no system `curl` can be found.
+
 - [https://curl.se](https://curl.se)
+
+    The `curl` homepage.
 
 # AUTHOR
 

@@ -17,7 +17,7 @@ pod_spelling_system:
     - writedata
     - followlocation
     - maxredirs
-
+    - activesocket
 
 pod_coverage:
   skip: 0

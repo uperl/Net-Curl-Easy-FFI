@@ -5,7 +5,7 @@ package Net::Swirl::CurlEasy {
   use experimental qw( signatures postderef );
   use FFI::Platypus 2.00;
   use Carp qw( croak );
-  use FFI::Platypus::Buffer qw( window );
+  use FFI::Platypus::Buffer qw( window scalar_to_buffer scalar_to_pointer set_used_length );
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
 
@@ -229,14 +229,14 @@ URL scheme used for the most recent connection done.
     # TODO: not 100% sure but https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html
     # says that SOCK is 64 bit on 64bit windows, which suggests that it might be
     # 32 bit on 32 bit windows.
-    activesocket => [5242924, $^O eq 'MSWin32' ? sub { die 'fixme' } : \&__getinfo_int],
+    activesocket => [5242924, $^O eq 'MSWin32' ? sub { die 'fixme' } : \&_getinfo_int],
   );
 
   sub getinfo ($self, $key)
   {
+    croak "unknown info $key" unless defined $info{$key};
     my($key_id, $xsub) = $info{$key}->@*;
     # TODO: should thow an object
-    croak "unknown info $key" unless defined $key_id;
     my $code = $xsub->($self, $key_id, \my $value);
     Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     return $value;
@@ -258,6 +258,45 @@ L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> on error.
     my $code = $xsub->($self);
     Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     $self;
+  });
+
+=head2 recv
+
+ my $buffer = $cur->recv($max_bytes);
+
+TODO
+
+( L<curl_easy_recv|https://curl.se/libcurl/c/curl_easy_recv.html> )
+
+=cut
+
+  $ffi->attach( recv => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $size) {
+    my $buffer = "\0" x $size;
+    my $ptr = scalar_to_pointer $buffer;
+    my $code = $xsub->($self, $ptr, $size, \my $br);
+    return undef if $code == 81;
+    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
+    set_used_length $buffer, $br;
+    return $buffer;
+  });
+
+=head2 send
+
+ my $bytes_sent = $curl->send($buffer);
+
+TODO
+
+( L<curl_easy_send|https://curl.se/libcurl/c/curl_easy_send.html> )
+
+=cut
+
+  $ffi->attach( send => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub {
+    my $xsub = shift;
+    my $self = shift;
+    my($ptr, $size) = scalar_to_buffer $_[0];
+    my $code = $xsub->($self, $ptr, $size, \my $sent);
+    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
+    return $sent;
   });
 
 =head2 setopt
@@ -385,9 +424,9 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
   sub setopt ($self, $key, $value)
   {
+    croak "unknown option $key" unless defined $opt{$key};
     my($key_id, $xsub) = $opt{$key}->@*;
     # TODO: should throw an object
-    croak "unknown option $key" unless defined $key_id;
     my $code = $xsub->($self, $key_id, $value);
     Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     $self;

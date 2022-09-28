@@ -94,6 +94,26 @@ Perform the curl request.  Throws a
 
 ( [curl\_easy\_perform](https://curl.se/libcurl/c/curl_easy_perform.html) )
 
+## recv
+
+```perl
+my $buffer = $cur->recv($max_bytes);
+```
+
+TODO
+
+( [curl\_easy\_recv](https://curl.se/libcurl/c/curl_easy_recv.html) )
+
+## send
+
+```perl
+my $bytes_sent = $curl->send($buffer);
+```
+
+TODO
+
+( [curl\_easy\_send](https://curl.se/libcurl/c/curl_easy_send.html) )
+
 ## setopt
 
 ```perl

@@ -186,6 +186,17 @@ event of an error.
 What follows is a partial list of supported information.  The full list of
 available information is listed in L<Net::Swirl::CurlEasy::Info>.
 
+=head3 activesocket
+
+ my $socket = $curl->getinfo('activesocket');
+
+Returns the most recently active socket used for the transfer connection.  Will throw
+an exception if the socket is no longer valid.  The active socket is typically only useful
+in combination with L<connect_only|Net::Swirl::CurlEasy/connect_only>, which skips the
+transfer phase, allowing you to use the socket to implement custom protocols.
+
+( L<CURLINFO_ACTIVESOCKET|https://curl.se/libcurl/c/CURLINFO_ACTIVESOCKET.html> )
+
 =head3 scheme
 
  my $scheme = $curl->getinfo('scheme');
@@ -200,6 +211,7 @@ URL scheme used for the most recent connection done.
   $ffi->attach( [getinfo => '_getinfo_double'] => ['CURL','enum'] => ['double*'] => 'enum' );
   $ffi->attach( [getinfo => '_getinfo_long'  ] => ['CURL','enum'] => ['long*'  ] => 'enum' );
   $ffi->attach( [getinfo => '_getinfo_off_t' ] => ['CURL','enum'] => ['off_t*' ] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_int'   ] => ['CURL','enum'] => ['int'    ] => 'enum' );
 
   $ffi->attach( [getinfo => '_getinfo_slist' ] => ['CURL','enum'] => ['opaque*'] => 'enum' => sub ($xsub, $self, $key_id, $value) {
     my $code = $xsub->($self, $key_id, \my $ptr);
@@ -214,6 +226,10 @@ URL scheme used for the most recent connection done.
   require Net::Swirl::CurlEasy::Info unless $Net::Swirl::CurlEasy::no_gen;
 
   our %info = (%info,
+    # TODO: not 100% sure but https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html
+    # says that SOCK is 64 bit on 64bit windows, which suggests that it might be
+    # 32 bit on 32 bit windows.
+    activesocket => [5242924, $^O eq 'MSWin32' ? sub { die 'fixme' } : \&__getinfo_int],
   );
 
   sub getinfo ($self, $key)
@@ -256,6 +272,22 @@ on error.
 
 What follows is a partial list of supported options.  The full list of
 options can be found in L<Net::Swirl::CurlEasy::Options>.
+
+=head3 connect_only
+
+ $curl->setopt( connect_only => 1 );
+
+Perform all the required proxy authentication and connection setup, but no data
+transfer, and then return.  This is usually used in combination with
+L<activesocket|Net::Swirl::CurlEasy/activesocket>.
+
+This can be set to C<2> and if HTTP or WebSocket are used the request will be
+done, along with all response headers before handing over control to you.
+
+Transfers marked connect only will not reuse any existing connections and
+connections marked connect only will not be allowed to get reused. 
+ 
+( L<CURLOPT_CONNECT_ONLY|https://curl.se/libcurl/c/CURLOPT_CONNECT_ONLY.html> )
 
 =head3 followlocation
 

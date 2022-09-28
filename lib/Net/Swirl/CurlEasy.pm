@@ -167,7 +167,8 @@ so that they can be chained.
  my $value = $curl->getinfo($name);
 
 Request internal information from the curl session with this function.  This will
-throw L<Net::Swirl::CurlEasy::Exception> in the event of an error.
+throw L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> in the
+event of an error.
 
 ( L<curl_easy_getinfo|https://curl.se/libcurl/c/curl_easy_getinfo.html> )
 
@@ -217,8 +218,8 @@ URL scheme used for the most recent connection done.
 
  $curl->perform;
 
-Perform the curl request.  Throws a L<Net::Swirl::CurlEasy::Exception> on
-error.
+Perform the curl request.  Throws a
+L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> on error.
 
 ( L<curl_easy_perform|https://curl.se/libcurl/c/curl_easy_perform.html> )
 
@@ -235,7 +236,8 @@ error.
 
  $curl->setopt( $option => $parameter );
 
-Sets the given curl option.  Throws a L<Net::Swirl::CurlEasy::Exception>
+Sets the given curl option.  Throws a
+L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception>
 on error.  Supported options include:
 
 ( L<curl_easy_setopt|https://curl.se/libcurl/c/curl_easy_setopt.html> )
@@ -309,6 +311,48 @@ handled).
 }
 
 1;
+
+=head1 EXCEPTIONS
+
+In general methods should throw an exception object on failure.  In some cases if L<Net::Swirl::CurlEasy>
+calls modules that may throw a string exception.
+
+=head2 Net::Swirl::CurlEasy::Exception
+
+This is the normal exception class used by L<Net::Swirl::CurlEasy>.  It has these properties:
+
+=over 4
+
+=item as_string
+
+A human readable diagnostic explaining the error, with the location from where the
+exception was thrown.  This looks like what a normal C<warn> or C<die> diagnostic
+would produce.  This is also what you get if you attempt to stringify the exception
+(C<"$exception">).
+
+=item code
+
+This is the integer C<libcurl> code.  The full list of possible codes can be found here:
+L<https://curl.se/libcurl/c/libcurl-errors.html>.  Note that typically an exception for
+C<CURLE_OK> is not normally thrown so you should not see that value in an exception.
+
+=item filename
+
+The file in your code from which the exception was thrown.
+
+=item line
+
+The line number in your code from which the exception was thrown.
+
+=item package
+
+The package in your code from which the exception was thrown.
+
+=item strerror
+
+A human readable diagnostic explaining the error.
+
+=back
 
 =head1 EXAMPLES
 

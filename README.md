@@ -49,7 +49,8 @@ my $value = $curl->getinfo($name);
 ```
 
 Request internal information from the curl session with this function.  This will
-throw [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception) in the event of an error.
+throw [Net::Swirl::CurlEasy::Exception](#net-swirl-curleasy-exception) in the
+event of an error.
 
 ( [curl\_easy\_getinfo](https://curl.se/libcurl/c/curl_easy_getinfo.html) )
 
@@ -65,8 +66,8 @@ throw [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::Cur
 $curl->perform;
 ```
 
-Perform the curl request.  Throws a [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception) on
-error.
+Perform the curl request.  Throws a
+[Net::Swirl::CurlEasy::Exception](#net-swirl-curleasy-exception) on error.
 
 ( [curl\_easy\_perform](https://curl.se/libcurl/c/curl_easy_perform.html) )
 
@@ -76,7 +77,8 @@ error.
 $curl->setopt( $option => $parameter );
 ```
 
-Sets the given curl option.  Throws a [Net::Swirl::CurlEasy::Exception](https://metacpan.org/pod/Net::Swirl::CurlEasy::Exception)
+Sets the given curl option.  Throws a
+[Net::Swirl::CurlEasy::Exception](#net-swirl-curleasy-exception)
 on error.  Supported options include:
 
 ( [curl\_easy\_setopt](https://curl.se/libcurl/c/curl_easy_setopt.html) )
@@ -105,6 +107,44 @@ on error.  Supported options include:
     handled).
 
     ( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
+
+# EXCEPTIONS
+
+In general methods should throw an exception object on failure.  In some cases if [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
+calls modules that may throw a string exception.
+
+## Net::Swirl::CurlEasy::Exception
+
+This is the normal exception class used by [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy).  It has these properties:
+
+- as\_string
+
+    A human readable diagnostic explaining the error, with the location from where the
+    exception was thrown.  This looks like what a normal `warn` or `die` diagnostic
+    would produce.  This is also what you get if you attempt to stringify the exception
+    (`"$exception"`).
+
+- code
+
+    This is the integer `libcurl` code.  The full list of possible codes can be found here:
+    [https://curl.se/libcurl/c/libcurl-errors.html](https://curl.se/libcurl/c/libcurl-errors.html).  Note that typically an exception for
+    `CURLE_OK` is not normally thrown so you should not see that value in an exception.
+
+- filename
+
+    The file in your code from which the exception was thrown.
+
+- line
+
+    The line number in your code from which the exception was thrown.
+
+- package
+
+    The package in your code from which the exception was thrown.
+
+- strerror
+
+    A human readable diagnostic explaining the error.
 
 # EXAMPLES
 

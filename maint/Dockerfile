@@ -13,6 +13,7 @@ RUN apt-get update                                   \
     libffi-dev                                       \
     expat                                            \
     libexpat1-dev                                    \
+    screen                                           \
  && apt-get purge libcurl4-openssl-dev               \
  && apt-get -q autoremove                            \
  && apt-get -q clean                                 \
@@ -47,12 +48,21 @@ RUN apt-get purge curl libcurl4                      \
 RUN cpanm -n                                         \
     https://dist.wdlabs.com/App-castyml-0.01.tar.gz  \
     Template                                         \
- && rm -rf ~/.cpanm
-
-RUN cpanm -n                                         \
     FFI::Platypus                                    \
+    FFI::C                                           \
+    Plack::Component                                 \
  && rm -rf ~/.cpanm
 
 RUN cpanm -n                                         \
-    FFI::C                                           \
+    File::chdir                                      \
  && rm -rf ~/.cpanm
+
+RUN cpanm -n                                         \
+    Test2::V0                                        \
+ && rm -rf ~/.cpanm
+
+RUN cpanm -n                                         \
+    Test::Script                                     \
+ && rm -rf ~/.cpanm
+
+ENV TEST_EXAMPLES 1

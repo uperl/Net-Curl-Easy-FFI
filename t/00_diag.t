@@ -22,7 +22,32 @@ $modules{$_} = $_ for qw(
   URI::file
 );
 
-
+$post_diag = sub {
+  local $@='';
+  my $lib = eval {
+    require './lib/Net/Swirl/CurlEasy/FFI.pm';
+    Net::Swirl::CurlEasy::FFI->lib;
+  };
+  warn $@ if $@;
+  diag "libcurl = @{[ $lib // 'undef' ]}";
+  $@ = '';
+  my $version = eval {
+    require FFI::Platypus;
+    FFI::Platypus->VERSION("2.00");
+    my $ffi = FFI::Platypus->new( api => 2, lib => [$lib] );
+    $ffi->function('curl_version' => [] => 'string')->call;
+  };
+  warn $@ if $@;
+  if(defined $version) {
+    diag "version = $_" for split /\s+/, $version;
+  }
+  unless($ENV{TEST_EXAMPLES}) {
+    diag '';
+    diag '';
+    diag 'NOT TESTING EXAMPLES.';
+    diag '(you can test examples by setting env TEST_EXAMPLES=1';
+  }
+};
 
 my @modules = sort keys %modules;
 

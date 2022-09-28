@@ -22,15 +22,6 @@ if($ENV{TEST_EXAMPLES})
     system 'screen -S net-swirl-curl-easy-test -d -m plackup examples/server.psgi';
   }
 }
-else
-{
-  diag '';
-  diag '';
-  diag '';
-  diag 'only testing that scripts compile!';
-  diag '';
-  diag '';
-}
 
 my $path = path(__FILE__)->parent->parent->child('examples');
 

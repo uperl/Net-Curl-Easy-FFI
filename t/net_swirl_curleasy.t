@@ -4,6 +4,8 @@ use experimental qw( postderef signatures );
 use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
+use lib 't/lib';
+use Test2::Tools::MemoryCycle;
 
 subtest 'very basic' => sub {
   my $curl = Net::Swirl::CurlEasy->new;
@@ -34,6 +36,8 @@ subtest 'very basic' => sub {
 
   note "ssl_engines:$_" for $curl->getinfo('ssl_engines')->@*;
 
+  memory_cycle_ok $curl;
+
   try_ok { undef $curl } 'did not crash I guess?';
 };
 
@@ -54,6 +58,8 @@ subtest 'writedata' => sub {
   try_ok { $curl->perform } "\$curl->perform";
 
   is $content, path('corpus/data.txt')->slurp_raw, 'content matches';
+
+  memory_cycle_ok $curl;
 
   try_ok { undef $curl } 'did not crash I guess?';
 };
@@ -85,6 +91,7 @@ subtest 'slist' => sub {
     'start with empty',
   );
 
+  memory_cycle_ok( Net::Swirl::CurlEasy::Slist->new(qw( foo bar baz )) );
 };
 
 done_testing;

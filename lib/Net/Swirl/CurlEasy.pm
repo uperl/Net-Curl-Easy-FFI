@@ -183,7 +183,8 @@ event of an error.
 
 ( L<curl_easy_getinfo|https://curl.se/libcurl/c/curl_easy_getinfo.html> )
 
-What follows is a partial list of supported information:
+What follows is a partial list of supported information.  The full list of
+available information is listed in L<Net::Swirl::CurlEasy::Info>.
 
 =head3 scheme
 
@@ -251,7 +252,8 @@ on error.
 
 ( L<curl_easy_setopt|https://curl.se/libcurl/c/curl_easy_setopt.html> )
 
-What follows is a partial list of supported options:
+What follows is a partial list of supported options.  The full list of
+options can be found in L<Net::Swirl::CurlEasy::Options>.
 
 =head3 followlocation
 
@@ -499,13 +501,25 @@ The default L<writefunction|/writefunction> callback looks like this:
 
 =over 4
 
+=item L<Net::Swirl::CurlEasy::Options>
+
+Full list of options available to this API.
+
+=item L<Net::Swirl::CurlEasy::Info>
+
+Full list of information items available to this API.
+
 =item L<Net::Curl::Easy>
+
+Older more mature XS based interface to the C<libcurl> "easy" API.
 
 =item L<Alien::curl>
 
-=item L<FFI::Platypus>
+L<Alien> used by this module if no system C<curl> can be found.
 
 =item L<https://curl.se>
+
+The C<curl> homepage.
 
 =back
 

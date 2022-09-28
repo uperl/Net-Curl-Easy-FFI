@@ -18,6 +18,13 @@ package Net::Swirl::CurlEasy::Options {
 This document contains the full list of options supported by L<Net::Swirl::CurlEasy>.
 These options are set via the L<setopt method|Net::Swirl::CurlEasy/setopt>.
 
+=begin stopwords
+
+[% FOREACH option IN curl.options %][% UNLESS loop.first %] [% END %][% option.perl_name %] [% option.c_name %][% END %]
+[% FOREACH name IN curl.missing.options %][% UNLESS loop.first %] [% END %][% name %][% END %]
+
+=end stopwords
+
 [%- FOREACH option IN curl.options %]
 =head2 [% option.perl_name %]
 
@@ -56,3 +63,19 @@ L<Net::Swirl::CurlEasy>:
 1;
 
 __END__
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<Net::Swirl::CurlEasy>
+
+Main documentation for the Swirl C<curl> "easy" API.
+
+=item L<Net::Swirl::CurlEasy::Info>
+
+Full list of information items available to this API.
+
+=back
+
+=cut

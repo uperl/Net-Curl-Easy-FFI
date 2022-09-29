@@ -64,6 +64,35 @@ subtest 'writedata' => sub {
   try_ok { undef $curl } 'did not crash I guess?';
 };
 
+subtest 'clone' => sub {
+
+  my $curl1 = Net::Swirl::CurlEasy->new;
+
+  my $content = '';
+  open my $fh, '>', \$content;
+
+  my $url = URI::file->new_abs('corpus/data.txt');
+  $curl1->setopt( url           => "$url" );
+  $curl1->setopt( writedata     => [$fh]  );
+  $curl1->setopt( writefunction => sub ($, $data, $array) {
+    my($fh) = @$array;
+    print $fh $data;
+  });
+
+  my $curl2 = $curl1->clone;
+
+  memory_cycle_ok $curl1, 'no memory cycles original';
+  memory_cycle_ok $curl2, 'no memory cycles clone';
+
+  try_ok { $curl2->perform } "\$curl2->perform";
+
+  is $content, path('corpus/data.txt')->slurp_raw, 'content matches';
+
+  memory_cycle_ok $curl1, 'no memory cycles original (still)';
+  memory_cycle_ok $curl2, 'no memory cycles clone (still)';
+
+};
+
 subtest 'slist' => sub {
 
   is(

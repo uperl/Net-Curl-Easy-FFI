@@ -45,6 +45,25 @@ in the unlikely event that the instance cannot be created.
 Methods without a return value specified here return the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance
 so that they can be chained.
 
+## clone
+
+```perl
+my $curl2 = $curl->clone;
+```
+
+This method will return a new [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance, a duplicate, using all the
+options previously set in the original instance. Both instances can subsequently be used 
+independently.
+
+The new instance will not inherit any state information, no connections, no SSL sessions 
+and no cookies. It also will not inherit any share object states or options (it will 
+be made as if CURLOPT\_SHARE was set to `undef`).
+
+In multi-threaded programs, this function must be called in a synchronous way, the 
+original instance may not be in use when cloned.
+
+( [curl\_easy\_duphandle](https://curl.se/libcurl/c/curl_easy_duphandle.html) )
+
 ## getinfo
 
 ```perl

@@ -295,6 +295,7 @@ TODO
     my $self = shift;
     my($ptr, $size) = scalar_to_buffer $_[0];
     my $code = $xsub->($self, $ptr, $size, \my $sent);
+    return undef if $code == 81;
     Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     return $sent;
   });

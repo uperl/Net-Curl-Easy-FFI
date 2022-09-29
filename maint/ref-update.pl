@@ -26,7 +26,7 @@ my %info_init;
   my $castxml = Clang::CastXML->new;
   my $header = $castxml->introspect($curl_h)->to_href;
 
-  %option_init = 
+  %option_init =
     # convert into a hash, remove CURLOPT_ prefix for name
     map { $_->{name} =~ s/^CURLOPT_//r => $_->{init} }
     # get the inner list of the enum
@@ -36,7 +36,7 @@ my %info_init;
     # get all of the items in the header
     $header->{inner}->@*;
 
-  %info_init = 
+  %info_init =
     # convert into a hash, remove CURLOPT_ prefix for name
     map { $_->{name} =~ s/^CURLINFO_//r => $_->{init} }
     # get the inner list of the enum

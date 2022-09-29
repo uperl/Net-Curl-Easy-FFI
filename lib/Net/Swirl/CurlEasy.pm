@@ -100,20 +100,20 @@ below.
 
   $ffi->mangler(sub ($name) { "curl_easy_$name" });
 
-  package Net::Swirl::CurlEasy::Exception::CurlCode {
+  package Net::Swirl::CurlEasy::Exception {
 
     use overload
       '""' => sub { shift->as_string },
       bool => sub { 1 }, fallback => 1;
 
-    sub throw ($code) {
-      my($package, $filename, $line) = caller(1);
-      die bless {
-        code     => $code,
+    sub new ($class)
+    {
+      my($package, $filename, $line) = caller(2);
+      bless {
         package  => $package,
         filename => $filename,
         line     => $line,
-      }, __PACKAGE__;
+      }, $class;
     }
 
     sub code     ($self) { $self->{code}     }
@@ -121,14 +121,26 @@ below.
     sub filename ($self) { $self->{filename} }
     sub line     ($self) { $self->{line}     }
 
-    $ffi->attach( strerror => ['enum'] => 'string' => sub ($xsub, $self) {
-      $xsub->($self->{code});
-    });
-
     sub as_string ($self)
     {
       sprintf "%s at %s line %s.", $self->strerror, $self->filename, $self->line;
     }
+
+  }
+
+  package Net::Swirl::CurlEasy::Exception::CurlCode {
+
+    our @ISA = qw( Net::Swirl::CurlEasy::Exception );  ## no critic (ClassHierarchies::ProhibitExplicitISA)
+
+    sub throw ($code) {
+      my $self = __PACKAGE__->new;
+      $self->{code} = $code;
+      die $self;
+    }
+
+    $ffi->attach( strerror => ['enum'] => 'string' => sub ($xsub, $self) {
+      $xsub->($self->{code});
+    });
 
   }
 
@@ -399,9 +411,10 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 In general methods should throw an exception object on failure.  In some cases if L<Net::Swirl::CurlEasy>
 calls modules that may throw a string exception.
 
-=head2 Net::Swirl::CurlEasy::Exception::CurlCode
+=head2 Net::Swirl::CurlEasy::Exception
 
-This is the normal exception class used by L<Net::Swirl::CurlEasy>.  It has these properties:
+This is the base class for L<Net::Swirl::CurlEasy> exceptions.  It is an abstract class
+in that you should only see sub class exceptions.
 
 =over 4
 
@@ -411,12 +424,6 @@ A human readable diagnostic explaining the error, with the location from where t
 exception was thrown.  This looks like what a normal C<warn> or C<die> diagnostic
 would produce.  This is also what you get if you attempt to stringify the exception
 (C<"$exception">).
-
-=item code
-
-This is the integer C<libcurl> code.  The full list of possible codes can be found here:
-L<https://curl.se/libcurl/c/libcurl-errors.html>.  Note that typically an exception for
-C<CURLE_OK> is not normally thrown so you should not see that value in an exception.
 
 =item filename
 
@@ -433,6 +440,22 @@ The package in your code from which the exception was thrown.
 =item strerror
 
 A human readable diagnostic explaining the error.
+
+=back
+
+=head2 Net::Swirl::CurlEasy::Exception::CurlCode
+
+This is an exception that originated from C<libcurl> and has a corresponding C<CURLcode>.
+It covers that vast majority of exceptions that you will see from this module.
+It has these additional properties:
+
+=over 4
+
+=item code
+
+This is the integer C<libcurl> code.  The full list of possible codes can be found here:
+L<https://curl.se/libcurl/c/libcurl-errors.html>.  Note that typically an exception for
+C<CURLE_OK> is not normally thrown so you should not see that value in an exception.
 
 =back
 

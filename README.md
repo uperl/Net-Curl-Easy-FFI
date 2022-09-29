@@ -188,9 +188,10 @@ its first argument, and the [writedata](#writedata) option as its third argument
 In general methods should throw an exception object on failure.  In some cases if [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
 calls modules that may throw a string exception.
 
-## Net::Swirl::CurlEasy::Exception::CurlCode
+## Net::Swirl::CurlEasy::Exception
 
-This is the normal exception class used by [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy).  It has these properties:
+This is the base class for [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) exceptions.  It is an abstract class
+in that you should only see sub class exceptions.
 
 - as\_string
 
@@ -198,12 +199,6 @@ This is the normal exception class used by [Net::Swirl::CurlEasy](https://metacp
     exception was thrown.  This looks like what a normal `warn` or `die` diagnostic
     would produce.  This is also what you get if you attempt to stringify the exception
     (`"$exception"`).
-
-- code
-
-    This is the integer `libcurl` code.  The full list of possible codes can be found here:
-    [https://curl.se/libcurl/c/libcurl-errors.html](https://curl.se/libcurl/c/libcurl-errors.html).  Note that typically an exception for
-    `CURLE_OK` is not normally thrown so you should not see that value in an exception.
 
 - filename
 
@@ -220,6 +215,18 @@ This is the normal exception class used by [Net::Swirl::CurlEasy](https://metacp
 - strerror
 
     A human readable diagnostic explaining the error.
+
+## Net::Swirl::CurlEasy::Exception::CurlCode
+
+This is an exception that originated from `libcurl` and has a corresponding `CURLcode`.
+It covers that vast majority of exceptions that you will see from this module.
+It has these additional properties:
+
+- code
+
+    This is the integer `libcurl` code.  The full list of possible codes can be found here:
+    [https://curl.se/libcurl/c/libcurl-errors.html](https://curl.se/libcurl/c/libcurl-errors.html).  Note that typically an exception for
+    `CURLE_OK` is not normally thrown so you should not see that value in an exception.
 
 # EXAMPLES
 

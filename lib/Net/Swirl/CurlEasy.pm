@@ -183,8 +183,11 @@ below.
 
  my $curl = Net::Swirl::CurlEasy->new;
 
-This creates a new instance of this class.  Throws a string exception
-in the unlikely event that the instance cannot be created.
+This creates a new instance of this class.  The constructor can throw either
+L<Net::Swirl::CurlEasy::Exception::Swirl|/Net::Swirl::CurlEasy::Exception::Swirl>
+or
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
+on failure.
 
 ( L<curl_easy_init|https://curl.se/libcurl/c/curl_easy_init.html> )
 
@@ -234,6 +237,11 @@ be made as if CURLOPT_SHARE was set to C<undef>).
 
 In multi-threaded programs, this function must be called in a synchronous way, the 
 original instance may not be in use when cloned.
+
+L<Net::Swirl::CurlEasy::Exception::Swirl|/Net::Swirl::CurlEasy::Exception::Swirl>
+or
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
+on failure.
 
 ( L<curl_easy_duphandle|https://curl.se/libcurl/c/curl_easy_duphandle.html> )
 
@@ -498,7 +506,7 @@ C<CURLE_OK> is not normally thrown so you should not see that value in an except
 
 =back
 
-=head2 Net::Swirl::CurlEasy::Exception::CurlCode
+=head2 Net::Swirl::CurlEasy::Exception::Swirl
 
 This is an exception that originates in L<Net::Swirl::CurlEasy> itself, or from
 C<libcurl> in a way that no C<CURLcode> is provided.

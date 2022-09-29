@@ -193,7 +193,7 @@ its first argument, and the [writedata](#writedata) option as its third argument
 
 # EXCEPTIONS
 
-In general methods should throw an exception object on failure.  In some cases if [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
+In general methods should throw an exception object on failure.  In some cases [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
 calls modules that may throw a string exception.
 
 Here is how you might catch exceptions using the new `try` and `isa` features:

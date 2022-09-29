@@ -4,7 +4,6 @@ package Net::Swirl::CurlEasy {
   use 5.020;
   use experimental qw( signatures postderef );
   use FFI::Platypus 2.00;
-  use Carp qw( croak );
   use FFI::Platypus::Buffer qw( window );
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
@@ -121,6 +120,11 @@ below.
     sub filename ($self) { $self->{filename} }
     sub line     ($self) { $self->{line}     }
 
+    sub strerror ($self)
+    {
+      die "not implemented";
+    }
+
     sub as_string ($self)
     {
       sprintf "%s at %s line %s.", $self->strerror, $self->filename, $self->line;
@@ -132,7 +136,8 @@ below.
 
     our @ISA = qw( Net::Swirl::CurlEasy::Exception );  ## no critic (ClassHierarchies::ProhibitExplicitISA)
 
-    sub throw ($code) {
+    sub throw ($code)
+    {
       my $self = __PACKAGE__->new;
       $self->{code} = $code;
       die $self;
@@ -141,6 +146,34 @@ below.
     $ffi->attach( strerror => ['enum'] => 'string' => sub ($xsub, $self) {
       $xsub->($self->{code});
     });
+
+  }
+
+  package Net::Swirl::CurlEasy::Exception::Swirl {
+
+    our @ISA = qw( Net::Swirl::CurlEasy::Exception );  ## no critic (ClassHierarchies::ProhibitExplicitISA)
+
+    sub throw ($code)
+    {
+      my $self = __PACKAGE__->new;
+      unless($code =~ /^(create-failed|internal)$/) {
+        throw('internal');
+      }
+      $self->{code} = $code;
+      die $self;
+    }
+
+    sub strerror ($self)
+    {
+      if($self->{code} eq 'create-failed')
+      {
+        return "Could not create an instance of Net::Swirl::CurlEasy";
+      }
+      else
+      {
+        return "Internal Net::Swirl::CurlEasy error";
+      }
+    }
 
   }
 
@@ -161,14 +194,17 @@ in the unlikely event that the instance cannot be created.
     print $fh $data;
   }
 
-  $ffi->attach( [init => 'new'] => [] => 'opaque' => sub ($xsub, $class) {
-    my $ptr = $xsub->();
-    croak "unable to create curl easy instance" unless $ptr;
+  $ffi->attach( [init => '_new'] => [] => 'opaque' );
+
+  sub new ($class)
+  {
+    my $ptr = _new();
+    Net::Swirl::CurlEasy::Exception::Swirl::throw('create-failed') unless $ptr;
     my $self = bless \$ptr, $class;
     $self->setopt( writefunction => \&_default_writefunction );
     $self->setopt( writedata     => \*STDOUT );
     $self;
-  });
+  }
 
   our %keep;
 
@@ -203,9 +239,12 @@ original instance may not be in use when cloned.
 
 =cut
 
-  $ffi->attach( [duphandle => 'clone'] => ['CURL'] => 'opaque' => sub ($xsub, $self) {
-    my $ptr = $xsub->($self);
-    croak "unable to create curl easy instance" unless $ptr;
+  $ffi->attach( [duphandle => '_clone'] => ['CURL'] => 'opaque' );
+
+  sub clone ($self)
+  {
+    my $ptr = _clone($self);
+    Net::Swirl::CurlEasy::Exception::Swirl::throw('create-failed') unless $ptr;
     my $curl = bless \$ptr, ref($self);
     # we need to copy this, not use the same reference
     my %new_keep = $keep{$$self}->%*;
@@ -213,7 +252,7 @@ original instance may not be in use when cloned.
 
     # return the new instance
     $curl;
-  });
+  };
 
 =head2 getinfo
 
@@ -456,6 +495,33 @@ It has these additional properties:
 This is the integer C<libcurl> code.  The full list of possible codes can be found here:
 L<https://curl.se/libcurl/c/libcurl-errors.html>.  Note that typically an exception for
 C<CURLE_OK> is not normally thrown so you should not see that value in an exception.
+
+=back
+
+=head2 Net::Swirl::CurlEasy::Exception::CurlCode
+
+This is an exception that originates in L<Net::Swirl::CurlEasy> itself, or from
+C<libcurl> in a way that no C<CURLcode> is provided.
+
+=over 4
+
+=item code
+
+This is the string code that classifies the type of exception.  You can check against
+these values as they should not change, where as the human readable C<strerror> may
+change in the future without notice.  Possible values include:
+
+=over 4
+
+=item C<create-failed>
+
+C<libcurl> was unable to create an instance.
+
+=item C<internal>
+
+An internal error.
+
+=back
 
 =back
 

@@ -455,7 +455,7 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
 =head1 EXCEPTIONS
 
-In general methods should throw an exception object on failure.  In some cases if L<Net::Swirl::CurlEasy>
+In general methods should throw an exception object on failure.  In some cases L<Net::Swirl::CurlEasy>
 calls modules that may throw a string exception.
 
 Here is how you might catch exceptions using the new C<try> and C<isa> features:

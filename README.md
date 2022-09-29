@@ -228,6 +228,25 @@ It has these additional properties:
     [https://curl.se/libcurl/c/libcurl-errors.html](https://curl.se/libcurl/c/libcurl-errors.html).  Note that typically an exception for
     `CURLE_OK` is not normally thrown so you should not see that value in an exception.
 
+## Net::Swirl::CurlEasy::Exception::CurlCode
+
+This is an exception that originates in [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) itself, or from
+`libcurl` in a way that no `CURLcode` is provided.
+
+- code
+
+    This is the string code that classifies the type of exception.  You can check against
+    these values as they should not change, where as the human readable `strerror` may
+    change in the future without notice.  Possible values include:
+
+    - `create-failed`
+
+        `libcurl` was unable to create an instance.
+
+    - `internal`
+
+        An internal error.
+
 # EXAMPLES
 
 All of the examples are provided in the `examples` subdirectory of this distribution.

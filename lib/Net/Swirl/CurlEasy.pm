@@ -458,6 +458,35 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 In general methods should throw an exception object on failure.  In some cases if L<Net::Swirl::CurlEasy>
 calls modules that may throw a string exception.
 
+Here is how you might catch exceptions using the new C<try> and C<isa> features:
+
+ use experimental qw( try isa );
+
+ try {
+   Net::Swirl::CurlEasy
+     ->new
+     ->setopt( url => 'https://alienfile.org' )
+     ->perform;
+ } catch ($e) {
+   if($e isa Net::Swirl::CurlEasy::Exception::CurlCode) {
+
+    my $code = $e->code;  # integer code
+
+   } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
+
+    if($e->code eq 'create-failed') {
+      # the constructor failed to create an instance
+      # rare
+    } elsif($e->code eq 'internal') {
+      # internal Swirl error
+      # hopefully also rare
+    }
+
+   } else {
+     # some exception not coming directly from libcurl or Swirl
+   }
+ }
+
 =head2 Net::Swirl::CurlEasy::Exception
 
 This is the base class for L<Net::Swirl::CurlEasy> exceptions.  It is an abstract class

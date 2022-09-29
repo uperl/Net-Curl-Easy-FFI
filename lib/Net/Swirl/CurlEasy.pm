@@ -248,9 +248,8 @@ URL scheme used for the most recent connection done.
 
   sub getinfo ($self, $key)
   {
+    Net::Swirl::CurlEasy::Exception::throw(48) unless defined $info{$key};
     my($key_id, $xsub) = $info{$key}->@*;
-    # TODO: should thow an object
-    croak "unknown info $key" unless defined $key_id;
     my $code = $xsub->($self, $key_id, \my $value);
     Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     return $value;

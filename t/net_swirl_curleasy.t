@@ -131,7 +131,7 @@ subtest 'slist' => sub {
   memory_cycle_ok( Net::Swirl::CurlEasy::Slist->new(qw( foo bar baz )) );
 };
 
-subtest 'invalid option' => sub {
+subtest 'invalid option, invalid info' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;
 
@@ -141,7 +141,15 @@ subtest 'invalid option' => sub {
       call [ isa => 'Net::Swirl::CurlEasy::Exception' ] => T();
       call code => 48;
     },
-    'got the expected exception';
+    'got the expected exception for invalid option';
+
+  is
+    dies { $curl->getinfo('bogus') },
+    object {
+      call [ isa => 'Net::Swirl::CurlEasy::Exception' ] => T();
+      call code => 48;
+    },
+    'got the expected exception for invalid info';
 
 };
 

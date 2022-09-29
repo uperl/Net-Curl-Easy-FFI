@@ -383,9 +383,8 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
   sub setopt ($self, $key, $value)
   {
+    Net::Swirl::CurlEasy::Exception::throw(48) unless defined $opt{$key};
     my($key_id, $xsub) = $opt{$key}->@*;
-    # TODO: should throw an object
-    croak "unknown option $key" unless defined $key_id;
     my $code = $xsub->($self, $key_id, $value);
     Net::Swirl::CurlEasy::Exception::throw($code) if $code;
     $self;

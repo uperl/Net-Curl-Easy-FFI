@@ -8,7 +8,15 @@ use lib 't/lib';
 use Test2::Tools::MemoryCycle;
 
 subtest 'very basic' => sub {
-  my $curl = Net::Swirl::CurlEasy->new;
+  my $curl = eval { Net::Swirl::CurlEasy->new };
+
+  if(my $error = $@) {
+    if(eval { $error->isa('Net::Swirl::CurlEasy::Exception') })
+    {
+      diag "code = @{[ $error->code ]}";
+    }
+  }
+
   isa_ok $curl, 'Net::Swirl::CurlEasy';
 
   my $url = URI::file->new_abs('corpus/data.txt');
@@ -121,6 +129,20 @@ subtest 'slist' => sub {
   );
 
   memory_cycle_ok( Net::Swirl::CurlEasy::Slist->new(qw( foo bar baz )) );
+};
+
+subtest 'invalid option' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+
+  is
+    dies { $curl->setopt('bogus' => 'bummer') },
+    object {
+      call [ isa => 'Net::Swirl::CurlEasy::Exception' ] => T();
+      call code => 48;
+    },
+    'got the expected exception';
+
 };
 
 done_testing;

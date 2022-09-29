@@ -149,8 +149,7 @@ in the unlikely event that the instance cannot be created.
     print $fh $data;
   }
 
-  $ffi->attach( [init => 'new'] => [] => 'opaque' => sub {
-    my($xsub, $class) = @_;
+  $ffi->attach( [init => 'new'] => [] => 'opaque' => sub ($xsub, $class) {
     my $ptr = $xsub->();
     croak "unable to create curl easy instance" unless $ptr;
     my $self = bless \$ptr, $class;
@@ -172,6 +171,37 @@ in the unlikely event that the instance cannot be created.
 
 Methods without a return value specified here return the L<Net::Swirl::CurlEasy> instance
 so that they can be chained.
+
+=head2 clone
+
+ my $curl2 = $curl->clone;
+
+This method will return a new L<Net::Swirl::CurlEasy> instance, a duplicate, using all the
+options previously set in the original instance. Both instances can subsequently be used 
+independently.
+
+The new instance will not inherit any state information, no connections, no SSL sessions 
+and no cookies. It also will not inherit any share object states or options (it will 
+be made as if CURLOPT_SHARE was set to C<undef>).
+
+In multi-threaded programs, this function must be called in a synchronous way, the 
+original instance may not be in use when cloned.
+
+( L<curl_easy_duphandle|https://curl.se/libcurl/c/curl_easy_duphandle.html> )
+
+=cut
+
+  $ffi->attach( [duphandle => 'clone'] => ['CURL'] => 'opaque' => sub ($xsub, $self) {
+    my $ptr = $xsub->($self);
+    croak "unable to create curl easy instance" unless $ptr;
+    my $curl = bless \$ptr, ref($self);
+    # we need to copy this, not use the same reference
+    my %new_keep = $keep{$$self}->%*;
+    $keep{$ptr} = \%new_keep;
+
+    # return the new instance
+    $curl;
+  });
 
 =head2 getinfo
 

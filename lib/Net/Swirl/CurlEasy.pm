@@ -228,14 +228,14 @@ so that they can be chained.
  my $curl2 = $curl->clone;
 
 This method will return a new L<Net::Swirl::CurlEasy> instance, a duplicate, using all the
-options previously set in the original instance. Both instances can subsequently be used 
+options previously set in the original instance. Both instances can subsequently be used
 independently.
 
-The new instance will not inherit any state information, no connections, no SSL sessions 
-and no cookies. It also will not inherit any share object states or options (it will 
+The new instance will not inherit any state information, no connections, no SSL sessions
+and no cookies. It also will not inherit any share object states or options (it will
 be made as if CURLOPT_SHARE was set to C<undef>).
 
-In multi-threaded programs, this function must be called in a synchronous way, the 
+In multi-threaded programs, this function must be called in a synchronous way, the
 original instance may not be in use when cloned.
 
 L<Net::Swirl::CurlEasy::Exception::Swirl|/Net::Swirl::CurlEasy::Exception::Swirl>
@@ -449,6 +449,33 @@ its first argument, and the L<writedata|/writedata> option as its third argument
     $self;
   }
 
+=head2 upkeep
+
+ $curl->upkeep;
+
+Some protocols have "connection upkeep" mechanisms. These mechanisms
+usually send some traffic on existing connections in order to keep them
+alive; this can prevent connections from being closed due to overzealous
+firewalls, for example.
+
+This function must be explicitly called in order to perform the upkeep
+work. The connection upkeep interval is set with
+L<upkeep_interval_ms|Net::Swirl::CurlEasy::Options/upkeep_interval_ms>.
+
+Throws a
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
+on error.
+
+( L<curl_easy_upkeep|https://curl.se/libcurl/c/curl_easy_upkeep.html> )
+
+=cut
+
+  $ffi->attach( upkeep => ['CURL'] => 'enum' => sub ($xsub, $self) {
+    my $code = $xsub->($self);
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
+    $self;
+  });
+
 }
 
 1;
@@ -461,7 +488,7 @@ calls modules that may throw a string exception.
 Here is how you might catch exceptions using the new C<try> and C<isa> features:
 
  use experimental qw( try isa );
-
+ 
  try {
    Net::Swirl::CurlEasy
      ->new
@@ -469,11 +496,11 @@ Here is how you might catch exceptions using the new C<try> and C<isa> features:
      ->perform;
  } catch ($e) {
    if($e isa Net::Swirl::CurlEasy::Exception::CurlCode) {
-
+ 
     my $code = $e->code;  # integer code
-
+ 
    } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
-
+ 
     if($e->code eq 'create-failed') {
       # the constructor failed to create an instance
       # rare
@@ -481,7 +508,7 @@ Here is how you might catch exceptions using the new C<try> and C<isa> features:
       # internal Swirl error
       # hopefully also rare
     }
-
+ 
    } else {
      # some exception not coming directly from libcurl or Swirl
    }
@@ -584,7 +611,7 @@ control panel).
 
 =head3 execute
 
- $ perl examples/simple.pl 
+ $ perl examples/simple.pl
  Hello World!
 
 =head3 notes
@@ -612,7 +639,7 @@ when the example is run.
 
 =head3 execute
 
- $ perl examples/writedata.pl 
+ $ perl examples/writedata.pl
  the server said 'Hello World!'
 
 =head3 notes
@@ -626,7 +653,7 @@ output to C<STDOUT> is that C<STDOUT> is the default for this option!
 
 =head2 Capture Response Body With writefunction
 
-=head3 source 
+=head3 source
 
 # EXAMPLE: examples/writefunction.pl
 

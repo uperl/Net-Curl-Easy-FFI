@@ -55,14 +55,14 @@ my $curl2 = $curl->clone;
 ```
 
 This method will return a new [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance, a duplicate, using all the
-options previously set in the original instance. Both instances can subsequently be used 
+options previously set in the original instance. Both instances can subsequently be used
 independently.
 
-The new instance will not inherit any state information, no connections, no SSL sessions 
-and no cookies. It also will not inherit any share object states or options (it will 
+The new instance will not inherit any state information, no connections, no SSL sessions
+and no cookies. It also will not inherit any share object states or options (it will
 be made as if CURLOPT\_SHARE was set to `undef`).
 
-In multi-threaded programs, this function must be called in a synchronous way, the 
+In multi-threaded programs, this function must be called in a synchronous way, the
 original instance may not be in use when cloned.
 
 [Net::Swirl::CurlEasy::Exception::Swirl](#net-swirl-curleasy-exception-swirl)
@@ -190,6 +190,27 @@ The callback also gets passed the [Net::Swirl::CurlEasy](https://metacpan.org/po
 its first argument, and the [writedata](#writedata) option as its third argument.
 
 ( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
+
+## upkeep
+
+```
+$curl->upkeep;
+```
+
+Some protocols have "connection upkeep" mechanisms. These mechanisms
+usually send some traffic on existing connections in order to keep them
+alive; this can prevent connections from being closed due to overzealous
+firewalls, for example.
+
+This function must be explicitly called in order to perform the upkeep
+work. The connection upkeep interval is set with
+[upkeep\_interval\_ms](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options#upkeep_interval_ms).
+
+Throws a
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
+on error.
+
+( [curl\_easy\_upkeep](https://curl.se/libcurl/c/curl_easy_upkeep.html) )
 
 # EXCEPTIONS
 
@@ -349,7 +370,7 @@ $curl->setopt(url => 'http://localhost:5000')
 ### execute
 
 ```
-$ perl examples/simple.pl 
+$ perl examples/simple.pl
 Hello World!
 ```
 
@@ -397,7 +418,7 @@ say "the server said '$content'";
 ### execute
 
 ```
-$ perl examples/writedata.pl 
+$ perl examples/writedata.pl
 the server said 'Hello World!'
 ```
 
@@ -412,7 +433,7 @@ output to `STDOUT` is that `STDOUT` is the default for this option!
 
 ## Capture Response Body With writefunction
 
-### source 
+### source
 
 ```perl
 use warnings;

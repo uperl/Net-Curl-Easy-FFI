@@ -35,8 +35,11 @@ below.
 my $curl = Net::Swirl::CurlEasy->new;
 ```
 
-This creates a new instance of this class.  Throws a string exception
-in the unlikely event that the instance cannot be created.
+This creates a new instance of this class.  The constructor can throw either
+[Net::Swirl::CurlEasy::Exception::Swirl](#net-swirl-curleasy-exception-swirl)
+or
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
+on failure.
 
 ( [curl\_easy\_init](https://curl.se/libcurl/c/curl_easy_init.html) )
 
@@ -61,6 +64,11 @@ be made as if CURLOPT\_SHARE was set to `undef`).
 
 In multi-threaded programs, this function must be called in a synchronous way, the 
 original instance may not be in use when cloned.
+
+[Net::Swirl::CurlEasy::Exception::Swirl](#net-swirl-curleasy-exception-swirl)
+or
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
+on failure.
 
 ( [curl\_easy\_duphandle](https://curl.se/libcurl/c/curl_easy_duphandle.html) )
 
@@ -228,7 +236,7 @@ It has these additional properties:
     [https://curl.se/libcurl/c/libcurl-errors.html](https://curl.se/libcurl/c/libcurl-errors.html).  Note that typically an exception for
     `CURLE_OK` is not normally thrown so you should not see that value in an exception.
 
-## Net::Swirl::CurlEasy::Exception::CurlCode
+## Net::Swirl::CurlEasy::Exception::Swirl
 
 This is an exception that originates in [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) itself, or from
 `libcurl` in a way that no `CURLcode` is provided.

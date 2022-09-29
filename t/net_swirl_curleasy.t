@@ -4,7 +4,6 @@ use experimental qw( postderef signatures );
 use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
-use lib 't/lib';
 use Test2::Tools::MemoryCycle;
 
 subtest 'very basic' => sub {

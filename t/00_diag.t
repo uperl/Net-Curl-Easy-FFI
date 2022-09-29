@@ -11,14 +11,13 @@ my $post_diag;
 
 $modules{$_} = $_ for qw(
   Alien::curl
-  Devel::Cycle
   ExtUtils::MakeMaker
   FFI::C
   FFI::CheckLib
   FFI::Platypus
   FFI::Platypus::Buffer
   Path::Tiny
-  Test2::API
+  Test2::Tools::MemoryCycle
   Test2::V0
   Test::Script
   URI::file

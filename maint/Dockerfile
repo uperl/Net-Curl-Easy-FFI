@@ -46,6 +46,7 @@ RUN apt-get purge curl libcurl4                      \
  && ln -s /opt/curl/${latest}/include/* .
 
 RUN cpanm -n                                         \
+    Test2::Tools::MemoryCycle                        \
     https://dist.wdlabs.com/App-castyml-0.01.tar.gz  \
     Template                                         \
     FFI::Platypus                                    \

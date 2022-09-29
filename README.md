@@ -71,8 +71,9 @@ my $value = $curl->getinfo($name);
 ```
 
 Request internal information from the curl session with this function.  This will
-throw [Net::Swirl::CurlEasy::Exception](#net-swirl-curleasy-exception) in the
-event of an error.
+throw
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
+in the event of an error.
 
 ( [curl\_easy\_getinfo](https://curl.se/libcurl/c/curl_easy_getinfo.html) )
 
@@ -96,7 +97,7 @@ $curl->perform;
 ```
 
 Perform the curl request.  Throws a
-[Net::Swirl::CurlEasy::Exception](#net-swirl-curleasy-exception) on error.
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode) on error.
 
 ( [curl\_easy\_perform](https://curl.se/libcurl/c/curl_easy_perform.html) )
 
@@ -107,7 +108,7 @@ $curl->setopt( $option => $parameter );
 ```
 
 Sets the given curl option.  Throws a
-[Net::Swirl::CurlEasy::Exception](#net-swirl-curleasy-exception)
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
 on error.
 
 ( [curl\_easy\_setopt](https://curl.se/libcurl/c/curl_easy_setopt.html) )
@@ -187,7 +188,7 @@ its first argument, and the [writedata](#writedata) option as its third argument
 In general methods should throw an exception object on failure.  In some cases if [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
 calls modules that may throw a string exception.
 
-## Net::Swirl::CurlEasy::Exception
+## Net::Swirl::CurlEasy::Exception::CurlCode
 
 This is the normal exception class used by [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy).  It has these properties:
 

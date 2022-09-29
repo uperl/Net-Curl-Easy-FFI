@@ -11,7 +11,7 @@ subtest 'very basic' => sub {
   my $curl = eval { Net::Swirl::CurlEasy->new };
 
   if(my $error = $@) {
-    if(eval { $error->isa('Net::Swirl::CurlEasy::Exception') })
+    if(eval { $error->isa('Net::Swirl::CurlEasy::Exception::CurlCode') })
     {
       diag "code = @{[ $error->code ]}";
     }
@@ -138,7 +138,7 @@ subtest 'invalid option, invalid info' => sub {
   is
     dies { $curl->setopt('bogus' => 'bummer') },
     object {
-      call [ isa => 'Net::Swirl::CurlEasy::Exception' ] => T();
+      call [ isa => 'Net::Swirl::CurlEasy::Exception::CurlCode' ] => T();
       call code => 48;
     },
     'got the expected exception for invalid option';
@@ -146,7 +146,7 @@ subtest 'invalid option, invalid info' => sub {
   is
     dies { $curl->getinfo('bogus') },
     object {
-      call [ isa => 'Net::Swirl::CurlEasy::Exception' ] => T();
+      call [ isa => 'Net::Swirl::CurlEasy::Exception::CurlCode' ] => T();
       call code => 48;
     },
     'got the expected exception for invalid info';

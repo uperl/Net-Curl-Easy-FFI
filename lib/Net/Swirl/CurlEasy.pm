@@ -100,7 +100,7 @@ below.
 
   $ffi->mangler(sub ($name) { "curl_easy_$name" });
 
-  package Net::Swirl::CurlEasy::Exception {
+  package Net::Swirl::CurlEasy::Exception::CurlCode {
 
     use overload
       '""' => sub { shift->as_string },
@@ -208,8 +208,9 @@ original instance may not be in use when cloned.
  my $value = $curl->getinfo($name);
 
 Request internal information from the curl session with this function.  This will
-throw L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> in the
-event of an error.
+throw
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
+in the event of an error.
 
 ( L<curl_easy_getinfo|https://curl.se/libcurl/c/curl_easy_getinfo.html> )
 
@@ -248,10 +249,10 @@ URL scheme used for the most recent connection done.
 
   sub getinfo ($self, $key)
   {
-    Net::Swirl::CurlEasy::Exception::throw(48) unless defined $info{$key};
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw(48) unless defined $info{$key};
     my($key_id, $xsub) = $info{$key}->@*;
     my $code = $xsub->($self, $key_id, \my $value);
-    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
     return $value;
   }
 
@@ -260,7 +261,7 @@ URL scheme used for the most recent connection done.
  $curl->perform;
 
 Perform the curl request.  Throws a
-L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> on error.
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode> on error.
 
 ( L<curl_easy_perform|https://curl.se/libcurl/c/curl_easy_perform.html> )
 
@@ -269,7 +270,7 @@ L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> on error.
   $ffi->attach( perform => ['CURL'] => 'enum' => sub {
     my($xsub, $self) = @_;
     my $code = $xsub->($self);
-    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
     $self;
   });
 
@@ -278,7 +279,7 @@ L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception> on error.
  $curl->setopt( $option => $parameter );
 
 Sets the given curl option.  Throws a
-L<Net::Swirl::CurlEasy::Exception|/Net::Swirl::CurlEasy::Exception>
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
 on error.
 
 ( L<curl_easy_setopt|https://curl.se/libcurl/c/curl_easy_setopt.html> )
@@ -382,10 +383,10 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
   sub setopt ($self, $key, $value)
   {
-    Net::Swirl::CurlEasy::Exception::throw(48) unless defined $opt{$key};
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw(48) unless defined $opt{$key};
     my($key_id, $xsub) = $opt{$key}->@*;
     my $code = $xsub->($self, $key_id, $value);
-    Net::Swirl::CurlEasy::Exception::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
     $self;
   }
 
@@ -398,7 +399,7 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 In general methods should throw an exception object on failure.  In some cases if L<Net::Swirl::CurlEasy>
 calls modules that may throw a string exception.
 
-=head2 Net::Swirl::CurlEasy::Exception
+=head2 Net::Swirl::CurlEasy::Exception::CurlCode
 
 This is the normal exception class used by L<Net::Swirl::CurlEasy>.  It has these properties:
 

@@ -33,7 +33,7 @@ subtest 'exception' => sub {
   is
     $error,
     object {
-      call [ isa => 'Net::Swirl::CurlEasy::Exception' ] => T();
+      call [ isa => 'Net::Swirl::CurlEasy::Exception::CurlCode' ] => T();
       call filename  => __FILE__;
       call line      => $expected_line;
       call package   => 'main';

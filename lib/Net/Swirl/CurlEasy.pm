@@ -8,7 +8,7 @@ package Net::Swirl::CurlEasy {
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
 
-# ABSTRACT: Perl interface to curl's "easy" interface
+# ABSTRACT: Perl bindings to curl's "easy" interface
 
 =head1 SYNOPSIS
 

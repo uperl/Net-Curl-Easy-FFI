@@ -1,6 +1,6 @@
 # Net::Swirl::CurlEasy ![static](https://github.com/uperl/Net-Swirl-CurlEasy/workflows/static/badge.svg) ![linux](https://github.com/uperl/Net-Swirl-CurlEasy/workflows/linux/badge.svg) ![ref](https://github.com/uperl/Net-Swirl-CurlEasy/workflows/ref/badge.svg)
 
-Perl interface to curl's "easy" interface
+Perl bindings to curl's "easy" interface
 
 # SYNOPSIS
 

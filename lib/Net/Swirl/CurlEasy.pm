@@ -4,7 +4,7 @@ package Net::Swirl::CurlEasy {
   use 5.020;
   use experimental qw( signatures postderef );
   use FFI::Platypus 2.00;
-  use FFI::Platypus::Buffer qw( window );
+  use FFI::Platypus::Buffer qw( window scalar_to_buffer buffer_to_scalar );
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
 
@@ -45,6 +45,8 @@ below.
   }
 
   $ffi->type( 'object(Net::Swirl::CurlEasy)' => 'CURL' );
+
+  $ffi->attach( [ 'curl_free' => '_free' ] => ['opaque'] );
 
   $ffi->mangler(sub ($name) { "curl_slist_$name" });
 
@@ -262,6 +264,27 @@ on failure.
     $curl;
   };
 
+=head2 escape
+
+ my $escaped = $curl->escape($unescaped);
+
+This function converts the given input string to a URL encoded string and returns that
+as a new allocated string. All input characters that are not a-z, A-Z, 0-9,  '-', '.',
+'_' or '~' are converted to their "URL escaped" version (C<%NN> where NN is a two-digit
+hexadecimal number).
+
+( L<curl_easy_escape|https://curl.se/libcurl/c/curl_easy_escape.html> )
+
+=cut
+
+  $ffi->attach( escape => ['CURL','opaque','int'] => 'opaque' => sub ($xsub, $self, $buffer) {
+    my($ptr, $size) = scalar_to_buffer $buffer;
+    $ptr = $xsub->($self, $ptr, $size);
+    my $string = $ffi->cast( 'opaque' => 'string', $ptr );
+    _free($ptr);
+    $string;
+  });
+
 =head2 getinfo
 
  my $value = $curl->getinfo($name);
@@ -448,6 +471,27 @@ its first argument, and the L<writedata|/writedata> option as its third argument
     Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
     $self;
   }
+
+=head2 unescape
+
+ my $unescaped = $curl->unescape($escaped);
+
+This function converts the given URL encoded input string to a "plain
+string" and returns that in an allocated memory area. All input characters
+that are URL encoded (C<%XX> where XX is a two-digit hexadecimal number) are
+converted to their binary versions.
+
+( L<curl_easy_unescape|https://curl.se/libcurl/c/curl_easy_unescape.html> )
+=cut
+
+  $ffi->attach( unescape => ['CURL','opaque','int','int*'] => 'opaque' => sub ($xsub, $self, $in) {
+    return '' if length($in) == 0;
+    my($in_ptr, $in_size) = scalar_to_buffer $in;
+    my $out_ptr = $xsub->($self, $in_ptr, $in_size, \my $out_size);
+    my $out = buffer_to_scalar $out_ptr, $out_size;
+    _free($out_ptr);
+    $out;
+  });
 
 =head2 upkeep
 

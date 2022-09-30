@@ -152,4 +152,22 @@ subtest 'invalid option, invalid info' => sub {
 
 };
 
+subtest 'escape' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+
+  is(
+    $curl->escape("foo\0bar"),
+    'foo%00bar',
+    '$curl->escape("foo\0bar")',
+  );
+
+  is(
+    $curl->unescape("foo%00bar"),
+    "foo\0bar",
+    '$curl->unescape("foo%00bar")',
+  );
+
+};
+
 done_testing;

@@ -17,6 +17,7 @@ pod_spelling_system:
     - writedata
     - followlocation
     - maxredirs
+    - NN
 
 
 pod_coverage:

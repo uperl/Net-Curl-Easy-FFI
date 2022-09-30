@@ -72,6 +72,19 @@ on failure.
 
 ( [curl\_easy\_duphandle](https://curl.se/libcurl/c/curl_easy_duphandle.html) )
 
+## escape
+
+```perl
+my $escaped = $curl->escape($unescaped);
+```
+
+This function converts the given input string to a URL encoded string and returns that
+as a new allocated string. All input characters that are not a-z, A-Z, 0-9,  '-', '.',
+'\_' or '~' are converted to their "URL escaped" version (`%NN` where NN is a two-digit
+hexadecimal number).
+
+( [curl\_easy\_escape](https://curl.se/libcurl/c/curl_easy_escape.html) )
+
 ## getinfo
 
 ```perl
@@ -190,6 +203,19 @@ The callback also gets passed the [Net::Swirl::CurlEasy](https://metacpan.org/po
 its first argument, and the [writedata](#writedata) option as its third argument.
 
 ( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
+
+## unescape
+
+```perl
+my $unescaped = $curl->unescape($escaped);
+```
+
+This function converts the given URL encoded input string to a "plain
+string" and returns that in an allocated memory area. All input characters
+that are URL encoded (`%XX` where XX is a two-digit hexadecimal number) are
+converted to their binary versions.
+
+( [curl\_easy\_unescape](https://curl.se/libcurl/c/curl_easy_unescape.html) )
 
 ## upkeep
 

@@ -437,6 +437,11 @@ This is an exception that originates in [Net::Swirl::CurlEasy](https://metacpan.
     these values as they should not change, where as the human readable `strerror` may
     change in the future without notice.  Possible values include:
 
+    - `buffer-ref`
+
+        The [send](#send) and [recv](#recv) methods take a reference to a string scalar, and
+        you passed in something else.
+
     - `create-failed`
 
         `libcurl` was unable to create an instance.
@@ -623,7 +628,7 @@ $curl->setopt( writefunction => sub ($, $data, $fh) {
 });
 ```
 
-## Implement Protocols With Send and Recv
+## Implement Protocols With send and recv
 
 ### source
 

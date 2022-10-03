@@ -407,6 +407,23 @@ on error.
 What follows is a partial list of supported options.  The full list of
 options can be found in L<Net::Swirl::CurlEasy::Options>.
 
+
+=head3 connect_only
+
+ $curl->setopt( connect_only => 1 );
+
+Perform all the required proxy authentication and connection setup, but no data
+transfer, and then return.  This is usually used in combination with
+L<activesocket|Net::Swirl::CurlEasy/activesocket>.
+
+This can be set to C<2> and if HTTP or WebSocket are used the request will be
+done, along with all response headers before handing over control to you.
+
+Transfers marked connect only will not reuse any existing connections and
+connections marked connect only will not be allowed to get reused. 
+ 
+( L<CURLOPT_CONNECT_ONLY|https://curl.se/libcurl/c/CURLOPT_CONNECT_ONLY.html> )
+
 =head3 followlocation
 
  $curl->setopt( followlocation => $bool );

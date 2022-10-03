@@ -163,6 +163,24 @@ on error.
 What follows is a partial list of supported options.  The full list of
 options can be found in [Net::Swirl::CurlEasy::Options](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options).
 
+### connect\_only
+
+```perl
+$curl->setopt( connect_only => 1 );
+```
+
+Perform all the required proxy authentication and connection setup, but no data
+transfer, and then return.  This is usually used in combination with
+[activesocket](https://metacpan.org/pod/Net::Swirl::CurlEasy#activesocket).
+
+This can be set to `2` and if HTTP or WebSocket are used the request will be
+done, along with all response headers before handing over control to you.
+
+Transfers marked connect only will not reuse any existing connections and
+connections marked connect only will not be allowed to get reused. 
+
+( [CURLOPT\_CONNECT\_ONLY](https://curl.se/libcurl/c/CURLOPT_CONNECT_ONLY.html) )
+
 ### followlocation
 
 ```perl

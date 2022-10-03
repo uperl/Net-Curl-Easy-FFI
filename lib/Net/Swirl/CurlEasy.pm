@@ -299,6 +299,29 @@ in the event of an error.
 What follows is a partial list of supported information.  The full list of
 available information is listed in L<Net::Swirl::CurlEasy::Info>.
 
+=head3 activesocket
+
+ my $socket = $curl->getinfo('activesocket');
+
+Returns the most recently active socket used for the transfer connection.  Will throw
+an exception if the socket is no longer valid.  The active socket is typically only useful
+in combination with L<connect_only|Net::Swirl::CurlEasy/connect_only>, which skips the
+transfer phase, allowing you to use the socket to implement custom protocols.
+
+( L<CURLINFO_ACTIVESOCKET|https://curl.se/libcurl/c/CURLINFO_ACTIVESOCKET.html> )
+
+
+=head3 lastsocket
+
+ my $socket = $curl->getinfo('activesocket');
+
+This is just an alias for L<activesocket|/activesocket>.  In the C API  this info is
+deprecated because it doesn't work correctly on 64 bit Windows.  Because it was deprecated
+before L<Net::Swirl::CurlEasy> was written, this Perl API just makes this an alias
+instead.
+
+( L<CURLINFO_LASTSOCKET|https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html> )
+
 =head3 scheme
 
  my $scheme = $curl->getinfo('scheme');
@@ -309,10 +332,23 @@ URL scheme used for the most recent connection done.
 
 =cut
 
+  # Windows has a funny idea of what a socket type should be.
+  # Actually so does Unix, but at least it is consistent lol
+  if($^O eq 'MSWin32') {
+    if($ffi->sizeof('opaque') == 8) {
+      $ffi->type(uint64 => 'SOCKET');
+    } else {
+      $ffi->type(uint32 => 'SOCKET');
+    }
+  } else {
+    $ffi->type(int => 'SOCKET');
+  }
+
   $ffi->attach( [getinfo => '_getinfo_string'] => ['CURL','enum'] => ['string*'] => 'enum' );
   $ffi->attach( [getinfo => '_getinfo_double'] => ['CURL','enum'] => ['double*'] => 'enum' );
   $ffi->attach( [getinfo => '_getinfo_long'  ] => ['CURL','enum'] => ['long*'  ] => 'enum' );
   $ffi->attach( [getinfo => '_getinfo_off_t' ] => ['CURL','enum'] => ['off_t*' ] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_socket'] => ['CURL','enum'] => ['SOCKET*'] => 'enum' );
 
   $ffi->attach( [getinfo => '_getinfo_slist' ] => ['CURL','enum'] => ['opaque*'] => 'enum' => sub ($xsub, $self, $key_id, $value) {
     my $code = $xsub->($self, $key_id, \my $ptr);
@@ -327,6 +363,8 @@ URL scheme used for the most recent connection done.
   require Net::Swirl::CurlEasy::Info unless $Net::Swirl::CurlEasy::no_gen;
 
   our %info = (%info,
+    activesocket => [5242924, \&_getinfo_socket],
+    lastsocket   => [5242924, \&_getinfo_socket],
   );
 
   sub getinfo ($self, $key)

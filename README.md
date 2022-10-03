@@ -148,6 +148,71 @@ Perform the curl request.  Throws a
 
 ( [curl\_easy\_perform](https://curl.se/libcurl/c/curl_easy_perform.html) )
 
+## recv
+
+```perl
+my $bytes_read = $curl->recv(\$buffer);
+my $bytes_read = $curl->recv(\$buffer, $size);
+```
+
+This function receives raw data from the established connection. You may use it together
+with the [send method](#send) to implement custom protocols. This functionality
+can be particularly useful if you use proxies and/or SSL encryption: libcurl will take care
+of proxy negotiation and connection setup.
+
+`$buffer` is a scalar that will be written to.  It should be passed in as a reference to scalar
+If `$size` is provided then `$buffer` will be allocated with at least `$size` bytes.
+
+To establish a connection, set [connect\_only](#connect_only) to a true value before
+calling the [perform method](#perform).  Note that this method does not work on connections
+that were created without this option.
+
+This method will normally return the actual number of bytes read, and the `$buffer`
+will be updated.  If there is no data to be read, then `undef` will be returned.  You
+can use `select` with [activesocket](#activesocket) to wait for data.
+
+Wait on the socket only if `recv` returns `undef`.  The reason for this is `libcurl`
+or the SSL library may internally cache some data, therefore you should call `recv`
+until all data is read which would include any cached data.
+
+Furthermore, if you wait on the socket and it tells you there is data to read `recv`
+may return `undef` again if the only data that was read was for internal SSL processing,
+and no other data is available.
+
+This will throw
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
+in the event of an error.
+
+( [curl\_easy\_recv](https://curl.se/libcurl/c/curl_easy_recv.html) )
+
+## send
+
+```perl
+my $bytes_written = $curl->send(\$buffer);
+```
+
+This function sends arbitrary data over the established connection.  You may use it
+together with the [recv method](#recv) to implement custom protocols.  This
+functionality can be particularly useful if you use proxies and/or SSL encryption:
+libcurl will take care of proxy negotiation and connection setup.
+
+`$buffer` is the data to be sent.  It should be passed in as a reference to
+a string scalar.
+
+To establish a connection, set [connect\_only](#connect_only) to a true value before
+calling the [perform method](#perform).  Note that this method does not work on connections
+that were created without this option.
+
+This method will normally return the actual number of bytes written.  If it is not
+possible to send data right now, then `undef` will be returned.  You can use
+`select` with [activesocket](#activesocket) to wait for the connection to be ready.
+
+This will throw
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
+in the event of an error.
+
+( [curl\_easy\_send](https://curl.se/libcurl/c/curl_easy_send.html) )
+
 ## setopt
 
 ```perl
@@ -177,7 +242,7 @@ This can be set to `2` and if HTTP or WebSocket are used the request will be
 done, along with all response headers before handing over control to you.
 
 Transfers marked connect only will not reuse any existing connections and
-connections marked connect only will not be allowed to get reused. 
+connections marked connect only will not be allowed to get reused.
 
 ( [CURLOPT\_CONNECT\_ONLY](https://curl.se/libcurl/c/CURLOPT_CONNECT_ONLY.html) )
 

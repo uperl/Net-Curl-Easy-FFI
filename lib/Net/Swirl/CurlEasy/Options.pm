@@ -115,8 +115,8 @@ This can be set to C<2> and if HTTP or WebSocket are used the request will be
 done, along with all response headers before handing over control to you.
 
 Transfers marked connect only will not reuse any existing connections and
-connections marked connect only will not be allowed to get reused. 
- 
+connections marked connect only will not be allowed to get reused.
+
 ( L<CURLOPT_CONNECT_ONLY|https://curl.se/libcurl/c/CURLOPT_CONNECT_ONLY.html> )
 
 =head2 connect_to

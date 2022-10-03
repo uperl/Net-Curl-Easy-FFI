@@ -394,6 +394,110 @@ L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::Cu
     $self;
   });
 
+=head2 recv
+
+ my $bytes_read = $curl->recv(\$buffer);
+ my $bytes_read = $curl->recv(\$buffer, $size);
+
+This function receives raw data from the established connection. You may use it together
+with the L<send method|/send> to implement custom protocols. This functionality
+can be particularly useful if you use proxies and/or SSL encryption: libcurl will take care
+of proxy negotiation and connection setup.
+
+C<$buffer> is a scalar that will be written to.  It should be passed in as a reference to scalar
+If C<$size> is provided then C<$buffer> will be allocated with at least C<$size> bytes.
+
+To establish a connection, set L<connect_only|/connect_only> to a true value before
+calling the L<perform method|/perform>.  Note that this method does not work on connections
+that were created without this option.
+
+This method will normally return the actual number of bytes read, and the C<$buffer>
+will be updated.  If there is no data to be read, then C<undef> will be returned.  You
+can use C<select> with L<activesocket|/activesocket> to wait for data.
+
+Wait on the socket only if C<recv> returns C<undef>.  The reason for this is C<libcurl>
+or the SSL library may internally cache some data, therefore you should call C<recv>
+until all data is read which would include any cached data.
+
+Furthermore, if you wait on the socket and it tells you there is data to read C<recv>
+may return C<undef> again if the only data that was read was for internal SSL processing,
+and no other data is available.
+
+This will throw
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
+in the event of an error.
+
+( L<curl_easy_recv|https://curl.se/libcurl/c/curl_easy_recv.html> )
+
+=cut
+
+  $ffi->attach( recv => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf, $size_in=undef) {
+      $$buf = '' unless defined $$buf;
+
+    # TODO: check types with Ref::Util
+
+    my $ptr;
+    if(defined $size_in)
+    {
+      FFI::Platypus::Buffer::grow($$buf, $size_in);
+      $ptr = FFI::Platypus::Buffer::scalar_to_pointer($$buf);
+    }
+    else
+    {
+      ($ptr,$size_in) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
+    }
+
+    my $code = $xsub->($self, $ptr, $size_in, \my $out_size);
+    if($code != 0) {
+      FFI::Platypus::Buffer::set_used_length($$buf, 0);
+      return undef if $code == 81;
+      Net::Swirl::CurlEasy::Exception::CurlCode::throw($code);
+    }
+
+    FFI::Platypus::Buffer::set_used_length($$buf, $out_size);
+
+    return $out_size;
+  });
+
+=head2 send
+
+ my $bytes_written = $curl->send(\$buffer);
+
+This function sends arbitrary data over the established connection.  You may use it
+together with the L<recv method|/recv> to implement custom protocols.  This
+functionality can be particularly useful if you use proxies and/or SSL encryption:
+libcurl will take care of proxy negotiation and connection setup.
+
+C<$buffer> is the data to be sent.  It should be passed in as a reference to
+a string scalar.
+
+To establish a connection, set L<connect_only|/connect_only> to a true value before
+calling the L<perform method|/perform>.  Note that this method does not work on connections
+that were created without this option.
+
+This method will normally return the actual number of bytes written.  If it is not
+possible to send data right now, then C<undef> will be returned.  You can use
+C<select> with L<activesocket|/activesocket> to wait for the connection to be ready.
+
+This will throw
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
+in the event of an error.
+
+( L<curl_easy_send|https://curl.se/libcurl/c/curl_easy_send.html> )
+
+=cut
+
+  $ffi->attach( send => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf) {
+    # TODO: check types with Ref::Util
+
+    my ($ptr,$size_in) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
+
+    my $code = $xsub->($self, $ptr, $size_in, \my $out_size);
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code != 0;
+
+    return $out_size;
+  });
+
 =head2 setopt
 
  $curl->setopt( $option => $parameter );
@@ -420,8 +524,8 @@ This can be set to C<2> and if HTTP or WebSocket are used the request will be
 done, along with all response headers before handing over control to you.
 
 Transfers marked connect only will not reuse any existing connections and
-connections marked connect only will not be allowed to get reused. 
- 
+connections marked connect only will not be allowed to get reused.
+
 ( L<CURLOPT_CONNECT_ONLY|https://curl.se/libcurl/c/CURLOPT_CONNECT_ONLY.html> )
 
 =head3 followlocation

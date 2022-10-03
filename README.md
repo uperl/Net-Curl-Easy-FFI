@@ -628,6 +628,39 @@ $curl->setopt( writefunction => sub ($, $data, $fh) {
 });
 ```
 
+## Get Information About the Request After the Transfer
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+$curl->setopt(url => 'http://localhost:5000/hello-world')
+     ->perform;
+
+say "The Content-Type is: ", $curl->getinfo('content_type');
+```
+
+### execute
+
+```
+$ perl examples/getinfo.pl 
+Hello World!
+The Content-Type is: text/plain
+```
+
+### notes
+
+After calling the [perform method](#perform) there is plethora of information available via
+the [getinfo method](#getinfo).  The full list is available from [Net::Swirl::CurlEasy::Info](https://metacpan.org/pod/Net::Swirl::CurlEasy::Info)
+with more details on the `curl` website: [https://curl.se/libcurl/c/curl\_easy\_getinfo.html](https://curl.se/libcurl/c/curl_easy_getinfo.html).
+
+In this example we get the `Content-Type` and print it out.
+
 ## Implement Protocols With send and recv
 
 ### source
@@ -701,15 +734,15 @@ say $res;
 ### execute
 
 ```
-$ perl -Ilib examples/connect-only.pl
-   HTTP/1.0 200 OK
-   Date: Mon, 03 Oct 2022 20:27:07 GMT
-   Server: HTTP::Server::PSGI
-   Content-Type: text/plain
-   Content-Length: 13
-```
+$ perl examples/connect-only.pl
+HTTP/1.0 200 OK
+Date: Mon, 03 Oct 2022 20:27:07 GMT
+Server: HTTP::Server::PSGI
+Content-Type: text/plain
+Content-Length: 13
 
 Hello World!
+```
 
 ### notes
 

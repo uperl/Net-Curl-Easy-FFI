@@ -18,6 +18,8 @@ pod_spelling_system:
     - followlocation
     - maxredirs
     - NN
+    - activesocket
+    - lastsocket
 
 
 pod_coverage:

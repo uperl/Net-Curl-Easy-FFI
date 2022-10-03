@@ -101,6 +101,32 @@ in the event of an error.
 What follows is a partial list of supported information.  The full list of
 available information is listed in [Net::Swirl::CurlEasy::Info](https://metacpan.org/pod/Net::Swirl::CurlEasy::Info).
 
+### activesocket
+
+```perl
+my $socket = $curl->getinfo('activesocket');
+```
+
+Returns the most recently active socket used for the transfer connection.  Will throw
+an exception if the socket is no longer valid.  The active socket is typically only useful
+in combination with [connect\_only](https://metacpan.org/pod/Net::Swirl::CurlEasy#connect_only), which skips the
+transfer phase, allowing you to use the socket to implement custom protocols.
+
+( [CURLINFO\_ACTIVESOCKET](https://curl.se/libcurl/c/CURLINFO_ACTIVESOCKET.html) )
+
+### lastsocket
+
+```perl
+my $socket = $curl->getinfo('activesocket');
+```
+
+This is just an alias for [activesocket](#activesocket).  In the C API  this info is
+deprecated because it doesn't work correctly on 64 bit Windows.  Because it was deprecated
+before [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) was written, this Perl API just makes this an alias
+instead.
+
+( [CURLINFO\_LASTSOCKET](https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html) )
+
 ### scheme
 
 ```perl

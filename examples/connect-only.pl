@@ -5,10 +5,12 @@ use Net::Swirl::CurlEasy;
 
 my $curl = Net::Swirl::CurlEasy->new;
 
+# 1. connectonly
 $curl->setopt(url => 'http://localhost:5000')
      ->setopt(connect_only => 1)
      ->perform;
 
+# 2. utility function
 sub wait_on_socket ($sock, $for_recv=undef) {
   my $vec = '';
   vec($vec, $sock, 1) = 1;
@@ -19,8 +21,9 @@ sub wait_on_socket ($sock, $for_recv=undef) {
   }
 }
 
-
+# 3. activesocket
 my $sock = $curl->getinfo('activesocket');
+
 my $so_far = 0;
 my $req = join "\015\012", 'GET /hello-world HTTP/1.2',
                            'Host: localhost',
@@ -28,6 +31,7 @@ my $req = join "\015\012", 'GET /hello-world HTTP/1.2',
                            '','';
 
 while(1) {
+  # 4. send
   my $bs = $curl->send(\$req, $so_far);
 
   unless(defined $bs) {
@@ -43,6 +47,7 @@ while(1) {
 my $res;
 
 while(1) {
+  # 5. recv
   my $br = $curl->recv(\my $data, 4);
 
   unless(defined $br) {

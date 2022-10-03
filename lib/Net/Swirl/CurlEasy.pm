@@ -891,6 +891,69 @@ The default L<writefunction|/writefunction> callback looks like this:
    print $fh $data;
  });
 
+=head2 Implement Protocols With Send and Recv
+
+=head3 source
+
+# EXAMPLE: examples/connect-only.pl
+
+=head3 execute
+
+ $ perl -Ilib examples/connect-only.pl
+HTTP/1.0 200 OK
+Date: Mon, 03 Oct 2022 20:27:07 GMT
+Server: HTTP::Server::PSGI
+Content-Type: text/plain
+Content-Length: 13
+
+Hello World!
+
+=head3 notes
+
+The combination of the L<connect_only option|/connect_only>, L<activesocket info|/activesocket>,
+L<send method|/send> and L<recv method|/recv> allow you to implement your own protocols.  This can
+be useful way to delegate TLS/SSL and proxies to this module to let you implement something a
+custom protocol.  If you are trying to implement HTTP, as is demonstrated instead of using
+C<curl>'s own HTTP transport then you may be doing something wrong, but this serves as a simple
+example of how you would use this technique.
+
+=over 4
+
+=item 1
+
+First of all we set the L<connect_only option|/connect_only> to C<1>.  C<curl> will establish
+the connection (we don't use TLS/SSL or any proxies here, but if we did configure C<$curl> to
+use them then they would be handled for us), but does not send the HTTP request.
+
+=item 2
+
+Next we have a utility function C<wait_on_socket> which waits for a socket to be either be ready
+for writing, or have bytes ready to be read.
+
+=item 3
+
+We can use the L<getinfo method|/getinfo> with L<activesocket|/activesocket> to get the already
+opened socket.  Note that we MUST NOT read or write to this socket directly, and should instead
+use the L<send|/send> and L<recv|/recv> methods instead.
+
+=item 4
+
+Now we are ready to send our HTTP request using the L<send method|/send>.  This method will
+return either C<undef> if the connection is not ready for writing, or the number of bytes that
+were actually written.  The optional second argument to the L<send method|/send> is an offset
+in the buffer.  This allows us to send just the remaining portion of the request if we have
+already sent part of it.
+
+=item 5
+
+Finally we can use the L<recv method|/recv> to fetch the response.  Once again the data might
+not be ready yet, and may come in chunks so we have to check the return value.  If it returns
+C<undef> then we should once again wait on the socket, this time for bytes to read.  Otherwise
+We can append the data to the response buffer that we are building up.  When there are no
+more bytes to read we can assume the response is complete.
+
+=back
+
 =head1 SEE ALSO
 
 =over 4

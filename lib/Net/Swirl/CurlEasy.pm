@@ -901,6 +901,26 @@ The default L<writefunction|/writefunction> callback looks like this:
    print $fh $data;
  });
 
+=head2 Get Information About the Request After the Transfer
+
+=head3 source
+
+# EXAMPLE: examples/getinfo.pl
+
+=head3 execute
+
+ $ perl examples/getinfo.pl 
+ Hello World!
+ The Content-Type is: text/plain
+
+=head3 notes
+
+After calling the L<perform method|/perform> there is plethora of information available via
+the L<getinfo method|/getinfo>.  The full list is available from L<Net::Swirl::CurlEasy::Info>
+with more details on the C<curl> website: L<https://curl.se/libcurl/c/curl_easy_getinfo.html>.
+
+In this example we get the C<Content-Type> and print it out.
+
 =head2 Implement Protocols With send and recv
 
 =head3 source
@@ -909,14 +929,14 @@ The default L<writefunction|/writefunction> callback looks like this:
 
 =head3 execute
 
- $ perl -Ilib examples/connect-only.pl
-HTTP/1.0 200 OK
-Date: Mon, 03 Oct 2022 20:27:07 GMT
-Server: HTTP::Server::PSGI
-Content-Type: text/plain
-Content-Length: 13
-
-Hello World!
+ $ perl examples/connect-only.pl
+ HTTP/1.0 200 OK
+ Date: Mon, 03 Oct 2022 20:27:07 GMT
+ Server: HTTP::Server::PSGI
+ Content-Type: text/plain
+ Content-Length: 13
+ 
+ Hello World!
 
 =head3 notes
 

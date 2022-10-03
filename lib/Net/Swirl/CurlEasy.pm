@@ -7,6 +7,7 @@ package Net::Swirl::CurlEasy {
   use FFI::Platypus::Buffer qw( window scalar_to_buffer buffer_to_scalar );
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
+  use Ref::Util qw( is_ref is_scalarref );
 
 # ABSTRACT: Perl bindings to curl's "easy" interface
 
@@ -158,7 +159,7 @@ below.
     sub throw ($code)
     {
       my $self = __PACKAGE__->new;
-      unless($code =~ /^(create-failed|internal)$/) {
+      unless($code =~ /^(create-failed|internal|buffer-ref)$/) {
         throw('internal');
       }
       $self->{code} = $code;
@@ -170,6 +171,10 @@ below.
       if($self->{code} eq 'create-failed')
       {
         return "Could not create an instance of Net::Swirl::CurlEasy";
+      }
+      elsif($self->{code} eq 'buffer-ref')
+      {
+        return "Buffer argument was not a reference to a string scalar";
       }
       else
       {
@@ -432,9 +437,9 @@ in the event of an error.
 =cut
 
   $ffi->attach( recv => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf, $size_in=undef) {
-      $$buf = '' unless defined $$buf;
-
-    # TODO: check types with Ref::Util
+    Net::Swirl::CurlEasy::Exception::Swirl::throw('buffer-ref') unless is_ref $buf;
+    $$buf = '' unless defined $$buf;
+    Net::Swirl::CurlEasy::Exception::Swirl::throw('buffer-ref') unless is_scalarref $buf;
 
     my $ptr;
     if(defined $size_in)
@@ -491,7 +496,7 @@ in the event of an error.
 =cut
 
   $ffi->attach( send => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf, $offset=0) {
-    # TODO: check types with Ref::Util
+    Net::Swirl::CurlEasy::Exception::Swirl::throw('buffer-ref') unless is_scalarref $buf;
 
     my ($ptr,$size_in) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
 
@@ -786,6 +791,11 @@ these values as they should not change, where as the human readable C<strerror> 
 change in the future without notice.  Possible values include:
 
 =over 4
+
+=item C<buffer-ref>
+
+The L<send|/send> and L<recv|/recv> methods take a reference to a string scalar, and
+you passed in something else.
 
 =item C<create-failed>
 

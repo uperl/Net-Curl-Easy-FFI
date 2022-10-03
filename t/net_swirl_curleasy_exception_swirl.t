@@ -33,6 +33,30 @@ subtest 'create exception' => sub {
 
 };
 
+subtest 'buffer-ref' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+
+  is
+    dies { $curl->send(\{ x => 1 }) },
+    object {
+      call [ isa => 'Net::Swirl::CurlEasy::Exception::Swirl' ] => T();
+      call code => 'buffer-ref';
+      call strerror => 'Buffer argument was not a reference to a string scalar';
+    },
+    'send failed';
+
+  is
+    dies { $curl->recv(\{ x => 1 }) },
+    object {
+      call [ isa => 'Net::Swirl::CurlEasy::Exception::Swirl' ] => T();
+      call code => 'buffer-ref';
+      call strerror => 'Buffer argument was not a reference to a string scalar';
+    },
+    'recv failed';
+
+};
+
 subtest 'internal' => sub {
 
   is

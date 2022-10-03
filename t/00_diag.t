@@ -17,7 +17,10 @@ $modules{$_} = $_ for qw(
   FFI::Platypus
   FFI::Platypus::Buffer
   Path::Tiny
+  Test2::API
+  Test2::Require::Module
   Test2::Tools::MemoryCycle
+  Test2::Tools::Subtest
   Test2::V0
   Test::Script
   URI::file

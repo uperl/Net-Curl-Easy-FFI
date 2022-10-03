@@ -623,6 +623,117 @@ $curl->setopt( writefunction => sub ($, $data, $fh) {
 });
 ```
 
+## Implement Protocols With Send and Recv
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use experimental qw( signatures );
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+# 1. connectonly
+$curl->setopt(url => 'http://localhost:5000')
+     ->setopt(connect_only => 1)
+     ->perform;
+
+# 2. utility function
+sub wait_on_socket ($sock, $for_recv=undef) {
+  my $vec = '';
+  vec($vec, $sock, 1) = 1;
+  if($for_recv) {
+    select $vec, undef, undef, 60000;
+  } else {
+    select undef, $vec, undef, 60000;
+  }
+}
+
+# 3. activesocket
+my $sock = $curl->getinfo('activesocket');
+
+my $so_far = 0;
+my $req = join "\015\012", 'GET /hello-world HTTP/1.2',
+                           'Host: localhost',
+                           'User-Agent: Foo/Bar',
+                           '','';
+
+while(1) {
+  # 4. send
+  my $bs = $curl->send(\$req, $so_far);
+
+  unless(defined $bs) {
+    wait_on_socket $sock;
+    next;
+  }
+
+  $so_far += $bs;
+
+  last if $so_far == length $req;
+}
+
+my $res;
+
+while(1) {
+  # 5. recv
+  my $br = $curl->recv(\my $data, 4);
+
+  unless(defined $br) {
+    wait_on_socket $sock, 1;
+    next;
+  }
+
+  last if $br == 0;
+
+  $res .= $data;
+}
+
+say $res;
+```
+
+### execute
+
+```
+$ perl -Ilib examples/connect-only.pl
+   HTTP/1.0 200 OK
+   Date: Mon, 03 Oct 2022 20:27:07 GMT
+   Server: HTTP::Server::PSGI
+   Content-Type: text/plain
+   Content-Length: 13
+```
+
+Hello World!
+
+### notes
+
+The combination of the [connect\_only option](#connect_only), [activesocket info](#activesocket),
+[send method](#send) and [recv method](#recv) allow you to implement your own protocols.  This can
+be useful way to delegate TLS/SSL and proxies to this module to let you implement something a
+custom protocol.  If you are trying to implement HTTP, as is demonstrated instead of using
+`curl`'s own HTTP transport then you may be doing something wrong, but this serves as a simple
+example of how you would use this technique.
+
+1. First of all we set the [connect\_only option](#connect_only) to `1`.  `curl` will establish
+the connection (we don't use TLS/SSL or any proxies here, but if we did configure `$curl` to
+use them then they would be handled for us), but does not send the HTTP request.
+2. Next we have a utility function `wait_on_socket` which waits for a socket to be either be ready
+for writing, or have bytes ready to be read.
+3. We can use the [getinfo method](#getinfo) with [activesocket](#activesocket) to get the already
+opened socket.  Note that we MUST NOT read or write to this socket directly, and should instead
+use the [send](#send) and [recv](#recv) methods instead.
+4. Now we are ready to send our HTTP request using the [send method](#send).  This method will
+return either `undef` if the connection is not ready for writing, or the number of bytes that
+were actually written.  The optional second argument to the [send method](#send) is an offset
+in the buffer.  This allows us to send just the remaining portion of the request if we have
+already sent part of it.
+5. Finally we can use the [recv method](#recv) to fetch the response.  Once again the data might
+not be ready yet, and may come in chunks so we have to check the return value.  If it returns
+`undef` then we should once again wait on the socket, this time for bytes to read.  Otherwise
+We can append the data to the response buffer that we are building up.  When there are no
+more bytes to read we can assume the response is complete.
+
 # SEE ALSO
 
 - [Net::Swirl::CurlEasy::Options](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options)

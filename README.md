@@ -283,6 +283,20 @@ The URL to work with.  This is the only required option.
 
 ( [CURLOPT\_URL](https://curl.se/libcurl/c/CURLOPT_URL.html) )
 
+### verbose
+
+```perl
+$curl->setopt( verbose => 1 );
+```
+
+Set this to `1` to make the library display a lot of verbose information about its
+operations.  Useful for `libcurl` and/or protocol debugging and understanding.
+
+You hardly ever want to set this in production, you almost always want this when you
+debug/report problems.
+
+( [CURLOPT\_VERBOSE](https://curl.se/libcurl/c/CURLOPT_VERBOSE.html) )
+
 ### writedata
 
 ```perl
@@ -533,6 +547,69 @@ to its `-L` option.
 
 By default curl writes the body of the response to STDOUT, which is why we see it printed
 when the example is run.
+
+## Debug Transfer With verbose Option
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+$curl->setopt(url => 'http://localhost:5000')
+     ->setopt(followlocation => 1)
+     ->setopt(verbose => 1)
+     ->perform;
+```
+
+### execute
+
+```perl
+$ perl examples/verbose.pl
+*   Trying 127.0.0.1:5000...
+* Connected to localhost (127.0.0.1) port 5000 (#0)
+> GET / HTTP/1.1
+Host: localhost:5000
+Accept: */*
+
+* Mark bundle as not supporting multiuse
+* HTTP 1.0, assume close after body
+< HTTP/1.0 301 Moved Permanently
+< Date: Mon, 03 Oct 2022 22:41:29 GMT
+< Server: HTTP::Server::PSGI
+< Location: /hello-world
+< Content-Length: 0
+< 
+* Closing connection 0
+* Issue another request to this URL: 'http://localhost:5000/hello-world'
+* Hostname localhost was found in DNS cache
+*   Trying 127.0.0.1:5000...
+* Connected to localhost (127.0.0.1) port 5000 (#1)
+> GET /hello-world HTTP/1.0
+Host: localhost:5000
+Accept: */*
+
+* Mark bundle as not supporting multiuse
+* HTTP 1.0, assume close after body
+< HTTP/1.0 200 OK
+< Date: Mon, 03 Oct 2022 22:41:29 GMT
+< Server: HTTP::Server::PSGI
+< Content-Type: text/plain
+< Content-Length: 13
+< 
+Hello World!
+* Closing connection 1
+```
+
+### notes
+
+If you set the [verbose option](#verbose) you will get a lot of extra information about
+the transfer.  This is equivalent to using the `-v` flag with the `curl` command.  You
+normally would not want to do this programmatically with content that you want to capture,
+but it can be useful for debugging transfers.
 
 ## Capture Response Body With writedata
 

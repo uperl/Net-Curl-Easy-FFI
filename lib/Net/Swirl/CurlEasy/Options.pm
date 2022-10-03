@@ -1319,7 +1319,13 @@ The URL to work with.  This is the only required option.
 
 =head2 verbose
 
- $curl->setopt( verbose => $value );
+ $curl->setopt( verbose => 1 );
+
+Set this to C<1> to make the library display a lot of verbose information about its
+operations.  Useful for C<libcurl> and/or protocol debugging and understanding.
+
+You hardly ever want to set this in production, you almost always want this when you
+debug/report problems.
 
 ( L<CURLOPT_VERBOSE|https://curl.se/libcurl/c/CURLOPT_VERBOSE.html> )
 

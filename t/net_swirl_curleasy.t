@@ -71,6 +71,13 @@ subtest 'writedata' => sub {
   try_ok { undef $curl } 'did not crash I guess?';
 };
 
+subtest 'reset' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+  try_ok { $curl->reset } '$curl->reset';
+
+};
+
 subtest 'clone' => sub {
 
   my $curl1 = Net::Swirl::CurlEasy->new;

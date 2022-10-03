@@ -189,6 +189,7 @@ in the event of an error.
 
 ```perl
 my $bytes_written = $curl->send(\$buffer);
+my $bytes_written = $curl->send(\$buffer, $offset);
 ```
 
 This function sends arbitrary data over the established connection.  You may use it
@@ -197,7 +198,9 @@ functionality can be particularly useful if you use proxies and/or SSL encryptio
 libcurl will take care of proxy negotiation and connection setup.
 
 `$buffer` is the data to be sent.  It should be passed in as a reference to
-a string scalar.
+a string scalar.  If `$offset` is provided, then the first `$offset` bytes will be
+skipped.  This is useful if you are sending the rest of a buffer that was partially
+sent on a previous call.
 
 To establish a connection, set [connect\_only](#connect_only) to a true value before
 calling the [perform method](#perform).  Note that this method does not work on connections

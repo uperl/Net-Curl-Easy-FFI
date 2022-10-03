@@ -462,6 +462,7 @@ in the event of an error.
 =head2 send
 
  my $bytes_written = $curl->send(\$buffer);
+ my $bytes_written = $curl->send(\$buffer, $offset);
 
 This function sends arbitrary data over the established connection.  You may use it
 together with the L<recv method|/recv> to implement custom protocols.  This
@@ -469,7 +470,9 @@ functionality can be particularly useful if you use proxies and/or SSL encryptio
 libcurl will take care of proxy negotiation and connection setup.
 
 C<$buffer> is the data to be sent.  It should be passed in as a reference to
-a string scalar.
+a string scalar.  If C<$offset> is provided, then the first C<$offset> bytes will be
+skipped.  This is useful if you are sending the rest of a buffer that was partially
+sent on a previous call.
 
 To establish a connection, set L<connect_only|/connect_only> to a true value before
 calling the L<perform method|/perform>.  Note that this method does not work on connections
@@ -487,13 +490,17 @@ in the event of an error.
 
 =cut
 
-  $ffi->attach( send => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf) {
+  $ffi->attach( send => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf, $offset=0) {
     # TODO: check types with Ref::Util
 
     my ($ptr,$size_in) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
 
-    my $code = $xsub->($self, $ptr, $size_in, \my $out_size);
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code != 0;
+    my $code = $xsub->($self, $ptr+$offset, $size_in-$offset, \my $out_size);
+    if($code != 0)
+    {
+      return undef if $code == 81;
+      Net::Swirl::CurlEasy::Exception::CurlCode::throw($code);
+    }
 
     return $out_size;
   });

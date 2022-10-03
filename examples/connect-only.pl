@@ -1,5 +1,6 @@
 use warnings;
 use 5.020;
+use experimental qw( signatures );
 use Net::Swirl::CurlEasy;
 
 my $curl = Net::Swirl::CurlEasy->new;
@@ -8,42 +9,48 @@ $curl->setopt(url => 'http://localhost:5000')
      ->setopt(connect_only => 1)
      ->perform;
 
+sub wait_on_socket ($sock, $for_recv=undef) {
+  my $vec = '';
+  vec($vec, $sock, 1) = 1;
+  if($for_recv) {
+    select $vec, undef, undef, 60000;
+  } else {
+    select undef, $vec, undef, 60000;
+  }
+}
+
+
 my $sock = $curl->getinfo('activesocket');
-say $sock;
+my $so_far = 0;
+my $req = join "\015\012", 'GET /hello-world HTTP/1.2',
+                           'Host: localhost',
+                           'User-Agent: Foo/Bar',
+                           '','';
 
+while(1) {
+  my $bs = $curl->send(\$req, $so_far);
 
-my $vec = '';
-vec($vec, $sock, 1) = 1;
-say $vec;
+  unless(defined $bs) {
+    wait_on_socket $sock;
+    next;
+  }
 
-my $w = $vec;
-select undef, $w, undef, 0;
+  $so_far += $bs;
 
-my $req = qq{GET /hello-world HTTP/1.2\r\nHost: localhost\r\nUser-Agent: Foo/Bar\r\n\r\n};
-say "sending:";
-say $req;
-
-my $bs = $curl->send(\$req);
-
-say "sent $bs bytes (expected @{[ length $req ]})";
-
+  last if $so_far == length $req;
+}
 
 my $res;
 
-while(1)
-{
-  my $r = $vec;
-  select $r,  undef, undef, 0;
-
-  next unless vec($r, $sock, 1);
-
+while(1) {
   my $br = $curl->recv(\my $data, 4);
 
-  next unless defined $br;
+  unless(defined $br) {
+    wait_on_socket $sock, 1;
+    next;
+  }
 
   last if $br == 0;
-  say "br   =$br";
-  say "data =$data";
 
   $res .= $data;
 }

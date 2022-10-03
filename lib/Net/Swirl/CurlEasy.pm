@@ -891,7 +891,7 @@ The default L<writefunction|/writefunction> callback looks like this:
    print $fh $data;
  });
 
-=head2 Implement Protocols With Send and Recv
+=head2 Implement Protocols With send and recv
 
 =head3 source
 

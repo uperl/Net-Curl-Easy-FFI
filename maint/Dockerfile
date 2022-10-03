@@ -56,10 +56,9 @@ RUN cpanm -n                                         \
     Test2::V0                                        \
     Test::Script                                     \
     Devel::Cycle                                     \
- && rm -rf ~/.cpanm
-
-RUN cpanm -n                                         \
     Pod::Abstract                                    \
+    Net::Server::Fork                                \
  && rm -rf ~/.cpanm
 
 ENV TEST_EXAMPLES 1
+ENV LIVE_TESTS 1

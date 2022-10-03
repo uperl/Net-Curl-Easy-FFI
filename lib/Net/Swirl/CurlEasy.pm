@@ -206,13 +206,18 @@ on failure.
 
   $ffi->attach( [init => '_new'] => [] => 'opaque' );
 
+  sub _set_perl_defaults ($self)
+  {
+    $self->setopt( writefunction => \&_default_writefunction );
+    $self->setopt( writedata     => \*STDOUT );
+  }
+
   sub new ($class)
   {
     my $ptr = _new();
     Net::Swirl::CurlEasy::Exception::Swirl::throw('create-failed') unless $ptr;
     my $self = bless \$ptr, $class;
-    $self->setopt( writefunction => \&_default_writefunction );
-    $self->setopt( writedata     => \*STDOUT );
+    $self->_set_perl_defaults;
     $self;
   }
 
@@ -462,6 +467,28 @@ in the event of an error.
     FFI::Platypus::Buffer::set_used_length($$buf, $out_size);
 
     return $out_size;
+  });
+
+=head2 reset
+
+ $curl->reset;
+
+Resets all options previously set via the L<setopt method|/setopt> to the
+default values.  This puts the instance into the same state as when it was just
+created.
+
+It does not change the following information: live connections, the Session ID
+cache, the DNS cache, the cookies, the shares or the alt-svc cache.
+
+( L<curl_easy_reset|https://curl.se/libcurl/c/curl_easy_reset.html> )
+
+=cut
+
+  $ffi->attach( reset => ['CURL'] => sub ($xsub, $self) {
+    $xsub->($self);
+    delete $keep{$$self};
+    $self->_set_perl_defaults;
+    $self;
   });
 
 =head2 send

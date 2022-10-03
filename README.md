@@ -185,6 +185,21 @@ in the event of an error.
 
 ( [curl\_easy\_recv](https://curl.se/libcurl/c/curl_easy_recv.html) )
 
+## reset
+
+```
+$curl->reset;
+```
+
+Resets all options previously set via the [setopt method](#setopt) to the
+default values.  This puts the instance into the same state as when it was just
+created.
+
+It does not change the following information: live connections, the Session ID
+cache, the DNS cache, the cookies, the shares or the alt-svc cache.
+
+( [curl\_easy\_reset](https://curl.se/libcurl/c/curl_easy_reset.html) )
+
 ## send
 
 ```perl

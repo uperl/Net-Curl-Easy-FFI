@@ -23,6 +23,7 @@ $modules{$_} = $_ for qw(
   Ref::Util
   Test2::API
   Test2::Require::Module
+  Test2::Tools::Basic
   Test2::Tools::Compare
   Test2::Tools::MemoryCycle
   Test2::Tools::Subtest

@@ -7,5 +7,5 @@ cip sudo apt-get install libcurl4-openssl-dev libffi-dev
 
 if [[ "$CIP_ENV" =~ TEST_EXAMPLES ]]; then
   cip sudo apt-get install screen nginx
-  cip exec cpanm -n Plack::Component Net::Server::Fork
+  cip exec cpanm -n Plack::Component Net::Server::Fork Alien::ghostunnel
 fi

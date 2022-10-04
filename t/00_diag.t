@@ -11,6 +11,7 @@ my $post_diag;
 
 $modules{$_} = $_ for qw(
   Alien::curl
+  Alien::ghostunnel
   ExtUtils::MakeMaker
   FFI::C
   FFI::CheckLib

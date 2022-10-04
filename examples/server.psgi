@@ -4,6 +4,7 @@ use experimental qw( signatures );
 
 package Plack::App::HelloWorld {
 
+  use JSON::PP qw( encode_json );
   use parent qw( Plack::Component );
 
   sub call ($self, $env) {
@@ -12,6 +13,11 @@ package Plack::App::HelloWorld {
 
     if($path eq '/hello-world') {
       return [200, ['Content-Type' => 'text/plain'], ["Hello World!\n"]];
+    }
+
+    if($path eq '/show-headers') {
+      my %headers = map { lc($_ =~ s/^HTTP_//r) => $env->{$_}} grep /^HTTP_/, keys $env->%*;
+      return [200, ['Content-Type' => 'application/json'], [encode_json(\%headers)]];
     }
 
     if($path eq '/') {

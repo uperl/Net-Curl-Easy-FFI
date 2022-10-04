@@ -45,7 +45,6 @@ if($ENV{LIVE_TESTS})
   else
   {
     my $gt = which('ghostunnel');
-    $DB::single = 1;
     unless(defined $gt)
     {
       eval {

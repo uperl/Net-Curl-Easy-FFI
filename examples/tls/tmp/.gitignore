@@ -1,0 +1,5 @@
+/client
+/fastcgi
+/proxy
+/scgi
+/uwsgi

@@ -49,7 +49,7 @@ my @const;
     # get all of the items in the header
     $header->{inner}->@*;
 
-  my @code = 
+  my @code =
     grep { $_->{name} =~ /^CURLE/ }
     # convert into a hash
     map { { name => $_->{name}, value =>  $_->{init} } }

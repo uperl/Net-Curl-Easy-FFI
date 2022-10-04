@@ -425,7 +425,7 @@ try {
      ...
    }
    ...
-    
+
 
   } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
 
@@ -631,7 +631,7 @@ Accept: */*
 < Server: HTTP::Server::PSGI
 < Location: /hello-world
 < Content-Length: 0
-< 
+<
 * Closing connection 0
 * Issue another request to this URL: 'http://localhost:5000/hello-world'
 * Hostname localhost was found in DNS cache
@@ -648,7 +648,7 @@ Accept: */*
 < Server: HTTP::Server::PSGI
 < Content-Type: text/plain
 < Content-Length: 13
-< 
+<
 Hello World!
 * Closing connection 1
 ```
@@ -774,7 +774,7 @@ say "The Content-Type is: ", $curl->getinfo('content_type');
 ### execute
 
 ```
-$ perl examples/getinfo.pl 
+$ perl examples/getinfo.pl
 Hello World!
 The Content-Type is: text/plain
 ```
@@ -786,6 +786,119 @@ the [getinfo method](#getinfo).  The full list is available from [Net::Swirl::Cu
 with more details on the `curl` website: [https://curl.se/libcurl/c/curl\_easy\_getinfo.html](https://curl.se/libcurl/c/curl_easy_getinfo.html).
 
 In this example we get the `Content-Type` and print it out.
+
+## Connect Securely With Mutual TLS/SSL Encryption and Verification
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+$curl->setopt(url            => 'https://localhost:5001/hello-world')
+     ->setopt(ssl_verifypeer => 1)
+     ->setopt(cainfo         => 'examples/tls/Swirl-CA.crt')
+     ->setopt(sslcert        => 'examples/tls/client.crt')
+     ->setopt(sslkey         => 'examples/tls/client.key')
+     ->setopt(keypasswd      => 'password')
+     ->setopt(verbose => 1)
+     ->perform;
+
+die "unable to make request" unless $curl->getinfo('response_code') == 200;
+```
+
+### execute
+
+```perl
+$ perl examples/simplessl.pl
+*   Trying 127.0.0.1:5001...
+* Connected to localhost (127.0.0.1) port 5001 (#0)
+* ALPN: offers h2
+* ALPN: offers http/1.1
+*  CAfile: examples/tls/Swirl-CA.crt
+*  CApath: none
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=localhost
+*  start date: Oct  4 10:57:17 2022 GMT
+*  expire date: Jan  6 10:57:17 2025 GMT
+*  subjectAltName: host "localhost" matched cert's "localhost"
+*  issuer: CN=Snakeoil Swirl CA
+*  SSL certificate verify ok.
+> GET /hello-world HTTP/1.1
+Host: localhost:5001
+Accept: */*
+
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Server: nginx/1.22.0
+< Date: Tue, 04 Oct 2022 12:53:32 GMT
+< Content-Type: text/plain
+< Content-Length: 13
+< Connection: keep-alive
+<
+Hello World!
+* Connection #0 to host localhost left intact
+```
+
+### prereqs
+
+Setting up a Certificate Authority (CA) and generating the appropriate certificates
+is beyond the scope of this discussion, so we've pre-generated the appropriate
+files in the `examples/tls` directory so that the example can be run.  Hopefully
+it is obvious that you should never use these files for in a production environment
+since the "private" keys are completely public.
+
+This directory also contains an `nginx` configuration that will proxy to the plackup
+server.  To start it you will need to install nginx and run:
+
+```
+$ nginx -p examples/tls -c nginx.conf
+```
+
+### notes
+
+Once you have TLS/SSL certificates and keys and your server is correctly set up
+it is pretty easy to use [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) so that it is secure using both
+encryption and verification.
+
+First we set these options:
+
+- `ssl_verifypeer`
+
+    We set this to `1`, although this is the default.  If we don't want to verify
+    that the server has a valid certificate then we can set this to `0`.  This
+    is roughly equivalent to `curl`'s `-k` option.
+
+- `cainfo`
+
+    This is the Certificate Authority (CA) public certificate.  If you set
+    `ssl_verifypeer` to false, then you do not need this.
+
+- `sslcert` and `sslkey`
+
+    This is the public client certificate and private key.  If the server does not
+    require client key, then you do not need these.
+
+- `keypasswd`
+
+    This is the password with which the private client key was encrypted.  We use
+    the obviously terrible password \`password\` just to show how you would specify
+    a password.
+
+- `verbose`
+
+    We also set the `verbose` flag here once again just so that we can see some
+    of the details of the SSL/TLS interaction.
+
+Then once the transfer has completed using the [perform method](#perform),
+we get the [response code](https://metacpan.org/pod/Net::Swirl::CurlEasy::Info#response_code) to
+ensure that the request was correctly accepted.  If the server does not like
+our key, then it will return a 4xx error.
 
 ## Implement Protocols With send and recv
 

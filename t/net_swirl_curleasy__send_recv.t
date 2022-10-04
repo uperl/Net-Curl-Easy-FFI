@@ -4,8 +4,11 @@ use experimental qw( signatures );
 use Test2::Require::Module 'Net::Server::Fork';
 use Net::Swirl::CurlEasy;
 use Test2::API qw( context );
+use File::Which qw( which );
 use lib 't/lib';
 use Test2::Tools::MyTest;
+
+my $test_tls = 0;
 
 if($ENV{LIVE_TESTS})
 {
@@ -24,6 +27,34 @@ if($ENV{LIVE_TESTS})
     note 'starting corpus/echo-server.pl in a screen';
     system "screen -S net-swirl-curl-easy-test-echo -d -m $^X corpus/echo-server.pl";
     sleep 2;
+  }
+
+  $sock = IO::Socket::INET->new(
+    PeerAddr => 'localhost',
+    PeerPort => 20204,
+    Proto    => 'tcp',
+  );
+  if($sock)
+  {
+    $sock->close;
+    note 'Something is listening to port 20204, assuming it is ghostunnel SSL proxy';
+    $test_tls = 1;
+  }
+  else
+  {
+    # TODO: maybe alienize ghostunnel
+    my $gt = which('ghostunnel');
+    if($gt)
+    {
+      note 'starting ghostunnel SSL proxy in a screen';
+      system "screen -S net-swirl-curl-easy-test-tls -d -m $gt server --allow-cn client --listen localhost:20204 --target localhost:20203 --cert examples/tls/localhost.crt --key examples/tls/localhost.key --cacert examples/tls/Swirl-CA.crt";
+      sleep 2;
+      $test_tls = 1;
+    }
+    else
+    {
+      note 'could not find ghostunnel, will skip TLS/SSL tests';
+    }
   }
 }
 else
@@ -147,6 +178,39 @@ subtest_streamed 'basic' => sub {
 
   undef $curl;
   keep_is_empty;
+};
+
+subtest_streamed 'tls' => sub {
+  skip_all 'test requires TLS/SSL' unless $test_tls;
+
+  local $SIG{ALRM} = sub { die "alarm\n" };
+  alarm 10;
+
+  my $curl = Net::Swirl::CurlEasy->new;
+
+  $curl->setopt( url            => 'http://localhost:20203' )
+       ->setopt( ssl_verifypeer => 1)
+       ->setopt( cainfo         => 'examples/tls/Swirl-CA.crt')
+       ->setopt( sslcert        => 'examples/tls/client.crt')
+       ->setopt( sslkey         => 'examples/tls/client.key')
+       ->setopt( keypasswd      => 'password')
+       ->setopt( connect_only   => 1 )
+       ->perform;
+
+  my $sock = $curl->getinfo('activesocket');
+
+  msg_ok $curl, $sock, "hello world", name => 'auto-allocate';
+  msg_ok $curl, $sock, "hello world", name => 'pre-allocate';
+
+  my $msg = "0123456789" x 100;
+  $msg =~ s/..$//;
+  is length($msg), 998, 'message will be exactly 500 bytes';
+
+  msg_ok $curl, $sock, $msg, 'buf-size' => 100, 'name' => 'buf size divisible by message length';
+
+  undef $curl;
+  keep_is_empty;
+
 };
 
 keep_is_empty;

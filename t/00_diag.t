@@ -18,6 +18,7 @@ $modules{$_} = $_ for qw(
   FFI::Platypus
   FFI::Platypus::Buffer
   File::Which
+  HTTP::Response
   Path::Tiny
   Ref::Util
   Test2::API

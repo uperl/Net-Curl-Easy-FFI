@@ -946,6 +946,49 @@ We do not use it in this example, but the [headerdata option](#headerdata) is us
 pass any Perl object into the callback, just like [writedata option](#writedata) is
 used to pass any Perl object into the [writefunction callback](#writefunction).
 
+## Parse the Entire Response Using Perl
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use experimental qw( signatures );
+use HTTP::Response;
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+my @raw;
+
+$curl->setopt(url => 'http://localhost:5000/show-res-headers')
+     ->setopt(headerdata => 1)
+     ->setopt(writefunction => sub ($, $chunk, $) {
+       push @raw, $chunk
+     })
+     ->perform;
+
+my $res = HTTP::Response->parse(join('', @raw));
+
+say 'The Foo Header Was: ', $res->header('foo');
+say 'The Content Was:    ', $res->decoded_content;
+```
+
+### execute
+
+```
+$ perl examples/res-parse.pl 
+The Foo Header Was: Bar
+The Content Was:    Check the headers
+```
+
+### notes
+
+If you do not set the [headerfunction callback](#headerfunction) (or set it to `undef`),
+and set [headerdata option](#headerdata) to a true value, then the header data will be
+sent to the [writefunction callback](#writefunction).  This is a good way to capture and
+parse the entire response.  Here we pass the raw response into [HTTP::Response](https://metacpan.org/pod/HTTP::Response)
+
 ## Get Information About the Request After the Transfer
 
 ### source

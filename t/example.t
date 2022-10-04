@@ -22,7 +22,7 @@ if($ENV{TEST_EXAMPLES})
   else
   {
     note 'starting examples.psgi in a screen';
-    system 'screen -S net-swirl-curl-easy-test -d -m plackup examples/server.psgi';
+    system 'screen -S net-swirl-curl-easy-test-http -d -m plackup examples/server.psgi';
     sleep 2;
   }
 
@@ -52,7 +52,7 @@ if($ENV{TEST_EXAMPLES})
     if($nginx)
     {
       note 'starting nginx https proxy in a screen';
-      system "screen -S net-swirl-curl-easy-test-tls -d -m $nginx -p examples/tls -c nginx.conf";
+      system "screen -S net-swirl-curl-easy-test-https -d -m $nginx -p examples/tls -c nginx.conf";
       sleep 2;
       $test_tls = 1;
     }

@@ -127,7 +127,8 @@ set the [certinfo option](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options
 as list reference of list references.
 
 ( [CURLINFO\_CERTINFO](https://curl.se/libcurl/c/CURLINFO_CERTINFO.html) )
-&#x3d;head3 lastsocket
+
+### lastsocket
 
 ```perl
 my $socket = $curl->getinfo('activesocket');
@@ -149,6 +150,51 @@ my $scheme = $curl->getinfo('scheme');
 URL scheme used for the most recent connection done.
 
 ( [CURLINFO\_SCHEME](https://curl.se/libcurl/c/CURLINFO_SCHEME.html) )
+
+### tls\_session
+
+```perl
+my $info = $curl->getinfo('tls_session');
+my $backend = $info->backend;
+my $internals = $info->internals;  # possibly implemented in a future version.
+```
+
+The C API for `libcurl` returns an integer code for the SSL/TSL backend, and an internal
+pointer which can be used to access get additional information about the session.  For now
+only the former is available via this Perl API.  In the future there may be an interface
+to the latter as well.
+
+The meaning of the integer codes of the `$backend` can be found here:
+["curl\_sslbackend" in Net::Swirl::CurlEasy::Const](https://metacpan.org/pod/Net::Swirl::CurlEasy::Const#curl_sslbackend).
+
+The actual class that implements `$info` may change in the future (including the class
+name), but these two methods should be available (even if one just throws an exception).
+
+( [CURLINFO\_TLS\_SESSION](https://curl.se/libcurl/c/CURLINFO_TLS_SESSION.html) )
+
+### tls\_ssl\_ptr
+
+```perl
+my $info = $curl->getinfo('tls_ssl_ptr');
+my $backend = $info->backend;
+my $internals = $info->internals;  # possibly implemented in a future version.
+```
+
+The C API for `libcurl` returns an integer code for the SSL/TSL backend, and an internal
+pointer which can be used to access get additional information about the session.  For now
+only the former is available via this Perl API.  In the future there may be an interface
+to the latter as well.
+
+The meaning of the integer codes of the `$backend` can be found here:
+["curl\_sslbackend" in Net::Swirl::CurlEasy::Const](https://metacpan.org/pod/Net::Swirl::CurlEasy::Const#curl_sslbackend).
+
+Generally the [tls\_session option](#tls_session) is preferred when using the C API, but
+until `internals` is implemented it doesn't make any difference for the Perl API.
+
+The actual class that implements `$info` may change in the future (including the class
+name), but these two methods should be available (even if one just throws an exception).
+
+( [CURLINFO\_TLS\_SSL\_PTR](https://curl.se/libcurl/c/CURLINFO_TLS_SSL_PTR.html) )
 
 ## pause
 
@@ -539,6 +585,7 @@ use experimental qw( signatures );
 
 package Plack::App::HelloWorld {
 
+  use JSON::PP qw( encode_json );
   use parent qw( Plack::Component );
 
   sub call ($self, $env) {
@@ -547,6 +594,11 @@ package Plack::App::HelloWorld {
 
     if($path eq '/hello-world') {
       return [200, ['Content-Type' => 'text/plain'], ["Hello World!\n"]];
+    }
+
+    if($path eq '/show-headers') {
+      my %headers = map { lc($_ =~ s/^HTTP_//r) => $env->{$_}} grep /^HTTP_/, keys $env->%*;
+      return [200, ['Content-Type' => 'application/json'], [encode_json(\%headers)]];
     }
 
     if($path eq '/') {
@@ -766,6 +818,55 @@ $curl->setopt( writefunction => sub ($, $data, $fh) {
   print $fh $data;
 });
 ```
+
+## Set or Remove Arbitrary Request Headers
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use experimental qw( signatures );
+use Net::Swirl::CurlEasy;
+use Data::Dumper qw( Dumper );
+use JSON::PP qw( decode_json );
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+my @raw;
+
+$curl->setopt(url => 'http://localhost:5000/show-headers')
+     ->setopt(httpheader => ["Shoesize: 10"]) #, "Accept:"])
+     ->setopt(writefunction => sub ($, $data, $) {
+       push @raw, $data;
+     })
+     ->perform;
+
+my $data = decode_json(join('', @raw));
+
+$Data::Dumper::Terse = 1;
+$Data::Dumper::Sortkeys = 1;
+
+say Dumper($data);
+```
+
+### execute
+
+```perl
+$ perl examples/req-header.pl 
+{
+  'host' => 'localhost:5000',
+  'shoesize' => '10'
+}
+```
+
+### notes
+
+The [httpheader option](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options#httpheader) allows you to set and
+remove arbitrary request headers.  In this example, we set the non-standard `Shoesize`
+header to the size `10`.  We also set `Accept` to nothing, which tells `libcurl` not
+to include this header.  (If you modified this example to not set that header  you would
+see it come back as `*/*`).
 
 ## Get Information About the Request After the Transfer
 

@@ -773,7 +773,8 @@ its first argument, and the L<writedata|/writedata> option as its third argument
   $ffi->attach( [setopt => '_setopt_off_t'        ] => ['CURL','enum'] => ['off_t']  => 'enum' );
 
   $ffi->attach( [setopt => '_setopt_slistpoint'   ] => ['CURL','enum'] => ['opaque'] => 'enum' => sub ($xsub, $self, $key_id, $items) {
-    my $slist = Net::Swirl::CurlEasy->new($items->@*);
+    my $slist = Net::Swirl::CurlEasy::Slist->new($items->@*);
+    $keep{$$self}->{$key_id} = $slist;
     $xsub->($self, $key_id, $slist->ptr);
   });
 
@@ -1137,6 +1138,28 @@ The default L<writefunction|/writefunction> callback looks like this:
  $curl->setopt( writefunction => sub ($, $data, $fh) {
    print $fh $data;
  });
+
+=head2 Set or Remove Arbitrary Request Headers
+
+=head3 source
+
+# EXAMPLE: examples/req-header.pl
+
+=head3 execute
+
+ $ perl examples/req-header.pl 
+ {
+   'host' => 'localhost:5000',
+   'shoesize' => '10'
+ }
+
+=head3 notes
+
+The L<httpheader option|Net::Swirl::CurlEasy::Options/httpheader> allows you to set and
+remove arbitrary request headers.  In this example, we set the non-standard C<Shoesize>
+header to the size C<10>.  We also set C<Accept> to nothing, which tells C<libcurl> not
+to include this header.  (If you modified this example to not set that header  you would
+see it come back as C<*/*>).
 
 =head2 Get Information About the Request After the Transfer
 

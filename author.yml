@@ -26,6 +26,7 @@ pod_spelling_system:
     - unpause
     - nginx
     - certinfo
+    - httpheader
 
 pod_coverage:
   skip: 0

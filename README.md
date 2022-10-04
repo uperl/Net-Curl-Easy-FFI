@@ -137,6 +137,23 @@ URL scheme used for the most recent connection done.
 
 ( [CURLINFO\_SCHEME](https://curl.se/libcurl/c/CURLINFO_SCHEME.html) )
 
+## pause
+
+```perl
+$curl->pause($bitmask);
+```
+
+Using this function, you can explicitly mark a running connection to get paused, and you can
+unpause a connection that was previously paused.  For full details on how this method
+works, review the documentation of the function from the C API below.  You can import the
+appropriate integer constants for `$bitmask` using the
+[:pause tag](https://metacpan.org/pod/Net::Swirl::CurlEasy::Const#CURLPAUSE) from [Net::Swirl::CurlEasy::Const](https://metacpan.org/pod/Net::Swirl::CurlEasy::Const).
+
+Throws a
+[Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode) on error.
+
+( [curl\_easy\_pause](https://curl.se/libcurl/c/curl_easy_pause.html) )
+
 ## perform
 
 ```

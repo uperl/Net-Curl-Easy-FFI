@@ -58,6 +58,7 @@ RUN cpanm -n                                         \
     Devel::Cycle                                     \
     Pod::Abstract                                    \
     Net::Server::Fork                                \
+    Const::Introspect::C                             \
  && rm -rf ~/.cpanm
 
 ENV TEST_EXAMPLES 1

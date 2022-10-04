@@ -7,6 +7,7 @@ use Path::Tiny qw( path );
 use Clang::CastXML;
 use Template;
 use Pod::Abstract;
+use Const::Introspect::C;
 
 $Net::Swirl::CurlEasy::no_gen =
 $Net::Swirl::CurlEasy::no_gen = 1;
@@ -21,6 +22,7 @@ my $missing = 0;
 
 my %option_init;
 my %info_init;
+my @const;
 
 {
   my $castxml = Clang::CastXML->new;
@@ -45,7 +47,51 @@ my %info_init;
     grep { defined $_->{name} && $_->{name} eq 'CURLINFO' && defined $_->{inner} }
     # get all of the items in the header
     $header->{inner}->@*;
+
+  my @code = 
+    grep { $_->{name} =~ /^CURLE/ }
+    # convert into a hash
+    map { { name => $_->{name}, value =>  $_->{init} } }
+    # get the inner list of the enum
+    map { $_->{inner}->@* }
+    # only consider objects called CURLoption (the enum), that have an inner list
+    grep { defined $_->{name} && $_->{name} eq 'CURLcode' && defined $_->{inner} }
+    # get all of the items in the header
+    $header->{inner}->@*;
+
+  push @const, {
+    name      => 'CURLcode',
+    url       => 'https://curl.se/libcurl/c/libcurl-errors.html',
+    constants => \@code,
+    tag       => ':errorcode',
+  };
 };
+
+{
+  my $c = Const::Introspect::C->new(
+    headers => ['curl/curl.h'],
+  );
+
+  my @pause;
+
+  foreach my $const ($c->get_macro_constants)
+  {
+    if($const->name =~ /^CURLPAUSE_/)
+    {
+      push @pause, {
+        name  => $const->name,
+        value => $const->value,
+      };
+    }
+  }
+
+  push @const, {
+    name      => 'CURLPAUSE',
+    url       => 'https://curl.se/libcurl/c/curl_easy_pause.html',
+    constants => [sort { $a->{name} cmp $b->{name} } @pause],
+    tag       => ':pause',
+  };
+}
 
 my %hand_pod;
 
@@ -148,7 +194,7 @@ my $tt = Template->new({
   },
 });
 
-foreach my $name (qw( Options Info ))
+foreach my $name (qw( Const Options Info ))
 {
   $tt->process("$name.pm.tt", {
     curl => {
@@ -157,7 +203,8 @@ foreach my $name (qw( Options Info ))
       missing => {
         options => [sort map { s/:.*$//r } map { $_->@* } values $missing{options}->%*],
         infos   => [sort map { s/:.*$//r } map { $_->@* } values $missing{info}->%*  ]
-      }
+      },
+      const => \@const,
     },
   }, "lib/Net/Swirl/CurlEasy/$name.pm" ) or do {
     say "Error generating lib/Net/Swirl/CurlEasy/$name.pm @{[ $tt->error ]}";

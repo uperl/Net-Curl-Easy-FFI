@@ -486,15 +486,6 @@ URL scheme used for the most recent connection done.
 
 ( L<CURLINFO_CAPATH|https://curl.se/libcurl/c/CURLINFO_CAPATH.html> )
 
-=head1 CAVEATS
-
-The following information available in the C API is not current supported by
-L<Net::Swirl::CurlEasy>:
-
-=over 4
-
-=back
-
 =cut
 
   package Net::Swirl::CurlEasy {

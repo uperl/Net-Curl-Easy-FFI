@@ -37,6 +37,7 @@ L<getinfo method|Net::Swirl::CurlEasy/getinfo>.
 [%- END -%]
 [%- END -%]
 
+[% IF curl.missing.infos %]
 =head1 CAVEATS
 
 The following information available in the C API is not current supported by
@@ -51,6 +52,7 @@ L<Net::Swirl::CurlEasy>:
 
 =back
 
+[%- END -%]
 =cut
 
   package Net::Swirl::CurlEasy {

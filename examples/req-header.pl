@@ -9,8 +9,8 @@ my $curl = Net::Swirl::CurlEasy->new;
 
 my @raw;
 
-$curl->setopt(url => 'http://localhost:5000/show-headers')
-     ->setopt(httpheader => ["Shoesize: 10"]) #, "Accept:"])
+$curl->setopt(url => 'http://localhost:5000/show-req-headers')
+     ->setopt(httpheader => ["Shoesize: 10", "Accept:"])
      ->setopt(writefunction => sub ($, $data, $) {
        push @raw, $data;
      })

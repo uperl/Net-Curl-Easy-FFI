@@ -27,6 +27,8 @@ pod_spelling_system:
     - nginx
     - certinfo
     - httpheader
+    - headerdata
+    - headerfunction
 
 pod_coverage:
   skip: 0

@@ -352,6 +352,35 @@ The maximum number of redirects can be controlled by
 
 ( [CURLOPT\_FOLLOWLOCATION](https://curl.se/libcurl/c/CURLOPT_FOLLOWLOCATION.html) )
 
+### headerdata
+
+```perl
+$curl->setopt( headerdata => $headerdata);
+```
+
+This option sets the value of `$headerdata` that is passed into the callback of
+the [headerfunction option](#headerfunction).
+
+If the [headerfunction option](#headerfunction) is not set or set to `undef`
+and this option is set to a true value, then the header data will be written
+instead to the [writefunction callback](#writefunction).
+
+( [CURLOPT\_HEADERDATA](https://curl.se/libcurl/c/CURLOPT_HEADERDATA.html) )
+
+### headerfunction
+
+```perl
+$curl->setopt( headerfunction => sub ($curl, $content, $headerdata) {
+  ...
+});
+```
+
+This callback is called as each header is received.  The [headerdata option](#headerdata)
+is used to set `$headerdata`.  For more details see the documentation for the
+C API of this option:
+
+( [CURLOPT\_HEADERFUNCTION](https://curl.se/libcurl/c/CURLOPT_HEADERFUNCTION.html) )
+
 ### maxredirs
 
 ```perl
@@ -391,7 +420,7 @@ debug/report problems.
 ### writedata
 
 ```perl
-$curl->setopt( writedata => $value );
+$curl->setopt( writedata => $writedata );
 ```
 
 The `writedata` option is used by the [writefunction callback](#writefunction).
@@ -596,9 +625,13 @@ package Plack::App::HelloWorld {
       return [200, ['Content-Type' => 'text/plain'], ["Hello World!\n"]];
     }
 
-    if($path eq '/show-headers') {
+    if($path eq '/show-req-headers') {
       my %headers = map { lc($_ =~ s/^HTTP_//r) => $env->{$_}} grep /^HTTP_/, keys $env->%*;
       return [200, ['Content-Type' => 'application/json'], [encode_json(\%headers)]];
+    }
+
+    if($path eq '/show-res-headers') {
+      return [200, ['Content-Type' => 'text/plain', Foo => 'Bar', Baz => 1], ["Check the headers\n"]];
     }
 
     if($path eq '/') {
@@ -835,8 +868,8 @@ my $curl = Net::Swirl::CurlEasy->new;
 
 my @raw;
 
-$curl->setopt(url => 'http://localhost:5000/show-headers')
-     ->setopt(httpheader => ["Shoesize: 10"]) #, "Accept:"])
+$curl->setopt(url => 'http://localhost:5000/show-req-headers')
+     ->setopt(httpheader => ["Shoesize: 10", "Accept:"])
      ->setopt(writefunction => sub ($, $data, $) {
        push @raw, $data;
      })
@@ -867,6 +900,51 @@ remove arbitrary request headers.  In this example, we set the non-standard `Sho
 header to the size `10`.  We also set `Accept` to nothing, which tells `libcurl` not
 to include this header.  (If you modified this example to not set that header  you would
 see it come back as `*/*`).
+
+## Get Response Headers
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use experimental qw( signatures );
+use Net::Swirl::CurlEasy;
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+$curl->setopt(url => 'http://localhost:5000/show-res-headers')
+     ->setopt(headerfunction => sub ($, $data, $) {
+       chomp $data;
+       say "header: $data";
+     })
+     ->perform;
+```
+
+### execute
+
+```
+$ perl examples/res-header.pl 
+header: HTTP/1.0 200 OK
+header: Date: Tue, 04 Oct 2022 20:39:48 GMT
+header: Server: HTTP::Server::PSGI
+header: Content-Type: text/plain
+header: Foo: Bar
+header: Baz: 1
+header: Content-Length: 18
+header: 
+Check the headers
+```
+
+### notes
+
+The [headerfunction callback](#headerfunction) works a lot like the [writefunction callback](#writefunction)
+seen earlier.  It is called once for each header, so you can parse individual headers
+inside the callback without having to wait for the rest of the header data.
+
+We do not use it in this example, but the [headerdata option](#headerdata) is used to
+pass any Perl object into the callback, just like [writedata option](#writedata) is
+used to pass any Perl object into the [writefunction callback](#writefunction).
 
 ## Get Information About the Request After the Transfer
 

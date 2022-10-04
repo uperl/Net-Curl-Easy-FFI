@@ -5,7 +5,8 @@ use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
 use Test2::Tools::MemoryCycle;
-use Data::Dumper qw( Dumper );
+use lib 't/lib';
+use Test2::Tools::MyTest;
 
 subtest 'very basic' => sub {
   my $curl = eval { Net::Swirl::CurlEasy->new };
@@ -48,6 +49,8 @@ subtest 'very basic' => sub {
   memory_cycle_ok $curl;
 
   try_ok { undef $curl } 'did not crash I guess?';
+
+  keep_is_empty;
 };
 
 subtest 'writedata' => sub {
@@ -72,6 +75,7 @@ subtest 'writedata' => sub {
   memory_cycle_ok $curl;
 
   try_ok { undef $curl } 'did not crash I guess?';
+  keep_is_empty;
 };
 
 subtest 'reset' => sub {
@@ -80,6 +84,8 @@ subtest 'reset' => sub {
   note "curl-ptr = @{[ $$curl ]}";
   try_ok { $curl->reset } '$curl->reset';
 
+  undef $curl;
+  keep_is_empty;
 };
 
 subtest 'clone' => sub {
@@ -111,6 +117,9 @@ subtest 'clone' => sub {
   memory_cycle_ok $curl1, 'no memory cycles original (still)';
   memory_cycle_ok $curl2, 'no memory cycles clone (still)';
 
+  undef $curl1;
+  undef $curl2;
+  keep_is_empty;
 };
 
 subtest 'slist' => sub {
@@ -141,6 +150,7 @@ subtest 'slist' => sub {
   );
 
   memory_cycle_ok( Net::Swirl::CurlEasy::Slist->new(qw( foo bar baz )) );
+  keep_is_empty;
 };
 
 subtest 'invalid option, invalid info' => sub {
@@ -164,6 +174,9 @@ subtest 'invalid option, invalid info' => sub {
     },
     'got the expected exception for invalid info';
 
+  undef $curl;
+  keep_is_empty;
+
 };
 
 subtest 'escape' => sub {
@@ -185,6 +198,6 @@ subtest 'escape' => sub {
 
 };
 
-is \%Net::Swirl::CurlEasy::keep, {}, 'cleaned up %keep' or diag Dumper(\%Net::Swirl::CurlEasy::keep);
+keep_is_empty;
 
 done_testing;

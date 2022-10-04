@@ -7,6 +7,7 @@ package Net::Swirl::CurlEasy {
   use FFI::Platypus::Buffer ();
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
+  use Scalar::Util ();
   use Ref::Util qw( is_ref is_scalarref );
 
 # ABSTRACT: Perl bindings to curl's "easy" interface
@@ -671,6 +672,7 @@ its first argument, and the L<writedata|/writedata> option as its third argument
   });
 
   $ffi->attach( [setopt => '_setopt_writefunction_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb) {
+    Scalar::Util::weaken $self;
     my $closure = $keep{$$self}->{$key_id} = $ffi->closure(sub ($ptr, $size, $nm, $) {
       FFI::Platypus::Buffer::window(my $data, $ptr, $size*$nm);
       local $@ = '';

@@ -2,3 +2,4 @@ Net-Swirl-CurlEasy-*
 /.build/
 *.swp
 /ffi/_build
+/.test*

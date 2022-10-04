@@ -3,6 +3,8 @@ use 5.020;
 use experimental qw( signatures );
 use Net::Swirl::CurlEasy;
 use URI::file;
+use lib 't/lib';
+use Test2::Tools::MyTest;
 
 subtest 'exception' => sub {
   my $curl = Net::Swirl::CurlEasy->new;
@@ -52,5 +54,7 @@ subtest 'exception' => sub {
     'exactly the warnings we expect';
 
 };
+
+keep_is_empty;
 
 done_testing;

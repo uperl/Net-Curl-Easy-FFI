@@ -4,6 +4,8 @@ use experimental qw( signatures );
 use Test2::Require::Module 'Net::Server::Fork';
 use Net::Swirl::CurlEasy;
 use Test2::API qw( context );
+use lib 't/lib';
+use Test2::Tools::MyTest;
 
 if($ENV{LIVE_TESTS})
 {
@@ -142,6 +144,11 @@ subtest_streamed 'basic' => sub {
   is length($msg), 998, 'message will be exactly 500 bytes';
 
   msg_ok $curl, $sock, $msg, 'buf-size' => 100, 'name' => 'buf size divisible by message length';
+
+  undef $curl;
+  keep_is_empty;
 };
+
+keep_is_empty;
 
 done_testing;

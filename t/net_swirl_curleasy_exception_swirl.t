@@ -2,6 +2,8 @@ use Test2::V0 -no_srand => 1;
 use 5.020;
 use experimental qw( signatures );
 use Net::Swirl::CurlEasy;
+use lib 't/lib';
+use Test2::Tools::MyTest;
 
 subtest 'create exception' => sub {
 
@@ -69,5 +71,7 @@ subtest 'internal' => sub {
     'foo => internal';
 
 };
+
+keep_is_empty;
 
 done_testing;

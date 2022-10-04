@@ -5,9 +5,11 @@ use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
 use Test2::Tools::MemoryCycle;
+use Data::Dumper qw( Dumper );
 
 subtest 'very basic' => sub {
   my $curl = eval { Net::Swirl::CurlEasy->new };
+  note "curl-ptr = @{[ $$curl ]}";
 
   if(my $error = $@) {
     if(eval { $error->isa('Net::Swirl::CurlEasy::Exception::CurlCode') })
@@ -51,6 +53,7 @@ subtest 'very basic' => sub {
 subtest 'writedata' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
 
   my $url = URI::file->new_abs('corpus/data.txt');
   try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";
@@ -74,6 +77,7 @@ subtest 'writedata' => sub {
 subtest 'reset' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
   try_ok { $curl->reset } '$curl->reset';
 
 };
@@ -81,6 +85,7 @@ subtest 'reset' => sub {
 subtest 'clone' => sub {
 
   my $curl1 = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl1 ]}";
 
   my $content = '';
   open my $fh, '>', \$content;
@@ -94,6 +99,7 @@ subtest 'clone' => sub {
   });
 
   my $curl2 = $curl1->clone;
+  note "curl-ptr = @{[ $$curl2 ]}";
 
   memory_cycle_ok $curl1, 'no memory cycles original';
   memory_cycle_ok $curl2, 'no memory cycles clone';
@@ -140,6 +146,7 @@ subtest 'slist' => sub {
 subtest 'invalid option, invalid info' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
 
   is
     dies { $curl->setopt('bogus' => 'bummer') },
@@ -162,6 +169,7 @@ subtest 'invalid option, invalid info' => sub {
 subtest 'escape' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
 
   is(
     $curl->escape("foo\0bar"),
@@ -176,5 +184,7 @@ subtest 'escape' => sub {
   );
 
 };
+
+is \%Net::Swirl::CurlEasy::keep, {}, 'cleaned up %keep' or diag Dumper(\%Net::Swirl::CurlEasy::keep);
 
 done_testing;

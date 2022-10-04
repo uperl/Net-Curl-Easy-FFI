@@ -15,9 +15,13 @@ package Plack::App::HelloWorld {
       return [200, ['Content-Type' => 'text/plain'], ["Hello World!\n"]];
     }
 
-    if($path eq '/show-headers') {
+    if($path eq '/show-req-headers') {
       my %headers = map { lc($_ =~ s/^HTTP_//r) => $env->{$_}} grep /^HTTP_/, keys $env->%*;
       return [200, ['Content-Type' => 'application/json'], [encode_json(\%headers)]];
+    }
+
+    if($path eq '/show-res-headers') {
+      return [200, ['Content-Type' => 'text/plain', Foo => 'Bar', Baz => 1], ["Check the headers\n"]];
     }
 
     if($path eq '/') {

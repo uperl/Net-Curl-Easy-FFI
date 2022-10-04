@@ -707,6 +707,31 @@ L<maxredirs|/maxredirs>.
 
 ( L<CURLOPT_FOLLOWLOCATION|https://curl.se/libcurl/c/CURLOPT_FOLLOWLOCATION.html> )
 
+=head3 headerdata
+
+ $curl->setopt( headerdata => $headerdata);
+
+This option sets the value of C<$headerdata> that is passed into the callback of
+the L<headerfunction option|/headerfunction>.
+
+If the L<headerfunction option|/headerfunction> is not set or set to C<undef>
+and this option is set to a true value, then the header data will be written
+instead to the L<writefunction callback|/writefunction>.
+
+( L<CURLOPT_HEADERDATA|https://curl.se/libcurl/c/CURLOPT_HEADERDATA.html> )
+
+=head3 headerfunction
+
+ $curl->setopt( headerfunction => sub ($curl, $content, $headerdata) {
+   ...
+ });
+
+This callback is called as each header is received.  The L<headerdata option|/headerdata>
+is used to set C<$headerdata>.  For more details see the documentation for the
+C API of this option:
+
+( L<CURLOPT_HEADERFUNCTION|https://curl.se/libcurl/c/CURLOPT_HEADERFUNCTION.html> )
+
 =head3 maxredirs
 
  $curl->setopt( maxredirs => $max );
@@ -739,7 +764,7 @@ debug/report problems.
 
 =head3 writedata
 
- $curl->setopt( writedata => $value );
+ $curl->setopt( writedata => $writedata );
 
 The C<writedata> option is used by the L<writefunction callback|/writefunction>.
 This can be any Perl data type, but the default L<writefunction callback|/writefunction>
@@ -771,6 +796,7 @@ its first argument, and the L<writedata|/writedata> option as its third argument
   $ffi->attach( [setopt => '_setopt_stringpoint'  ] => ['CURL','enum'] => ['string'] => 'enum' );
   $ffi->attach( [setopt => '_setopt_long'         ] => ['CURL','enum'] => ['long']   => 'enum' );
   $ffi->attach( [setopt => '_setopt_off_t'        ] => ['CURL','enum'] => ['off_t']  => 'enum' );
+  $ffi->attach( [setopt => '_setopt_opaque'       ] => ['CURL','enum'] => ['opaque'] => 'enum' );
 
   $ffi->attach( [setopt => '_setopt_slistpoint'   ] => ['CURL','enum'] => ['opaque'] => 'enum' => sub ($xsub, $self, $key_id, $items) {
     my $slist = Net::Swirl::CurlEasy::Slist->new($items->@*);
@@ -778,14 +804,13 @@ its first argument, and the L<writedata|/writedata> option as its third argument
     $xsub->($self, $key_id, $slist->ptr);
   });
 
-  $ffi->attach( [setopt => '_setopt_writefunction_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb) {
+  $ffi->attach( [setopt => '_setopt_writefunction_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb, $data_id) {
     Scalar::Util::weaken $self;
     my $closure = $keep{$$self}->{$key_id} = $ffi->closure(sub ($ptr, $size, $nm, $) {
       FFI::Platypus::Buffer::window(my $data, $ptr, $size*$nm);
       local $@ = '';
       eval {
-        # 10001 = WRITEDATA
-        $cb->($self, $data, $keep{$$self}->{10001})
+        $cb->($self, $data, $keep{$$self}->{$data_id})
       };
       # TODO: there should also be a callback to handle this
       warn $@ if $@;
@@ -798,18 +823,23 @@ its first argument, and the L<writedata|/writedata> option as its third argument
   require Net::Swirl::CurlEasy::Options unless $Net::Swirl::CurlEasy::no_gen;
 
   our %opt = (%opt,
-    writefunction => [ 20011, \&_setopt_writefunction_cb ],
-    writedata     => [ 10001, sub ($self, $key_id, $value) {
+    writefunction  => [ 20011, \&_setopt_writefunction_cb, 10001 ],
+    writedata      => [ 10001, sub ($self, $key_id, $value) {
       $keep{$$self}->{$key_id} = $value;
       0;
+    }],
+    headerfunction => [ 20079, \&_setopt_writefunction_cb, 10029 ],
+    headerdata     => [ 10029, sub ($self, $key_id, $value) {
+      $keep{$$self}->{$key_id} = $value;
+      _setopt_opaque($self, $key_id, $value ? 1 : undef);
     }],
   );
 
   sub setopt ($self, $key, $value)
   {
     Net::Swirl::CurlEasy::Exception::CurlCode::throw(48) unless defined $opt{$key};
-    my($key_id, $xsub) = $opt{$key}->@*;
-    my $code = $xsub->($self, $key_id, $value);
+    my($key_id, $xsub, $data_id) = $opt{$key}->@*;
+    my $code = $xsub->($self, $key_id, $value, $data_id ? ($data_id) : ());
     Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
     $self;
   }
@@ -1160,6 +1190,35 @@ remove arbitrary request headers.  In this example, we set the non-standard C<Sh
 header to the size C<10>.  We also set C<Accept> to nothing, which tells C<libcurl> not
 to include this header.  (If you modified this example to not set that header  you would
 see it come back as C<*/*>).
+
+=head2 Get Response Headers
+
+=head3 source
+
+# EXAMPLE: examples/res-header.pl
+
+=head3 execute
+
+ $ perl examples/res-header.pl 
+ header: HTTP/1.0 200 OK
+ header: Date: Tue, 04 Oct 2022 20:39:48 GMT
+ header: Server: HTTP::Server::PSGI
+ header: Content-Type: text/plain
+ header: Foo: Bar
+ header: Baz: 1
+ header: Content-Length: 18
+ header: 
+ Check the headers
+
+=head3 notes
+
+The L<headerfunction callback|/headerfunction> works a lot like the L<writefunction callback|/writefunction>
+seen earlier.  It is called once for each header, so you can parse individual headers
+inside the callback without having to wait for the rest of the header data.
+
+We do not use it in this example, but the L<headerdata option|/headerdata> is used to
+pass any Perl object into the callback, just like L<writedata option|/writedata> is
+used to pass any Perl object into the L<writefunction callback|/writefunction>.
 
 =head2 Get Information About the Request After the Transfer
 

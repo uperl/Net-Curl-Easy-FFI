@@ -6,6 +6,7 @@ use Net::Swirl::CurlEasy;
 use Test2::API qw( context );
 use File::Which qw( which );
 use Data::Dumper qw( Dumper );
+use Env qw( @PATH );
 use lib 't/lib';
 use Test2::Tools::MyTest;
 
@@ -43,12 +44,20 @@ if($ENV{LIVE_TESTS})
   }
   else
   {
-    # TODO: maybe alienize ghostunnel
     my $gt = which('ghostunnel');
+    $DB::single = 1;
+    unless(defined $gt)
+    {
+      eval {
+        require Alien::ghostunnel;
+        unshift @PATH, Alien::ghostunnel->bin_dir;
+      };
+      $gt = which('ghostunnel');
+    }
     if($gt)
     {
-      note 'starting ghostunnel SSL proxy in a screen';
-      system "screen -S net-swirl-curl-easy-test-tls -d -m $gt server --allow-cn client --listen localhost:20204 --target localhost:20203 --cert examples/tls/localhost.crt --key examples/tls/localhost.key --cacert examples/tls/Swirl-CA.crt";
+      note "starting ghostunnel SSL proxy in a screen ($gt)";
+      system "screen -S net-swirl-curl-easy-test-echo-tls -d -m $gt server --allow-cn client --listen localhost:20204 --target localhost:20203 --cert examples/tls/localhost.crt --key examples/tls/localhost.key --cacert examples/tls/Swirl-CA.crt";
       sleep 2;
       $test_tls = 1;
     }

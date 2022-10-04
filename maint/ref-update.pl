@@ -20,6 +20,7 @@ my %missing;
 my $total = 0;
 my $missing = 0;
 
+my @warnings;
 my %option_init;
 my %info_init;
 my @const;
@@ -145,6 +146,13 @@ foreach my $line ($curl_h->lines)
         hand_pod  => delete $hand_pod{option}->{lc $name},
         hand_code => !!$Net::Swirl::CurlEasy::opt{lc $name},
       };
+
+      if(!!$Net::Swirl::CurlEasy::opt{lc $name})
+      {
+        push @warnings, "Integer opt mismatch for @{[ $name ]} (@{[ $Net::Swirl::CurlEasy::opt{lc $name}->[0] ]}, $init)"
+          if $Net::Swirl::CurlEasy::opt{lc $name}->[0] != $init;
+      }
+
     }
     else
     {
@@ -173,6 +181,13 @@ foreach my $line ($curl_h->lines)
         hand_pod  => delete $hand_pod{info}->{lc $name},
         hand_code => !!$Net::Swirl::CurlEasy::info{lc $name},
       };
+
+      if(!!$Net::Swirl::CurlEasy::info{lc $name})
+      {
+        push @warnings, "Integer info mismatch for @{[ $name ]} (@{[ $Net::Swirl::CurlEasy::info{lc $name}->[0] ]}, $init)"
+          if $Net::Swirl::CurlEasy::info{lc $name}->[0] != $init;
+      }
+
     }
     else
     {
@@ -217,5 +232,5 @@ push $missing{info}->{UNKNOWN}->@*, sort keys %info_init   if %info_init;
 push $missing{options}->{pod}->@*, sort keys $hand_pod{option}->%* if $hand_pod{option}->%*;
 push $missing{info}->{pod}->@*, sort keys $hand_pod{info}->%* if $hand_pod{info}->%*;
 
-print YAML::Dump({ missing => \%missing });
+print YAML::Dump({ missing => \%missing, warnings => \@warnings });
 say "missing: $missing/$total";

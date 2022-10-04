@@ -5,10 +5,11 @@ package Net::Swirl::CurlEasy {
   use experimental qw( signatures postderef );
   use FFI::Platypus 2.00;
   use FFI::Platypus::Buffer ();
+  use FFI::Platypus::Memory ();
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
   use Scalar::Util ();
-  use Ref::Util qw( is_ref is_scalarref );
+  use Ref::Util qw( is_ref is_scalarref is_arrayref );
 
 # ABSTRACT: Perl bindings to curl's "easy" interface
 
@@ -813,10 +814,66 @@ its first argument, and the L<writedata|/writedata> option as its third argument
         $cb->($self, $data, $keep{$$self}->{$data_id})
       };
       # TODO: there should also be a callback to handle this
-      warn $@ if $@;
-      return 0 if $@;
+      if($@)
+      {
+        warn $@;
+        return 0;
+      }
       return $size*$nm;
     });
+    $xsub->($self, $key_id, $closure);
+  });
+
+  $ffi->attach( [setopt => '_setopt_readfunction_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb, $data_id) {
+    Scalar::Util::weaken $self;
+    my $closure = $keep{$$self}->{$key_id} = $ffi->closure(sub ($in_ptr, $in_size, $in_nm, $) {
+
+      local $@ = '';
+      my $max = $in_size * $in_nm;
+      my $data = eval {
+        $cb->($self, $max, $keep{$$self}->{$data_id});
+      };
+      # TODO: there should also be a callback to handle this
+      if($@)
+      {
+        warn $@ if $@;
+        # CURL_READFUNC_ABORT 0x10000000
+        # this should cause perform to return CURLE_ABORTED_BY_CALLBACK
+        return 0x10000000;
+      }
+
+      my $buf;
+      my $ptr;
+      my $offset;
+      my $size;
+
+      if(is_arrayref $data)
+      {
+        $buf = \$data->[0];
+        $offset = $data->[1] // 0;
+        $size   = $data->[2];
+        my $buf_size;
+        ($ptr, $buf_size) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
+
+        # if the offset is beyond the buffer, then set size to 0
+        $size = 0 if $offset > $buf_size;
+
+        # if the size extends beyond the buffer, then snip that part
+        $size = $buf_size-$offset if $size > $buf_size-$offset;
+
+        $ptr += $offset;
+      }
+      else
+      {
+        $buf = \$data;
+        ($ptr, $size) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
+      }
+
+      FFI::Platypus::Memory::memcpy($in_ptr, $ptr, $size);
+      return $size;
+
+    });
+
     $xsub->($self, $key_id, $closure);
   });
 
@@ -1177,7 +1234,7 @@ The default L<writefunction|/writefunction> callback looks like this:
 
 =head3 execute
 
- $ perl examples/req-header.pl 
+ $ perl examples/req-header.pl
  {
    'host' => 'localhost:5000',
    'shoesize' => '10'
@@ -1199,7 +1256,7 @@ see it come back as C<*/*>).
 
 =head3 execute
 
- $ perl examples/res-header.pl 
+ $ perl examples/res-header.pl
  header: HTTP/1.0 200 OK
  header: Date: Tue, 04 Oct 2022 20:39:48 GMT
  header: Server: HTTP::Server::PSGI
@@ -1207,7 +1264,7 @@ see it come back as C<*/*>).
  header: Foo: Bar
  header: Baz: 1
  header: Content-Length: 18
- header: 
+ header:
  Check the headers
 
 =head3 notes
@@ -1228,7 +1285,7 @@ used to pass any Perl object into the L<writefunction callback|/writefunction>.
 
 =head3 execute
 
- $ perl examples/res-parse.pl 
+ $ perl examples/res-parse.pl
  The Foo Header Was: Bar
  The Content Was:    Check the headers
 

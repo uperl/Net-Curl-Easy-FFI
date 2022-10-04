@@ -66,6 +66,24 @@ my @const;
     constants => \@code,
     tag       => ':errorcode',
   };
+
+  my @ssl_backend = 
+    grep { $_->{name} =~ /^CURLSSLBACKEND_/ }
+    # convert into a hash
+    map { { name => $_->{name}, value =>  $_->{init} } }
+    # get the inner list of the enum
+    map { $_->{inner}->@* }
+    # only consider objects called curl_sslbackend (the enum), that have an inner list
+    grep { defined $_->{name} && $_->{name} eq 'curl_sslbackend' && defined $_->{inner} }
+    # get all of the items in the header
+    $header->{inner}->@*;
+
+  push @const, {
+    name      => 'curl_sslbackend',
+    url       => 'https://curl.se/libcurl/c/CURLINFO_TLS_SSL_PTR.html',
+    constants => \@ssl_backend,
+    tag       => ':ssl_backend',
+  };
 };
 
 {

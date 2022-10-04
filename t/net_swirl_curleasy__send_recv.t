@@ -213,6 +213,8 @@ subtest_streamed 'tls' => sub {
     },
     '$curl->getinfo("certinfo")';
   note Dumper($curl->getinfo('certinfo'));
+  note '$curl->getinfo("tls_session")->backend = ', $curl->getinfo('tls_session')->backend;
+  note '$curl->getinfo("tls_ssl_ptr")->backend = ', $curl->getinfo('tls_ssl_ptr')->backend;
 
   msg_ok $curl, $sock, "hello world", name => 'auto-allocate';
   msg_ok $curl, $sock, "hello world", name => 'pre-allocate';

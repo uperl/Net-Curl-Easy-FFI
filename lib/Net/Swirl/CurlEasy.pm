@@ -64,6 +64,17 @@ below.
     sub next ($self) { defined $self->_next ? $ffi->cast( opaque => 'curl_slist', $self->_next ) : undef }
   }
 
+  package Net::Swirl::CurlEasy::C::CurlTlssessioninfo {
+    FFI::C->struct('curl_tlssessioninfo' => [
+      backend    => 'enum',
+      _internals => 'opaque',
+    ]);
+
+    sub internals ($self) {
+      die;
+    }
+  }
+
   package Net::Swirl::CurlEasy::C::CurlCertinfo {
     FFI::C->struct('curl_certinfo' => [
       num_of_certs => 'int',
@@ -354,6 +365,7 @@ set the L<certinfo option|Net::Swirl::CurlEasy::Options/certinfo>.  This will be
 as list reference of list references.
 
 ( L<CURLINFO_CERTINFO|https://curl.se/libcurl/c/CURLINFO_CERTINFO.html> )
+
 =head3 lastsocket
 
  my $socket = $curl->getinfo('activesocket');
@@ -372,6 +384,47 @@ instead.
 URL scheme used for the most recent connection done.
 
 ( L<CURLINFO_SCHEME|https://curl.se/libcurl/c/CURLINFO_SCHEME.html> )
+
+=head3 tls_session
+
+ my $info = $curl->getinfo('tls_session');
+ my $backend = $info->backend;
+ my $internals = $info->internals;  # possibly implemented in a future version.
+
+The C API for C<libcurl> returns an integer code for the SSL/TSL backend, and an internal
+pointer which can be used to access get additional information about the session.  For now
+only the former is available via this Perl API.  In the future there may be an interface
+to the latter as well.
+
+The meaning of the integer codes of the C<$backend> can be found here:
+L<Net::Swirl::CurlEasy::Const/curl_sslbackend>.
+
+The actual class that implements C<$info> may change in the future (including the class
+name), but these two methods should be available (even if one just throws an exception).
+
+( L<CURLINFO_TLS_SESSION|https://curl.se/libcurl/c/CURLINFO_TLS_SESSION.html> )
+
+=head3 tls_ssl_ptr
+
+ my $info = $curl->getinfo('tls_ssl_ptr');
+ my $backend = $info->backend;
+ my $internals = $info->internals;  # possibly implemented in a future version.
+
+The C API for C<libcurl> returns an integer code for the SSL/TSL backend, and an internal
+pointer which can be used to access get additional information about the session.  For now
+only the former is available via this Perl API.  In the future there may be an interface
+to the latter as well.
+
+The meaning of the integer codes of the C<$backend> can be found here:
+L<Net::Swirl::CurlEasy::Const/curl_sslbackend>.
+
+Generally the L<tls_session option|/tls_session> is preferred when using the C API, but
+until C<internals> is implemented it doesn't make any difference for the Perl API.
+
+The actual class that implements C<$info> may change in the future (including the class
+name), but these two methods should be available (even if one just throws an exception).
+
+( L<CURLINFO_TLS_SSL_PTR|https://curl.se/libcurl/c/CURLINFO_TLS_SSL_PTR.html> )
 
 =cut
 
@@ -412,12 +465,23 @@ URL scheme used for the most recent connection done.
     return $code;
   });
 
+  $ffi->attach( [getinfo => '_getinfo_tlssessioninfo'] => ['CURL','enum'] => ['opaque*'] => 'enum' => sub ($xsub, $self, $key_id, $value) {
+    my $code = $xsub->($self, $key_id, \my $ptr);
+    unless($code)
+    {
+      $$value = $ffi->cast('opaque', 'curl_tlssessioninfo', $ptr);
+    }
+    return $code;
+  });
+
   require Net::Swirl::CurlEasy::Info unless $Net::Swirl::CurlEasy::no_gen;
 
   our %info = (%info,
-    activesocket => [5242924, \&_getinfo_socket  ],
-    lastsocket   => [5242924, \&_getinfo_socket  ],
-    certinfo     => [4194338, \&_getinfo_certinfo],
+    activesocket => [5242924, \&_getinfo_socket        ],
+    lastsocket   => [5242924, \&_getinfo_socket        ],
+    certinfo     => [4194338, \&_getinfo_certinfo      ],
+    tls_session  => [4194347, \&_getinfo_tlssessioninfo],
+    tls_ssl_ptr  => [4194349, \&_getinfo_tlssessioninfo],
   );
 
   sub getinfo ($self, $key)

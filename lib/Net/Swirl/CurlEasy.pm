@@ -1220,6 +1220,25 @@ We do not use it in this example, but the L<headerdata option|/headerdata> is us
 pass any Perl object into the callback, just like L<writedata option|/writedata> is
 used to pass any Perl object into the L<writefunction callback|/writefunction>.
 
+=head2 Parse the Entire Response Using Perl
+
+=head3 source
+
+# EXAMPLE: examples/res-parse.pl
+
+=head3 execute
+
+ $ perl examples/res-parse.pl 
+ The Foo Header Was: Bar
+ The Content Was:    Check the headers
+
+=head3 notes
+
+If you do not set the L<headerfunction callback|/headerfunction> (or set it to C<undef>),
+and set L<headerdata option|/headerdata> to a true value, then the header data will be
+sent to the L<writefunction callback|/writefunction>.  This is a good way to capture and
+parse the entire response.  Here we pass the raw response into L<HTTP::Response>
+
 =head2 Get Information About the Request After the Transfer
 
 =head3 source

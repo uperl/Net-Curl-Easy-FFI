@@ -20,6 +20,7 @@ if($ENV{TEST_EXAMPLES})
   {
     note 'starting examples.psgi in a screen';
     system 'screen -S net-swirl-curl-easy-test -d -m plackup examples/server.psgi';
+    sleep 2;
   }
 }
 

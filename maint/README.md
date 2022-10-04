@@ -47,9 +47,6 @@ Some other useful tools:
  * `./maint/ref-shell` will give you a shell inside the reference docker image.  This can
    be useful for debugging build or run problems.
 
- * `./maint/ref-symbols` will list the symbols in the unsupported, old and new versions of
-   `libcurl`.
-
  * `castxml` and `castyml` run from inside the `ref-shell` will dump a C header file using
    `libclang`.  The latter will restore some of the hierarchy to the function argument
    types, which can be helpful in debugging the function introspection.  Example:

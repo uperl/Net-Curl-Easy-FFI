@@ -4,6 +4,7 @@ use Net::Swirl::CurlEasy;
 use lib 't/lib';
 use Test2::Tools::MyTest;
 use JSON::PP qw( decode_json );
+use Test2::Tools::MemoryCycle;
 
 skip_all 'set TEST_EXAMPLE=1 and install Plack to run this test' unless example_http;
 
@@ -28,6 +29,14 @@ subtest 'basic' => sub {
       etc;
     },
     'saw oo and Frooble in response with the correct values';
+
+  memory_cycle_ok $curl;
+
+  try_ok { undef $curl } 'did not crash I guess?';
+
+  keep_is_empty;
 };
+
+keep_is_empty;
 
 done_testing;

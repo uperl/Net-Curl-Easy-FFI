@@ -17,6 +17,7 @@ $modules{$_} = $_ for qw(
   FFI::CheckLib
   FFI::Platypus
   FFI::Platypus::Buffer
+  FFI::Platypus::Memory
   File::Which
   HTTP::Response
   Path::Tiny

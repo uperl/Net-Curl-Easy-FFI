@@ -67,7 +67,7 @@ my @const;
     tag       => ':errorcode',
   };
 
-  my @ssl_backend = 
+  my @ssl_backend =
     grep { $_->{name} =~ /^CURLSSLBACKEND_/ }
     # convert into a hash
     map { { name => $_->{name}, value =>  $_->{init} } }

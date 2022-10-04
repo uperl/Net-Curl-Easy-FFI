@@ -886,7 +886,7 @@ say Dumper($data);
 ### execute
 
 ```perl
-$ perl examples/req-header.pl 
+$ perl examples/req-header.pl
 {
   'host' => 'localhost:5000',
   'shoesize' => '10'
@@ -924,7 +924,7 @@ $curl->setopt(url => 'http://localhost:5000/show-res-headers')
 ### execute
 
 ```
-$ perl examples/res-header.pl 
+$ perl examples/res-header.pl
 header: HTTP/1.0 200 OK
 header: Date: Tue, 04 Oct 2022 20:39:48 GMT
 header: Server: HTTP::Server::PSGI
@@ -932,7 +932,7 @@ header: Content-Type: text/plain
 header: Foo: Bar
 header: Baz: 1
 header: Content-Length: 18
-header: 
+header:
 Check the headers
 ```
 
@@ -977,7 +977,7 @@ say 'The Content Was:    ', $res->decoded_content;
 ### execute
 
 ```
-$ perl examples/res-parse.pl 
+$ perl examples/res-parse.pl
 The Foo Header Was: Bar
 The Content Was:    Check the headers
 ```

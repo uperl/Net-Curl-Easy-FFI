@@ -386,6 +386,29 @@ URL scheme used for the most recent connection done.
     return $value;
   }
 
+=head2 pause
+
+ $curl->pause($bitmask);
+
+Using this function, you can explicitly mark a running connection to get paused, and you can
+unpause a connection that was previously paused.  For full details on how this method
+works, review the documentation of the function from the C API below.  You can import the
+appropriate integer constants for C<$bitmask> using the
+L<:pause tag|Net::Swirl::CurlEasy::Const/CURLPAUSE> from L<Net::Swirl::CurlEasy::Const>.
+
+Throws a
+L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode> on error.
+
+( L<curl_easy_pause|https://curl.se/libcurl/c/curl_easy_pause.html> )
+
+=cut
+
+  $ffi->attach( pause => ['CURL','int'] => 'enum' => sub ($xsub, $self, $bitmask) {
+    my $code = $xsub->($self, $bitmask);
+    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
+    $self;
+  });
+
 =head2 perform
 
  $curl->perform;

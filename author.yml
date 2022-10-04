@@ -23,6 +23,7 @@ pod_spelling_system:
     - svc
     - CURLcode
     - CURLPAUSE
+    - unpause
 
 
 pod_coverage:

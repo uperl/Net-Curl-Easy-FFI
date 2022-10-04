@@ -227,9 +227,9 @@ my $tt = Template->new({
   },
 });
 
-foreach my $name (qw( Const Options Info ))
 {
-  $tt->process("$name.pm.tt", {
+
+  my %data = (
     curl => {
       options => \@options,
       infos => \@info,
@@ -238,11 +238,24 @@ foreach my $name (qw( Const Options Info ))
         infos   => [sort map { s/:.*$//r } map { $_->@* } values $missing{info}->%*  ]
       },
       const => \@const,
-    },
-  }, "lib/Net/Swirl/CurlEasy/$name.pm" ) or do {
-    say "Error generating lib/Net/Swirl/CurlEasy/$name.pm @{[ $tt->error ]}";
-    exit 2;
-  };
+    }
+  );
+
+  foreach my $name (qw( options infos ))
+  {
+    if($data{curl}->{missing}->{$name}->@* == 0)
+    {
+      delete $data{curl}->{missing}->{$name};
+    }
+  }
+
+  foreach my $name (qw( Const Options Info ))
+  {
+    $tt->process("$name.pm.tt", \%data, "lib/Net/Swirl/CurlEasy/$name.pm" ) or do {
+      say "Error generating lib/Net/Swirl/CurlEasy/$name.pm @{[ $tt->error ]}";
+      exit 2;
+    };
+  }
 }
 
 push $missing{options}->{UNKNOWN}->@*, sort keys %option_init if %option_init;

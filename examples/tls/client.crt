@@ -33,18 +33,18 @@ Certificate:
                     1e:87
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
-            X509v3 Basic Constraints: 
+            X509v3 Basic Constraints:
                 CA:FALSE
-            X509v3 Subject Key Identifier: 
+            X509v3 Subject Key Identifier:
                 A9:EC:1B:D5:DE:AA:CD:E1:FB:C8:55:7A:D7:E9:93:D6:EF:CA:ED:4C
-            X509v3 Authority Key Identifier: 
+            X509v3 Authority Key Identifier:
                 keyid:22:37:AC:96:19:85:4B:F4:1B:CB:C7:6E:33:47:C5:6A:39:52:D7:A2
                 DirName:/CN=Snakeoil Swirl CA
                 serial:6F:34:03:22:8A:8A:75:BF:6E:76:88:F2:53:C3:79:E9:8C:E3:39:F0
 
-            X509v3 Extended Key Usage: 
+            X509v3 Extended Key Usage:
                 TLS Web Client Authentication
-            X509v3 Key Usage: 
+            X509v3 Key Usage:
                 Digital Signature
     Signature Algorithm: sha256WithRSAEncryption
          23:ed:b4:67:c8:a1:d9:29:a3:36:3f:79:a8:23:13:86:20:73:

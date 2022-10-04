@@ -33,20 +33,20 @@ Certificate:
                     a2:cd
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
-            X509v3 Basic Constraints: 
+            X509v3 Basic Constraints:
                 CA:FALSE
-            X509v3 Subject Key Identifier: 
+            X509v3 Subject Key Identifier:
                 03:27:6E:C3:E3:19:7C:F5:C3:56:29:38:B2:C2:67:A6:CB:3B:FD:19
-            X509v3 Authority Key Identifier: 
+            X509v3 Authority Key Identifier:
                 keyid:22:37:AC:96:19:85:4B:F4:1B:CB:C7:6E:33:47:C5:6A:39:52:D7:A2
                 DirName:/CN=Snakeoil Swirl CA
                 serial:6F:34:03:22:8A:8A:75:BF:6E:76:88:F2:53:C3:79:E9:8C:E3:39:F0
 
-            X509v3 Extended Key Usage: 
+            X509v3 Extended Key Usage:
                 TLS Web Server Authentication
-            X509v3 Key Usage: 
+            X509v3 Key Usage:
                 Digital Signature, Key Encipherment
-            X509v3 Subject Alternative Name: 
+            X509v3 Subject Alternative Name:
                 DNS:localhost
     Signature Algorithm: sha256WithRSAEncryption
          06:de:0e:ca:64:ed:55:0e:ad:8c:22:45:93:8f:71:6a:2f:09:

@@ -16,6 +16,7 @@ $modules{$_} = $_ for qw(
   FFI::CheckLib
   FFI::Platypus
   FFI::Platypus::Buffer
+  File::Which
   Path::Tiny
   Ref::Util
   Test2::API

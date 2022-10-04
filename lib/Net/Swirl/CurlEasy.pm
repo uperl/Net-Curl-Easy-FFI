@@ -776,7 +776,7 @@ Here is how you might catch exceptions using the new C<try> and C<isa> features:
      ->perform;
  } catch ($e) {
    if($e isa Net::Swirl::CurlEasy::Exception::CurlCode) {
-
+ 
     # get the integer code
     my $code = $e->code;
     if($e->code == CURLE_UNSUPPORTED_PROTOCOL) {
@@ -787,8 +787,8 @@ Here is how you might catch exceptions using the new C<try> and C<isa> features:
       ...
     }
     ...
-     
- 
+
+
    } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
  
     if($e->code eq 'create-failed') {
@@ -954,7 +954,7 @@ when the example is run.
  < Server: HTTP::Server::PSGI
  < Location: /hello-world
  < Content-Length: 0
- < 
+ <
  * Closing connection 0
  * Issue another request to this URL: 'http://localhost:5000/hello-world'
  * Hostname localhost was found in DNS cache
@@ -971,7 +971,7 @@ when the example is run.
  < Server: HTTP::Server::PSGI
  < Content-Type: text/plain
  < Content-Length: 13
- < 
+ <
  Hello World!
  * Closing connection 1
 
@@ -1040,7 +1040,7 @@ The default L<writefunction|/writefunction> callback looks like this:
 
 =head3 execute
 
- $ perl examples/getinfo.pl 
+ $ perl examples/getinfo.pl
  Hello World!
  The Content-Type is: text/plain
 
@@ -1051,6 +1051,102 @@ the L<getinfo method|/getinfo>.  The full list is available from L<Net::Swirl::C
 with more details on the C<curl> website: L<https://curl.se/libcurl/c/curl_easy_getinfo.html>.
 
 In this example we get the C<Content-Type> and print it out.
+
+=head2 Connect Securely With Mutual TLS/SSL Encryption and Verification
+
+=head3 source
+
+# EXAMPLE: examples/simplessl.pl
+
+=head3 execute
+
+ $ perl examples/simplessl.pl
+ *   Trying 127.0.0.1:5001...
+ * Connected to localhost (127.0.0.1) port 5001 (#0)
+ * ALPN: offers h2
+ * ALPN: offers http/1.1
+ *  CAfile: examples/tls/Swirl-CA.crt
+ *  CApath: none
+ * SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
+ * ALPN: server accepted http/1.1
+ * Server certificate:
+ *  subject: CN=localhost
+ *  start date: Oct  4 10:57:17 2022 GMT
+ *  expire date: Jan  6 10:57:17 2025 GMT
+ *  subjectAltName: host "localhost" matched cert's "localhost"
+ *  issuer: CN=Snakeoil Swirl CA
+ *  SSL certificate verify ok.
+ > GET /hello-world HTTP/1.1
+ Host: localhost:5001
+ Accept: */*
+ 
+ * Mark bundle as not supporting multiuse
+ < HTTP/1.1 200 OK
+ < Server: nginx/1.22.0
+ < Date: Tue, 04 Oct 2022 12:53:32 GMT
+ < Content-Type: text/plain
+ < Content-Length: 13
+ < Connection: keep-alive
+ <
+ Hello World!
+ * Connection #0 to host localhost left intact
+
+=head3 prereqs
+
+Setting up a Certificate Authority (CA) and generating the appropriate certificates
+is beyond the scope of this discussion, so we've pre-generated the appropriate
+files in the C<examples/tls> directory so that the example can be run.  Hopefully
+it is obvious that you should never use these files for in a production environment
+since the "private" keys are completely public.
+
+This directory also contains an C<nginx> configuration that will proxy to the plackup
+server.  To start it you will need to install nginx and run:
+
+ $ nginx -p examples/tls -c nginx.conf
+
+=head3 notes
+
+Once you have TLS/SSL certificates and keys and your server is correctly set up
+it is pretty easy to use L<Net::Swirl::CurlEasy> so that it is secure using both
+encryption and verification.
+
+First we set these options:
+
+=over 4
+
+=item C<ssl_verifypeer>
+
+We set this to C<1>, although this is the default.  If we don't want to verify
+that the server has a valid certificate then we can set this to C<0>.  This
+is roughly equivalent to C<curl>'s C<-k> option.
+
+=item C<cainfo>
+
+This is the Certificate Authority (CA) public certificate.  If you set
+C<ssl_verifypeer> to false, then you do not need this.
+
+=item C<sslcert> and C<sslkey>
+
+This is the public client certificate and private key.  If the server does not
+require client key, then you do not need these.
+
+=item C<keypasswd>
+
+This is the password with which the private client key was encrypted.  We use
+the obviously terrible password `password` just to show how you would specify
+a password.
+
+=item C<verbose>
+
+We also set the C<verbose> flag here once again just so that we can see some
+of the details of the SSL/TLS interaction.
+
+=back
+
+Then once the transfer has completed using the L<perform method|/perform>,
+we get the L<response code|Net::Swirl::CurlEasy::Info/response_code> to
+ensure that the request was correctly accepted.  If the server does not like
+our key, then it will return a 4xx error.
 
 =head2 Implement Protocols With send and recv
 

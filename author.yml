@@ -24,7 +24,7 @@ pod_spelling_system:
     - CURLcode
     - CURLPAUSE
     - unpause
-
+    - nginx
 
 pod_coverage:
   skip: 0

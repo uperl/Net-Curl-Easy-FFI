@@ -21,6 +21,8 @@ pod_spelling_system:
     - activesocket
     - lastsocket
     - svc
+    - CURLcode
+    - CURLPAUSE
 
 
 pod_coverage:

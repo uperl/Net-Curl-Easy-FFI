@@ -741,6 +741,7 @@ calls modules that may throw a string exception.
 
 Here is how you might catch exceptions using the new C<try> and C<isa> features:
 
+ use Net::Swirl::CurlEasy qw( :all );
  use experimental qw( try isa );
  
  try {
@@ -750,8 +751,18 @@ Here is how you might catch exceptions using the new C<try> and C<isa> features:
      ->perform;
  } catch ($e) {
    if($e isa Net::Swirl::CurlEasy::Exception::CurlCode) {
- 
-    my $code = $e->code;  # integer code
+
+    # get the integer code
+    my $code = $e->code;
+    if($e->code == CURLE_UNSUPPORTED_PROTOCOL) {
+      ...
+    } elsif($e->code == CURLE_FAILED_INIT) {
+      ...
+    } elsif($e->code == CURLE_URL_MALFORMAT) {
+      ...
+    }
+    ...
+     
  
    } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
  
@@ -813,6 +824,12 @@ It has these additional properties:
 This is the integer C<libcurl> code.  The full list of possible codes can be found here:
 L<https://curl.se/libcurl/c/libcurl-errors.html>.  Note that typically an exception for
 C<CURLE_OK> is not normally thrown so you should not see that value in an exception.
+
+C<CURLE_AGAIN> (81) is usually caught by the L<send|/send> and L<recv|/recv> methods
+which instead return C<undef> when socket is not ready.
+
+If you want to use the constant names from the C API, you can import them from
+L<Net::Swirl::CurlEasy::Const>.
 
 =back
 
@@ -1076,6 +1093,10 @@ more bytes to read we can assume the response is complete.
 =head1 SEE ALSO
 
 =over 4
+
+=item L<Net::Swirl::CurlEasy::Const>
+
+Full list of constants used by L<Net::Swirl::CurlEasy>.
 
 =item L<Net::Swirl::CurlEasy::Options>
 

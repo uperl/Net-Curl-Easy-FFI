@@ -387,6 +387,7 @@ calls modules that may throw a string exception.
 Here is how you might catch exceptions using the new `try` and `isa` features:
 
 ```perl
+use Net::Swirl::CurlEasy qw( :all );
 use experimental qw( try isa );
 
 try {
@@ -397,7 +398,17 @@ try {
 } catch ($e) {
   if($e isa Net::Swirl::CurlEasy::Exception::CurlCode) {
 
-   my $code = $e->code;  # integer code
+   # get the integer code
+   my $code = $e->code;
+   if($e->code == CURLE_UNSUPPORTED_PROTOCOL) {
+     ...
+   } elsif($e->code == CURLE_FAILED_INIT) {
+     ...
+   } elsif($e->code == CURLE_URL_MALFORMAT) {
+     ...
+   }
+   ...
+    
 
   } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
 
@@ -454,6 +465,12 @@ It has these additional properties:
     This is the integer `libcurl` code.  The full list of possible codes can be found here:
     [https://curl.se/libcurl/c/libcurl-errors.html](https://curl.se/libcurl/c/libcurl-errors.html).  Note that typically an exception for
     `CURLE_OK` is not normally thrown so you should not see that value in an exception.
+
+    `CURLE_AGAIN` (81) is usually caught by the [send](#send) and [recv](#recv) methods
+    which instead return `undef` when socket is not ready.
+
+    If you want to use the constant names from the C API, you can import them from
+    [Net::Swirl::CurlEasy::Const](https://metacpan.org/pod/Net::Swirl::CurlEasy::Const).
 
 ## Net::Swirl::CurlEasy::Exception::Swirl
 
@@ -865,6 +882,10 @@ We can append the data to the response buffer that we are building up.  When the
 more bytes to read we can assume the response is complete.
 
 # SEE ALSO
+
+- [Net::Swirl::CurlEasy::Const](https://metacpan.org/pod/Net::Swirl::CurlEasy::Const)
+
+    Full list of constants used by [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy).
 
 - [Net::Swirl::CurlEasy::Options](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options)
 

@@ -1778,6 +1778,10 @@ __END__
 
 Main documentation for the Swirl C<curl> "easy" API.
 
+=item L<Net::Swirl::CurlEasy::Const>
+
+Full list of constants used by L<Net::Swirl::CurlEasy>.
+
 =item L<Net::Swirl::CurlEasy::Info>
 
 Full list of information items available to this API.

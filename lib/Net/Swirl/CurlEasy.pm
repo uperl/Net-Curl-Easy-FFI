@@ -1237,7 +1237,8 @@ used to pass any Perl object into the L<writefunction callback|/writefunction>.
 If you do not set the L<headerfunction callback|/headerfunction> (or set it to C<undef>),
 and set L<headerdata option|/headerdata> to a true value, then the header data will be
 sent to the L<writefunction callback|/writefunction>.  This is a good way to capture and
-parse the entire response.  Here we pass the raw response into L<HTTP::Response>
+parse the entire response.  Here we pass the raw response into the L<HTTP::Response>
+class to parse it, which we can then use to interrogate it.
 
 =head2 Get Information About the Request After the Transfer
 

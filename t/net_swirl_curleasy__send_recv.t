@@ -201,6 +201,17 @@ subtest_streamed 'tls' => sub {
 
   my $sock = $curl->getinfo('activesocket');
 
+  is
+    $curl->getinfo('certinfo'),
+    array {
+      item bag {
+        item match qr/CN = localhost/;
+        item match qr/CN = Snakeoil Swirl CA/;
+        etc;
+      };
+      end;
+    },
+    '$curl->getinfo("certinfo")';
   note Dumper($curl->getinfo('certinfo'));
 
   msg_ok $curl, $sock, "hello world", name => 'auto-allocate';

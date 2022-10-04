@@ -4,72 +4,12 @@ use experimental qw( signatures );
 use Test2::Require::Module 'Net::Server::Fork';
 use Net::Swirl::CurlEasy;
 use Test2::API qw( context );
-use File::Which qw( which );
 use Data::Dumper qw( Dumper );
-use Env qw( @PATH );
 use lib 't/lib';
 use Test2::Tools::MyTest;
 
-my $test_tls = 0;
-
-if($ENV{LIVE_TESTS})
-{
-  my $sock = IO::Socket::INET->new(
-    PeerAddr => 'localhost',
-    PeerPort => 20203,
-    Proto    => 'tcp',
-  );
-  if($sock)
-  {
-    $sock->close;
-    note 'Something is listening to port 20203, assuming it is corpus/echo-server.pl';
-  }
-  else
-  {
-    note 'starting corpus/echo-server.pl in a screen';
-    system "screen -S net-swirl-curl-easy-test-echo -d -m $^X corpus/echo-server.pl";
-    sleep 2;
-  }
-
-  $sock = IO::Socket::INET->new(
-    PeerAddr => 'localhost',
-    PeerPort => 20204,
-    Proto    => 'tcp',
-  );
-  if($sock)
-  {
-    $sock->close;
-    note 'Something is listening to port 20204, assuming it is ghostunnel SSL proxy';
-    $test_tls = 1;
-  }
-  else
-  {
-    my $gt = which('ghostunnel');
-    unless(defined $gt)
-    {
-      eval {
-        require Alien::ghostunnel;
-        unshift @PATH, Alien::ghostunnel->bin_dir;
-      };
-      $gt = which('ghostunnel');
-    }
-    if($gt)
-    {
-      note "starting ghostunnel SSL proxy in a screen ($gt)";
-      system "screen -S net-swirl-curl-easy-test-echo-tls -d -m $gt server --allow-cn client --listen localhost:20204 --target localhost:20203 --cert examples/tls/localhost.crt --key examples/tls/localhost.key --cacert examples/tls/Swirl-CA.crt";
-      sleep 2;
-      $test_tls = 1;
-    }
-    else
-    {
-      note 'could not find ghostunnel, will skip TLS/SSL tests';
-    }
-  }
-}
-else
-{
-  skip_all 'Tests disabled unless LIVE_TESTS=1';
-}
+skip_all 'Tests disabled unless LIVE_TESTS=1 and Net::Server::Fork is installed' unless echo;
+echo_tls;
 
 sub wait_on_socket ($sock, $type) {
   my $vec = '';
@@ -190,7 +130,7 @@ subtest_streamed 'basic' => sub {
 };
 
 subtest_streamed 'tls' => sub {
-  skip_all 'test requires TLS/SSL' unless $test_tls;
+  skip_all 'test requires TLS/SSL' unless echo_tls;
 
   local $SIG{ALRM} = sub { die "alarm\n" };
   alarm 10;

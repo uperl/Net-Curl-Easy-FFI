@@ -14,6 +14,7 @@ RUN apt-get update                                   \
     expat                                            \
     libexpat1-dev                                    \
     screen                                           \
+    nginx                                            \
  && apt-get purge libcurl4-openssl-dev               \
  && apt-get -q autoremove                            \
  && apt-get -q clean                                 \

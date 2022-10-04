@@ -46,6 +46,9 @@ RUN apt-get purge curl libcurl4                      \
  && cd /usr/include/${debarch}                       \
  && ln -s /opt/curl/${latest}/include/* .
 
+RUN curl -L https://github.com/ghostunnel/ghostunnel/releases/download/v1.6.1/ghostunnel-linux-amd64 > /usr/bin/ghostunnel \
+ && chmod +x /usr/bin/ghostunnel
+
 RUN cpanm -n                                         \
     Test2::Tools::MemoryCycle                        \
     https://dist.wdlabs.com/App-castyml-0.01.tar.gz  \

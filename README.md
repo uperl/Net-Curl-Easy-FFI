@@ -987,7 +987,8 @@ The Content Was:    Check the headers
 If you do not set the [headerfunction callback](#headerfunction) (or set it to `undef`),
 and set [headerdata option](#headerdata) to a true value, then the header data will be
 sent to the [writefunction callback](#writefunction).  This is a good way to capture and
-parse the entire response.  Here we pass the raw response into [HTTP::Response](https://metacpan.org/pod/HTTP::Response)
+parse the entire response.  Here we pass the raw response into the [HTTP::Response](https://metacpan.org/pod/HTTP::Response)
+class to parse it, which we can then use to interrogate it.
 
 ## Get Information About the Request After the Transfer
 

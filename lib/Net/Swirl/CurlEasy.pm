@@ -53,16 +53,37 @@ below.
   $ffi->mangler(sub ($name) { "curl_slist_$name" });
 
   # There is almost certainly a better way to do this.
-  package Net::Swirl::CurlEasy::SlistStruct {
+  package Net::Swirl::CurlEasy::C::CurlSlist {
     FFI::C->ffi($ffi);
-    FFI::C->struct([
+    FFI::C->struct('curl_slist' => [
       _data => 'opaque',
       _next => 'opaque',
     ]);
 
     sub data ($self) { $ffi->cast( opaque => 'string', $self->_data ) }
-    sub next ($self) { defined $self->_next ? $ffi->cast( opaque => 'slist_struct_t', $self->_next ) : undef }
+    sub next ($self) { defined $self->_next ? $ffi->cast( opaque => 'curl_slist', $self->_next ) : undef }
+  }
 
+  package Net::Swirl::CurlEasy::C::CurlCertinfo {
+    FFI::C->struct('curl_certinfo' => [
+      num_of_certs => 'int',
+      certinfo     => 'opaque',
+    ]);
+
+    sub to_perl ($self)
+    {
+      my $num = $self->num_of_certs;
+      return [] unless $num > 0;
+      return [
+        # convert the Slist into a Perl list ref
+        map { $_->as_list(1) }
+        # convert each pointer to an Slist
+        map { bless \$_, 'Net::Swirl::CurlEasy::Slist' }
+        # cast the certinfo pointer to an array of the number of certificates of opaque
+        # and flatten the reference
+        $ffi->cast('opaque' => "opaque[$num]", $self->certinfo)->@*
+      ];
+    }
   }
 
   package Net::Swirl::CurlEasy::Slist {
@@ -76,16 +97,17 @@ below.
 
     sub ptr ($self) { $$self }
 
-    sub as_list ($self)
+    sub as_list ($self, $kill=0)
     {
       return [] unless defined $$self;
-      my $struct = $ffi->cast( opaque => 'slist_struct_t', $$self );
+      my $struct = $ffi->cast( opaque => 'curl_slist', $$self );
       my @list;
       while(defined $struct)
       {
         push @list, $struct->data;
         $struct = $struct->next;
       }
+      $$self = undef if $kill;
       \@list;
     }
 
@@ -321,7 +343,17 @@ transfer phase, allowing you to use the socket to implement custom protocols.
 
 ( L<CURLINFO_ACTIVESOCKET|https://curl.se/libcurl/c/CURLINFO_ACTIVESOCKET.html> )
 
+=head3 certinfo
 
+ $curl->setopt(certinfo => 1);
+      ->perform;
+ my $certinfo = $curl->getinfo('certinfo');
+
+For a TLS/SSL request, this will return information about the certificate chain, if you
+set the L<certinfo option|Net::Swirl::CurlEasy::Options/certinfo>.  This will be returned
+as list reference of list references.
+
+( L<CURLINFO_CERTINFO|https://curl.se/libcurl/c/CURLINFO_CERTINFO.html> )
 =head3 lastsocket
 
  my $socket = $curl->getinfo('activesocket');
@@ -355,13 +387,22 @@ URL scheme used for the most recent connection done.
     $ffi->type(int => 'SOCKET');
   }
 
-  $ffi->attach( [getinfo => '_getinfo_string'] => ['CURL','enum'] => ['string*'] => 'enum' );
-  $ffi->attach( [getinfo => '_getinfo_double'] => ['CURL','enum'] => ['double*'] => 'enum' );
-  $ffi->attach( [getinfo => '_getinfo_long'  ] => ['CURL','enum'] => ['long*'  ] => 'enum' );
-  $ffi->attach( [getinfo => '_getinfo_off_t' ] => ['CURL','enum'] => ['off_t*' ] => 'enum' );
-  $ffi->attach( [getinfo => '_getinfo_socket'] => ['CURL','enum'] => ['SOCKET*'] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_string'  ] => ['CURL','enum'] => ['string*'] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_double'  ] => ['CURL','enum'] => ['double*'] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_long'    ] => ['CURL','enum'] => ['long*'  ] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_off_t'   ] => ['CURL','enum'] => ['off_t*' ] => 'enum' );
+  $ffi->attach( [getinfo => '_getinfo_socket'  ] => ['CURL','enum'] => ['SOCKET*'] => 'enum' );
 
-  $ffi->attach( [getinfo => '_getinfo_slist' ] => ['CURL','enum'] => ['opaque*'] => 'enum' => sub ($xsub, $self, $key_id, $value) {
+  $ffi->attach( [getinfo => '_getinfo_certinfo'] => ['CURL','enum'] => ['opaque*'] => 'enum' => sub ($xsub, $self, $key_id, $value) {
+    my $code = $xsub->($self, $key_id, \my $ptr);
+    unless($code)
+    {
+      $$value = $ffi->cast('opaque', 'curl_certinfo', $ptr)->to_perl;
+    }
+    return $code;
+  });
+
+  $ffi->attach( [getinfo => '_getinfo_slist'   ] => ['CURL','enum'] => ['opaque*'] => 'enum' => sub ($xsub, $self, $key_id, $value) {
     my $code = $xsub->($self, $key_id, \my $ptr);
     unless($code)
     {
@@ -374,8 +415,9 @@ URL scheme used for the most recent connection done.
   require Net::Swirl::CurlEasy::Info unless $Net::Swirl::CurlEasy::no_gen;
 
   our %info = (%info,
-    activesocket => [5242924, \&_getinfo_socket],
-    lastsocket   => [5242924, \&_getinfo_socket],
+    activesocket => [5242924, \&_getinfo_socket  ],
+    lastsocket   => [5242924, \&_getinfo_socket  ],
+    certinfo     => [4194338, \&_getinfo_certinfo],
   );
 
   sub getinfo ($self, $key)

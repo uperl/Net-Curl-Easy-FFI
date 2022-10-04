@@ -5,6 +5,7 @@ use Test2::Require::Module 'Net::Server::Fork';
 use Net::Swirl::CurlEasy;
 use Test2::API qw( context );
 use File::Which qw( which );
+use Data::Dumper qw( Dumper );
 use lib 't/lib';
 use Test2::Tools::MyTest;
 
@@ -188,16 +189,19 @@ subtest_streamed 'tls' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;
 
-  $curl->setopt( url            => 'http://localhost:20203' )
+  $curl->setopt( url            => 'https://localhost:20204' )
        ->setopt( ssl_verifypeer => 1)
        ->setopt( cainfo         => 'examples/tls/Swirl-CA.crt')
        ->setopt( sslcert        => 'examples/tls/client.crt')
        ->setopt( sslkey         => 'examples/tls/client.key')
        ->setopt( keypasswd      => 'password')
        ->setopt( connect_only   => 1 )
+       ->setopt( certinfo       => 1 )
        ->perform;
 
   my $sock = $curl->getinfo('activesocket');
+
+  note Dumper($curl->getinfo('certinfo'));
 
   msg_ok $curl, $sock, "hello world", name => 'auto-allocate';
   msg_ok $curl, $sock, "hello world", name => 'pre-allocate';

@@ -20,8 +20,8 @@ L<getinfo method|Net::Swirl::CurlEasy/getinfo>.
 
 =begin stopwords
 
-effective_url CURLINFO_EFFECTIVE_URL response_code CURLINFO_RESPONSE_CODE total_time CURLINFO_TOTAL_TIME namelookup_time CURLINFO_NAMELOOKUP_TIME connect_time CURLINFO_CONNECT_TIME pretransfer_time CURLINFO_PRETRANSFER_TIME size_upload CURLINFO_SIZE_UPLOAD size_upload_t CURLINFO_SIZE_UPLOAD_T size_download CURLINFO_SIZE_DOWNLOAD size_download_t CURLINFO_SIZE_DOWNLOAD_T speed_download CURLINFO_SPEED_DOWNLOAD speed_download_t CURLINFO_SPEED_DOWNLOAD_T speed_upload CURLINFO_SPEED_UPLOAD speed_upload_t CURLINFO_SPEED_UPLOAD_T header_size CURLINFO_HEADER_SIZE request_size CURLINFO_REQUEST_SIZE ssl_verifyresult CURLINFO_SSL_VERIFYRESULT filetime CURLINFO_FILETIME filetime_t CURLINFO_FILETIME_T content_length_download CURLINFO_CONTENT_LENGTH_DOWNLOAD content_length_download_t CURLINFO_CONTENT_LENGTH_DOWNLOAD_T content_length_upload CURLINFO_CONTENT_LENGTH_UPLOAD content_length_upload_t CURLINFO_CONTENT_LENGTH_UPLOAD_T starttransfer_time CURLINFO_STARTTRANSFER_TIME content_type CURLINFO_CONTENT_TYPE redirect_time CURLINFO_REDIRECT_TIME redirect_count CURLINFO_REDIRECT_COUNT private CURLINFO_PRIVATE http_connectcode CURLINFO_HTTP_CONNECTCODE httpauth_avail CURLINFO_HTTPAUTH_AVAIL proxyauth_avail CURLINFO_PROXYAUTH_AVAIL os_errno CURLINFO_OS_ERRNO num_connects CURLINFO_NUM_CONNECTS ssl_engines CURLINFO_SSL_ENGINES cookielist CURLINFO_COOKIELIST lastsocket CURLINFO_LASTSOCKET ftp_entry_path CURLINFO_FTP_ENTRY_PATH redirect_url CURLINFO_REDIRECT_URL primary_ip CURLINFO_PRIMARY_IP appconnect_time CURLINFO_APPCONNECT_TIME condition_unmet CURLINFO_CONDITION_UNMET rtsp_session_id CURLINFO_RTSP_SESSION_ID rtsp_client_cseq CURLINFO_RTSP_CLIENT_CSEQ rtsp_server_cseq CURLINFO_RTSP_SERVER_CSEQ rtsp_cseq_recv CURLINFO_RTSP_CSEQ_RECV primary_port CURLINFO_PRIMARY_PORT local_ip CURLINFO_LOCAL_IP local_port CURLINFO_LOCAL_PORT activesocket CURLINFO_ACTIVESOCKET http_version CURLINFO_HTTP_VERSION proxy_ssl_verifyresult CURLINFO_PROXY_SSL_VERIFYRESULT protocol CURLINFO_PROTOCOL scheme CURLINFO_SCHEME total_time_t CURLINFO_TOTAL_TIME_T namelookup_time_t CURLINFO_NAMELOOKUP_TIME_T connect_time_t CURLINFO_CONNECT_TIME_T pretransfer_time_t CURLINFO_PRETRANSFER_TIME_T starttransfer_time_t CURLINFO_STARTTRANSFER_TIME_T redirect_time_t CURLINFO_REDIRECT_TIME_T appconnect_time_t CURLINFO_APPCONNECT_TIME_T retry_after CURLINFO_RETRY_AFTER effective_method CURLINFO_EFFECTIVE_METHOD proxy_error CURLINFO_PROXY_ERROR referer CURLINFO_REFERER cainfo CURLINFO_CAINFO capath CURLINFO_CAPATH
-CERTINFO TLS_SESSION TLS_SSL_PTR
+effective_url CURLINFO_EFFECTIVE_URL response_code CURLINFO_RESPONSE_CODE total_time CURLINFO_TOTAL_TIME namelookup_time CURLINFO_NAMELOOKUP_TIME connect_time CURLINFO_CONNECT_TIME pretransfer_time CURLINFO_PRETRANSFER_TIME size_upload CURLINFO_SIZE_UPLOAD size_upload_t CURLINFO_SIZE_UPLOAD_T size_download CURLINFO_SIZE_DOWNLOAD size_download_t CURLINFO_SIZE_DOWNLOAD_T speed_download CURLINFO_SPEED_DOWNLOAD speed_download_t CURLINFO_SPEED_DOWNLOAD_T speed_upload CURLINFO_SPEED_UPLOAD speed_upload_t CURLINFO_SPEED_UPLOAD_T header_size CURLINFO_HEADER_SIZE request_size CURLINFO_REQUEST_SIZE ssl_verifyresult CURLINFO_SSL_VERIFYRESULT filetime CURLINFO_FILETIME filetime_t CURLINFO_FILETIME_T content_length_download CURLINFO_CONTENT_LENGTH_DOWNLOAD content_length_download_t CURLINFO_CONTENT_LENGTH_DOWNLOAD_T content_length_upload CURLINFO_CONTENT_LENGTH_UPLOAD content_length_upload_t CURLINFO_CONTENT_LENGTH_UPLOAD_T starttransfer_time CURLINFO_STARTTRANSFER_TIME content_type CURLINFO_CONTENT_TYPE redirect_time CURLINFO_REDIRECT_TIME redirect_count CURLINFO_REDIRECT_COUNT private CURLINFO_PRIVATE http_connectcode CURLINFO_HTTP_CONNECTCODE httpauth_avail CURLINFO_HTTPAUTH_AVAIL proxyauth_avail CURLINFO_PROXYAUTH_AVAIL os_errno CURLINFO_OS_ERRNO num_connects CURLINFO_NUM_CONNECTS ssl_engines CURLINFO_SSL_ENGINES cookielist CURLINFO_COOKIELIST lastsocket CURLINFO_LASTSOCKET ftp_entry_path CURLINFO_FTP_ENTRY_PATH redirect_url CURLINFO_REDIRECT_URL primary_ip CURLINFO_PRIMARY_IP appconnect_time CURLINFO_APPCONNECT_TIME certinfo CURLINFO_CERTINFO condition_unmet CURLINFO_CONDITION_UNMET rtsp_session_id CURLINFO_RTSP_SESSION_ID rtsp_client_cseq CURLINFO_RTSP_CLIENT_CSEQ rtsp_server_cseq CURLINFO_RTSP_SERVER_CSEQ rtsp_cseq_recv CURLINFO_RTSP_CSEQ_RECV primary_port CURLINFO_PRIMARY_PORT local_ip CURLINFO_LOCAL_IP local_port CURLINFO_LOCAL_PORT activesocket CURLINFO_ACTIVESOCKET http_version CURLINFO_HTTP_VERSION proxy_ssl_verifyresult CURLINFO_PROXY_SSL_VERIFYRESULT protocol CURLINFO_PROTOCOL scheme CURLINFO_SCHEME total_time_t CURLINFO_TOTAL_TIME_T namelookup_time_t CURLINFO_NAMELOOKUP_TIME_T connect_time_t CURLINFO_CONNECT_TIME_T pretransfer_time_t CURLINFO_PRETRANSFER_TIME_T starttransfer_time_t CURLINFO_STARTTRANSFER_TIME_T redirect_time_t CURLINFO_REDIRECT_TIME_T appconnect_time_t CURLINFO_APPCONNECT_TIME_T retry_after CURLINFO_RETRY_AFTER effective_method CURLINFO_EFFECTIVE_METHOD proxy_error CURLINFO_PROXY_ERROR referer CURLINFO_REFERER cainfo CURLINFO_CAINFO capath CURLINFO_CAPATH
+TLS_SESSION TLS_SSL_PTR
 
 =end stopwords
 
@@ -237,12 +237,7 @@ CERTINFO TLS_SESSION TLS_SSL_PTR
 
 =head2 lastsocket
 
- my $socket = $curl->getinfo('activesocket');
-
-This is just an alias for L<activesocket|/activesocket>.  In the C API  this info is
-deprecated because it doesn't work correctly on 64 bit Windows.  Because it was deprecated
-before L<Net::Swirl::CurlEasy> was written, this Perl API just makes this an alias
-instead.
+ my $value = $getinfo('lastsocket');
 
 ( L<CURLINFO_LASTSOCKET|https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html> )
 
@@ -269,6 +264,28 @@ instead.
  my $value = $getinfo('appconnect_time');
 
 ( L<CURLINFO_APPCONNECT_TIME|https://curl.se/libcurl/c/CURLINFO_APPCONNECT_TIME.html> )
+
+=head2 certinfo
+
+ $curl->setopt(certinfo => 1);
+      ->perform;
+ my $certinfo = $curl->getinfo('certinfo');
+
+For a TLS/SSL request, this will return information about the certificate chain, if you
+set the L<certinfo option|Net::Swirl::CurlEasy::Options/certinfo>.  This will be returned
+as list reference of list references.
+
+( L<CURLINFO_CERTINFO|https://curl.se/libcurl/c/CURLINFO_CERTINFO.html> )
+=head3 lastsocket
+
+ my $socket = $curl->getinfo('activesocket');
+
+This is just an alias for L<activesocket|/activesocket>.  In the C API  this info is
+deprecated because it doesn't work correctly on 64 bit Windows.  Because it was deprecated
+before L<Net::Swirl::CurlEasy> was written, this Perl API just makes this an alias
+instead.
+
+( L<CURLINFO_LASTSOCKET|https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html> )
 
 =head2 condition_unmet
 
@@ -328,7 +345,6 @@ in combination with L<connect_only|Net::Swirl::CurlEasy/connect_only>, which ski
 transfer phase, allowing you to use the socket to implement custom protocols.
 
 ( L<CURLINFO_ACTIVESOCKET|https://curl.se/libcurl/c/CURLINFO_ACTIVESOCKET.html> )
-
 
 =head2 http_version
 
@@ -440,8 +456,6 @@ The following information available in the C API is not current supported by
 L<Net::Swirl::CurlEasy>:
 
 =over 4
-
-=item CERTINFO
 
 =item TLS_SESSION
 

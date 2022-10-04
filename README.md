@@ -114,7 +114,20 @@ transfer phase, allowing you to use the socket to implement custom protocols.
 
 ( [CURLINFO\_ACTIVESOCKET](https://curl.se/libcurl/c/CURLINFO_ACTIVESOCKET.html) )
 
-### lastsocket
+### certinfo
+
+```perl
+$curl->setopt(certinfo => 1);
+     ->perform;
+my $certinfo = $curl->getinfo('certinfo');
+```
+
+For a TLS/SSL request, this will return information about the certificate chain, if you
+set the [certinfo option](https://metacpan.org/pod/Net::Swirl::CurlEasy::Options#certinfo).  This will be returned
+as list reference of list references.
+
+( [CURLINFO\_CERTINFO](https://curl.se/libcurl/c/CURLINFO_CERTINFO.html) )
+&#x3d;head3 lastsocket
 
 ```perl
 my $socket = $curl->getinfo('activesocket');

@@ -4,7 +4,7 @@ package Net::Swirl::CurlEasy {
   use 5.020;
   use experimental qw( signatures postderef );
   use FFI::Platypus 2.00;
-  use FFI::Platypus::Buffer qw( window scalar_to_buffer buffer_to_scalar );
+  use FFI::Platypus::Buffer ();
   use Net::Swirl::CurlEasy::FFI;
   use FFI::C;
   use Ref::Util qw( is_ref is_scalarref );
@@ -288,7 +288,7 @@ hexadecimal number).
 =cut
 
   $ffi->attach( escape => ['CURL','opaque','int'] => 'opaque' => sub ($xsub, $self, $buffer) {
-    my($ptr, $size) = scalar_to_buffer $buffer;
+    my($ptr, $size) = FFI::Platypus::Buffer::scalar_to_buffer($buffer);
     $ptr = $xsub->($self, $ptr, $size);
     my $string = $ffi->cast( 'opaque' => 'string', $ptr );
     _free($ptr);
@@ -672,7 +672,7 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
   $ffi->attach( [setopt => '_setopt_writefunction_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb) {
     my $closure = $keep{$$self}->{$key_id} = $ffi->closure(sub ($ptr, $size, $nm, $) {
-      window my $data, $ptr, $size*$nm;
+      FFI::Platypus::Buffer::window(my $data, $ptr, $size*$nm);
       local $@ = '';
       eval {
         # 10001 = WRITEDATA
@@ -719,9 +719,9 @@ converted to their binary versions.
 
   $ffi->attach( unescape => ['CURL','opaque','int','int*'] => 'opaque' => sub ($xsub, $self, $in) {
     return '' if length($in) == 0;
-    my($in_ptr, $in_size) = scalar_to_buffer $in;
+    my($in_ptr, $in_size) = FFI::Platypus::Buffer::scalar_to_buffer $in;
     my $out_ptr = $xsub->($self, $in_ptr, $in_size, \my $out_size);
-    my $out = buffer_to_scalar $out_ptr, $out_size;
+    my $out = FFI::Platypus::Buffer::buffer_to_scalar($out_ptr, $out_size);
     _free($out_ptr);
     $out;
   });

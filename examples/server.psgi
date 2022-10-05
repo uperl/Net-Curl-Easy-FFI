@@ -1,10 +1,10 @@
 use warnings;
 use 5.020;
-use experimental qw( signatures );
+use experimental qw( signatures postderef );
 
 package Plack::App::HelloWorld {
 
-  use JSON::PP qw( encode_json );
+  use JSON::PP qw( encode_json decode_json );
   use parent qw( Plack::Component );
 
   sub call ($self, $env) {
@@ -22,6 +22,14 @@ package Plack::App::HelloWorld {
 
     if($path eq '/show-res-headers') {
       return [200, ['Content-Type' => 'text/plain', Foo => 'Bar', Baz => 1], ["Check the headers\n"]];
+    }
+
+    if($path eq '/post' && $env->{REQUEST_METHOD} eq 'POST') {
+      my $data = '';
+      $env->{'psgi.input'}->read($data, $env->{CONTENT_LENGTH});
+      $data = decode_json($data);
+      %$data = reverse %$data;
+      return [200, ['Content-Type' => 'application/json'], [encode_json $data]];
     }
 
     if($path eq '/') {

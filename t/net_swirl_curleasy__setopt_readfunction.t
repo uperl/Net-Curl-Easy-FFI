@@ -1,6 +1,5 @@
 use Test2::V0 -no_srand => 1;
 use 5.020;
-use Test2::Tools::Subtest qw( subtest_streamed );
 use experimental qw( signatures postderef );
 use Net::Swirl::CurlEasy;
 use lib 't/lib';
@@ -42,7 +41,7 @@ my %tests = (
 foreach my $test_name (sort keys %tests)
 {
 
-  subtest_streamed $test_name => sub {
+  subtest $test_name => sub {
 
     my $curl = Net::Swirl::CurlEasy->new;
 
@@ -78,6 +77,51 @@ foreach my $test_name (sort keys %tests)
     keep_is_empty;
   };
 }
+
+subtest 'abort' => sub {
+
+  use Net::Swirl::CurlEasy::Const qw( CURLE_ABORTED_BY_CALLBACK );
+
+  my @warnings;
+
+  local $SIG{__WARN__} = sub {
+    my $message = shift;
+    if($message =~ /^oops/)
+    {
+      push @warnings, $message;
+    }
+    else
+    {
+      warn $message;
+    }
+  };
+
+  is
+    dies {
+      Net::Swirl::CurlEasy
+           ->new
+           ->setopt(url           => "http://localhost:5000/post")
+           ->setopt(post          => 1)
+           ->setopt(httpheader    => ["Content-Type: application/json",
+                                      "Content-Length: 10",
+                                      "Expect:"])
+           ->setopt(postfieldsize => 10)
+           ->setopt(readfunction  => sub ($, $size, $) {
+             die 'oops';
+           })
+           ->perform;
+    },
+    object {
+      call code => CURLE_ABORTED_BY_CALLBACK;
+    },
+    'threw exception';
+
+  is
+    \@warnings,
+    [match qr/^oops/],
+    'warning';
+
+};
 
 keep_is_empty;
 

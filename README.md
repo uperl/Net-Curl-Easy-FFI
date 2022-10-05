@@ -998,6 +998,11 @@ sent to the [writefunction callback](#writefunction).  This is a good way to cap
 parse the entire response.  Here we pass the raw response into the [HTTP::Response](https://metacpan.org/pod/HTTP::Response)
 class to parse it, which we can then use to interrogate it.
 
+Note that we use the `decoded_content` method on [HTTP::Response](https://metacpan.org/pod/HTTP::Response) to make sure that the
+content part of the response is correctly decoded.  In this case we could probably just
+use content method instead, but this is a good example of how you could decode the content
+of a HTTP response from `libcurl` if you had to.
+
 ## Get Information About the Request After the Transfer
 
 ### source

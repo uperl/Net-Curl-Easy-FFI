@@ -29,6 +29,11 @@ pod_spelling_system:
     - httpheader
     - headerdata
     - headerfunction
+    - NULLs
+    - postfields
+    - postfieldsize
+    - readdata
+    - readfunction
 
 pod_coverage:
   skip: 0

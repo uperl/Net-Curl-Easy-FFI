@@ -1232,6 +1232,39 @@ The default L<writefunction|/writefunction> callback looks like this:
    print $fh $data;
  });
 
+=head2 Make a POST Request
+
+=head3 source
+
+# EXAMPLE: examples/post.pl
+
+=head3 execute
+
+ $ perl examples/post.pl 
+ {
+   '1' => 'baz',
+   'bar' => 'foo'
+ }
+
+=head3 notes
+
+Here we are using the C<POST> method on the C</post> path on our little test server, which
+just takes a C<POST> request as JSON object and reverses the keys for the values.  If we
+do not specify the C<Content-Type>, then C<libcurl> will use C<application/x-www-form-urlencoded>,
+so we explicitly set this to the MIME type for JSON.
+
+Unless you are doing chunked encoding, you want to be careful to set the
+L<postfieldsize option|/postfieldsize> before setting the L<postfields option|/postfields>,
+if you have any NULLs in your request body, because C<curl> will assume a NULL terminated
+string if you do not.
+
+The rest of this should look very familiar, we gather up the response using the
+L<writefunction callback|/writefunction> and decode it from JSON and print it out using
+L<Data::Dumper>.
+
+If you want to handle larger or streamed request bodies, then you will want to instead use
+the L<readfunction callback|/readfunction> and possibly the L<readdata option|/readdata>.
+
 =head2 Set or Remove Arbitrary Request Headers
 
 =head3 source

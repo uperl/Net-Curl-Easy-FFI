@@ -849,9 +849,10 @@ its first argument, and the L<writedata|/writedata> option as its third argument
       if(is_arrayref $data)
       {
         $offset = $data->[1] // 0;
-        $size   = $data->[2];
         my $buf_size;
         ($ptr, $buf_size) = FFI::Platypus::Buffer::scalar_to_buffer($data->[0]);
+
+        $size   = $data->[2] // $buf_size;
 
         # if the offset is beyond the buffer, then set size to 0
         $size = 0 if $offset > $buf_size;
@@ -864,6 +865,7 @@ its first argument, and the L<writedata|/writedata> option as its third argument
       else
       {
         ($ptr, $size) = FFI::Platypus::Buffer::scalar_to_buffer($data);
+        $size = $max if $size > $max;
       }
 
       FFI::Platypus::Memory::memcpy($in_ptr, $ptr, $size) if $size > 0;

@@ -1,7 +1,7 @@
 use Test2::V0 -no_srand => 1;
 use 5.020;
 use Test2::Tools::Subtest qw( subtest_streamed );
-use experimental qw( signatures );
+use experimental qw( signatures postderef );
 use Net::Swirl::CurlEasy;
 use lib 't/lib';
 use Test2::Tools::MyTest;

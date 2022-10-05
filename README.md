@@ -860,6 +860,71 @@ $curl->setopt( writefunction => sub ($, $data, $fh) {
 });
 ```
 
+## Make a POST Request
+
+### source
+
+```perl
+use warnings;
+use 5.020;
+use experimental qw( signatures );
+use Net::Swirl::CurlEasy;
+use JSON::PP qw( decode_json );
+use Data::Dumper qw( Dumper );
+
+my $curl = Net::Swirl::CurlEasy->new;
+
+my $post_body = '{"foo":"bar","baz":1}';
+
+my @res;
+
+$curl->setopt(url => 'http://localhost:5000/post')
+     ->setopt(post           => 1)
+     ->setopt(httpheader     => ['Content-Type: application/json'])
+     ->setopt(postfieldsize  => length($post_body))
+     ->setopt(postfields     => $post_body)
+     ->setopt(writefunction  => sub ($, $data, $) {
+       push @res, $data;
+     })
+     ->perform;
+
+my $res = decode_json(join('',@res));
+
+$Data::Dumper::Terse = 1;
+$Data::Dumper::Sortkeys = 1;
+
+say Dumper($res);
+```
+
+### execute
+
+```perl
+$ perl examples/post.pl 
+{
+  '1' => 'baz',
+  'bar' => 'foo'
+}
+```
+
+### notes
+
+Here we are using the `POST` method on the `/post` path on our little test server, which
+just takes a `POST` request as JSON object and reverses the keys for the values.  If we
+do not specify the `Content-Type`, then `libcurl` will use `application/x-www-form-urlencoded`,
+so we explicitly set this to the MIME type for JSON.
+
+Unless you are doing chunked encoding, you want to be careful to set the
+[postfieldsize option](#postfieldsize) before setting the [postfields option](#postfields),
+if you have any NULLs in your request body, because `curl` will assume a NULL terminated
+string if you do not.
+
+The rest of this should look very familiar, we gather up the response using the
+[writefunction callback](#writefunction) and decode it from JSON and print it out using
+[Data::Dumper](https://metacpan.org/pod/Data::Dumper).
+
+If you want to handle larger or streamed request bodies, then you will want to instead use
+the [readfunction callback](#readfunction) and possibly the [readdata option](#readdata).
+
 ## Set or Remove Arbitrary Request Headers
 
 ### source

@@ -733,6 +733,17 @@ C API of this option:
 
 ( L<CURLOPT_HEADERFUNCTION|https://curl.se/libcurl/c/CURLOPT_HEADERFUNCTION.html> )
 
+=head3 httpheader
+
+ $curl->setopt( httpheader => \@headers );
+
+This sets additional headers to add to your HTTP requests.  Each header B<must not>
+be CRLF-terminated, because that will confuse the server.  If you provide a
+header that C<libcurl> would normally add itself without a value (like C<Accept:>),
+then it will remove that header from the request.
+
+( L<CURLOPT_HTTPHEADER|https://curl.se/libcurl/c/CURLOPT_HTTPHEADER.html> )
+
 =head3 maxredirs
 
  $curl->setopt( maxredirs => $max );
@@ -742,6 +753,71 @@ L<Net::Swirl::CurlEasy> refuse any redirect.  Set to C<-1> for an infinite
 number of redirects.
 
 ( L<CURLOPT_MAXREDIRS|https://curl.se/libcurl/c/CURLOPT_MAXREDIRS.html> )
+
+=head3 postfields
+
+ $curl->setopt( postfields => $postdata );
+
+Set the full data to send in an HTTP POST operation.  If you use this option, then
+C<curl> will set the C<Content-Type> to C<application/x-www-form-urlencoded>,
+so if you want to use a different encoding, then you should specify that using
+the L<httpheader option|/httpheader>.  You want to set the L<postfieldsize option|/postfieldsize>
+before setting this one if you have any NULLs in your POST data.
+
+( L<CURLOPT_POSTFIELDS|https://curl.se/libcurl/c/CURLOPT_POSTFIELDS.html> )
+
+=head3 postfieldsize
+
+ $curl->setopt( postfieldsize => $size );
+
+The size of the POST data.  You want to set this before the L<postfields option|/postfields>
+if you have any NULLs in your POST data.
+
+( L<CURLOPT_POSTFIELDSIZE|https://curl.se/libcurl/c/CURLOPT_POSTFIELDSIZE.html> )
+
+=head3 readdata
+
+ $curl->setopt( readdata => $readdata );
+
+This is an arbitrary Perl data structure that will be passed into the
+L<readfunction callback|/readfunction>.
+
+( L<CURLOPT_READDATA|https://curl.se/libcurl/c/CURLOPT_READDATA.html> )
+
+=head3 readfunction
+
+ $curl->setopt( readfunction => sub ($curl, $maxsize, $readdata) {
+   ...
+ });
+
+Used to read in request body for C<POST> and C<PUT> requests.  The C<$maxsize>
+is the maximum size of the internal C<libcur> buffer, so you should not return
+more than that number of bytes.  If you do return more than the maximum, then
+only the first C<$maxsize> bytes will be passed on to C<libcurl>.  C<$readdata>
+is the same object as passed in via the L<readdata option|/readdata>.
+
+You can return either a string scalar or an array reference with three values.
+
+ return $buffer;
+
+For a regular string the entire string data will be passed back to C<libcurl>
+up to the maximum of C<$maxsize> bytes.
+
+ return [$buffer, $offset, $length];
+
+For an array reference you can return a regular string scalar as the first
+argument.  The other values C<$offset> and C<$length> are optional, and
+determine a subset of the string that will be passed on to C<libcurl>.
+If C<$offset> is provided then first C<$offset> bytes will be ignored.
+If C<$length> is provided then only the C<$length> bytes after the C<$offset>
+will be used.
+
+This can be useful if you have a string scalar that is larger than C<$maxsize>,
+but do not want to copy parts of the scalar before returning them.
+
+For a string reference 
+
+( L<CURLOPT_READFUNCTION|https://curl.se/libcurl/c/CURLOPT_READFUNCTION.html> )
 
 =head3 url
 
@@ -885,7 +961,7 @@ its first argument, and the L<writedata|/writedata> option as its third argument
   }
 
   our %opt = (%opt,
-    postfields     => [ 10015, \&_setopt_stringpoint             ],
+    postfields     => [ 10165, \&_setopt_stringpoint             ],
     copypostfields => [ 10165, \&_setopt_stringpoint             ],
     writefunction  => [ 20011, \&_setopt_writefunction_cb, 10001 ],
     writedata      => [ 10001, \&_function_data                  ],
@@ -1240,7 +1316,7 @@ The default L<writefunction|/writefunction> callback looks like this:
 
 =head3 execute
 
- $ perl examples/post.pl 
+ $ perl examples/post.pl
  {
    '1' => 'baz',
    'bar' => 'foo'

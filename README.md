@@ -381,6 +381,19 @@ C API of this option:
 
 ( [CURLOPT\_HEADERFUNCTION](https://curl.se/libcurl/c/CURLOPT_HEADERFUNCTION.html) )
 
+### httpheader
+
+```perl
+$curl->setopt( httpheader => \@headers );
+```
+
+This sets additional headers to add to your HTTP requests.  Each header **must not**
+be CRLF-terminated, because that will confuse the server.  If you provide a
+header that `libcurl` would normally add itself without a value (like `Accept:`),
+then it will remove that header from the request.
+
+( [CURLOPT\_HTTPHEADER](https://curl.se/libcurl/c/CURLOPT_HTTPHEADER.html) )
+
 ### maxredirs
 
 ```perl
@@ -392,6 +405,83 @@ Sets the maximum number of redirects.  Setting the limit to `0` will force
 number of redirects.
 
 ( [CURLOPT\_MAXREDIRS](https://curl.se/libcurl/c/CURLOPT_MAXREDIRS.html) )
+
+### postfields
+
+```perl
+$curl->setopt( postfields => $postdata );
+```
+
+Set the full data to send in an HTTP POST operation.  If you use this option, then
+`curl` will set the `Content-Type` to `application/x-www-form-urlencoded`,
+so if you want to use a different encoding, then you should specify that using
+the [httpheader option](#httpheader).  You want to set the [postfieldsize option](#postfieldsize)
+before setting this one if you have any NULLs in your POST data.
+
+( [CURLOPT\_POSTFIELDS](https://curl.se/libcurl/c/CURLOPT_POSTFIELDS.html) )
+
+### postfieldsize
+
+```perl
+$curl->setopt( postfieldsize => $size );
+```
+
+The size of the POST data.  You want to set this before the [postfields option](#postfields)
+if you have any NULLs in your POST data.
+
+( [CURLOPT\_POSTFIELDSIZE](https://curl.se/libcurl/c/CURLOPT_POSTFIELDSIZE.html) )
+
+### readdata
+
+```perl
+$curl->setopt( readdata => $readdata );
+```
+
+This is an arbitrary Perl data structure that will be passed into the
+[readfunction callback](#readfunction).
+
+( [CURLOPT\_READDATA](https://curl.se/libcurl/c/CURLOPT_READDATA.html) )
+
+### readfunction
+
+```perl
+$curl->setopt( readfunction => sub ($curl, $maxsize, $readdata) {
+  ...
+});
+```
+
+Used to read in request body for `POST` and `PUT` requests.  The `$maxsize`
+is the maximum size of the internal `libcur` buffer, so you should not return
+more than that number of bytes.  If you do return more than the maximum, then
+only the first `$maxsize` bytes will be passed on to `libcurl`.  `$readdata`
+is the same object as passed in via the [readdata option](#readdata).
+
+You can return either a string scalar or an array reference with three values.
+
+```
+return $buffer;
+```
+
+For a regular string the entire string data will be passed back to `libcurl`
+up to the maximum of `$maxsize` bytes.
+
+```
+return [$buffer, $offset, $length];
+```
+
+For an array reference you can return a regular string scalar as the first
+argument.  The other values `$offset` and `$length` are optional, and
+determine a subset of the string that will be passed on to `libcurl`.
+If `$offset` is provided then first `$offset` bytes will be ignored.
+If `$length` is provided then only the `$length` bytes after the `$offset`
+will be used.
+
+This can be useful if you have a string scalar that is larger than `$maxsize`,
+but do not want to copy parts of the scalar before returning them.
+
+For a string reference 
+
+( [CURLOPT\_READFUNCTION](https://curl.se/libcurl/c/CURLOPT_READFUNCTION.html) )
 
 ### url
 
@@ -899,7 +989,7 @@ say Dumper($res);
 ### execute
 
 ```perl
-$ perl examples/post.pl 
+$ perl examples/post.pl
 {
   '1' => 'baz',
   'bar' => 'foo'

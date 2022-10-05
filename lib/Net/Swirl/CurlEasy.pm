@@ -243,8 +243,8 @@ on failure.
 
   sub _set_perl_defaults ($self)
   {
-    $self->setopt( writefunction => \&_default_writefunction );
-    $self->setopt( writedata     => \*STDOUT );
+    $self->setopt( writefunction  => \&_default_writefunction );
+    $self->setopt( writedata      => \*STDOUT                 );
   }
 
   sub new ($class)
@@ -842,18 +842,16 @@ its first argument, and the L<writedata|/writedata> option as its third argument
         return 0x10000000;
       }
 
-      my $buf;
       my $ptr;
       my $offset;
       my $size;
 
       if(is_arrayref $data)
       {
-        $buf = \$data->[0];
         $offset = $data->[1] // 0;
         $size   = $data->[2];
         my $buf_size;
-        ($ptr, $buf_size) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
+        ($ptr, $buf_size) = FFI::Platypus::Buffer::scalar_to_buffer($data->[0]);
 
         # if the offset is beyond the buffer, then set size to 0
         $size = 0 if $offset > $buf_size;
@@ -865,11 +863,10 @@ its first argument, and the L<writedata|/writedata> option as its third argument
       }
       else
       {
-        $buf = \$data;
-        ($ptr, $size) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
+        ($ptr, $size) = FFI::Platypus::Buffer::scalar_to_buffer($data);
       }
 
-      FFI::Platypus::Memory::memcpy($in_ptr, $ptr, $size);
+      FFI::Platypus::Memory::memcpy($in_ptr, $ptr, $size) if $size > 0;
       return $size;
 
     });
@@ -879,12 +876,19 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
   require Net::Swirl::CurlEasy::Options unless $Net::Swirl::CurlEasy::no_gen;
 
+  sub _function_data ($self, $key_id, $value)
+  {
+    $keep{$$self}->{$key_id} = $value;
+    0;
+  }
+
   our %opt = (%opt,
+    postfields     => [ 10015, \&_setopt_stringpoint             ],
+    copypostfields => [ 10165, \&_setopt_stringpoint             ],
     writefunction  => [ 20011, \&_setopt_writefunction_cb, 10001 ],
-    writedata      => [ 10001, sub ($self, $key_id, $value) {
-      $keep{$$self}->{$key_id} = $value;
-      0;
-    }],
+    writedata      => [ 10001, \&_function_data                  ],
+    readfunction   => [ 20012, \&_setopt_readfunction_cb,  10009 ],
+    readdata       => [ 10009, \&_function_data                  ],
     headerfunction => [ 20079, \&_setopt_writefunction_cb, 10029 ],
     headerdata     => [ 10029, sub ($self, $key_id, $value) {
       $keep{$$self}->{$key_id} = $value;

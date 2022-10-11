@@ -576,8 +576,9 @@ on error.
 
 # EXCEPTIONS
 
-In general methods should throw an exception object on failure.  In some cases [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
-calls modules that may throw a string exception.
+In general methods should throw an exception object that is a subclass of [Exception::FFI::ErrorCode](https://metacpan.org/pod/Exception::FFI::ErrorCode).
+In some cases [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) calls modules that may throw string exceptions. When identified,
+these should be converted into object exceptions (Please open an issue if you see this behavior).
 
 Here is how you might catch exceptions using the new `try` and `isa` features:
 
@@ -605,14 +606,14 @@ try {
    ...
 
 
-  } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
+  } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCode) {
 
-   if($e->code eq 'create-failed') {
+   if($e->code == SWIRL_CREATE_FAILED) {
      # the constructor failed to create an instance
      # rare
-   } elsif($e->code eq 'internal') {
-     # internal Swirl error
-     # hopefully also rare
+   } elsif($e->code == SWIRL_BUFFER_REF) {
+     # passed the wrong arguments to a function that was
+     # expecting a buffer
    }
 
   } else {
@@ -621,33 +622,11 @@ try {
 }
 ```
 
-## Net::Swirl::CurlEasy::Exception
+## base class
 
-This is the base class for [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) exceptions.  It is an abstract class
-in that you should only see sub class exceptions.
-
-- as\_string
-
-    A human readable diagnostic explaining the error, with the location from where the
-    exception was thrown.  This looks like what a normal `warn` or `die` diagnostic
-    would produce.  This is also what you get if you attempt to stringify the exception
-    (`"$exception"`).
-
-- filename
-
-    The file in your code from which the exception was thrown.
-
-- line
-
-    The line number in your code from which the exception was thrown.
-
-- package
-
-    The package in your code from which the exception was thrown.
-
-- strerror
-
-    A human readable diagnostic explaining the error.
+The base class for all exceptions that this class throws should be
+[Exception::FFI::ErrorCode::Base](https://metacpan.org/pod/Exception::FFI::ErrorCode).  Please
+see [Exception::FFI::ErrorCode](https://metacpan.org/pod/Exception::FFI::ErrorCode) for details on the base class.
 
 ## Net::Swirl::CurlEasy::Exception::CurlCode
 
@@ -674,20 +653,19 @@ This is an exception that originates in [Net::Swirl::CurlEasy](https://metacpan.
 
 - code
 
-    This is the string code that classifies the type of exception.  You can check against
-    these values as they should not change, where as the human readable `strerror` may
-    change in the future without notice.  Possible values include:
+    This is the integer error code.  You can import these from [Net::Swirl::CurlEasy::Const](https://metacpan.org/pod/Net::Swirl::CurlEasy::Const)
+    using the `:swirl_errorcode` or `:all` tags.
 
-    - `buffer-ref`
+    - `SWIRL_BUFFER_REF`
 
         The [send](#send) and [recv](#recv) methods take a reference to a string scalar, and
         you passed in something else.
 
-    - `create-failed`
+    - `SWIRL_CREATE_FAILED`
 
         `libcurl` was unable to create an instance.
 
-    - `internal`
+    - `SWIRL_INTERNAL`
 
         An internal error.
 

@@ -649,6 +649,10 @@ Note that if you set the [noprogress option](#noprogress) to `0` it will also tu
 `curl`'s internal progress meter (!) which is probably not what you want.  You can work
 around this by redirecting that output with the [stderr option](#stderr).
 
+If this callback throws an exception, then the [perform method](#perform)  will cancel the transfer
+and throw a [Net::Swirl::CurlEasy::Exception::CurlCode](#net-swirl-curleasy-exception-curlcode)
+exception.
+
 ( [CURLOPT\_XFERINFOFUNCTION](https://curl.se/libcurl/c/CURLOPT_XFERINFOFUNCTION.html) )
 
 ## unescape

@@ -81,7 +81,10 @@ below.
     ]);
 
     sub internals ($self) {
-      die;
+      Net::Swirl::CurlEasy::Exception::Swirl->throw(
+        code  => Net::Swirl::CurlEasy::Const::SWIRL_NOT_IMPLEMENTED(),
+        frame => 1,
+      );
     }
   }
 
@@ -162,9 +165,10 @@ below.
     use Exception::FFI::ErrorCode
       const_class => "Net::Swirl::CurlEasy::Const",
       codes       => {
-        SWIRL_INTERNAL      => [ 0, "Internal Net::Swirl::CurlEasy error"                    ],
-        SWIRL_CREATE_FAILED => [ 1, "Could not create an instance of Net::Swirl::CurlEasy"   ],
-        SWIRL_BUFFER_REF    => [ 2, "Buffer argument was not a reference to a string scalar" ],
+        SWIRL_INTERNAL        => [ 0, "Internal Net::Swirl::CurlEasy error"                    ],
+        SWIRL_CREATE_FAILED   => [ 1, "Could not create an instance of Net::Swirl::CurlEasy"   ],
+        SWIRL_BUFFER_REF      => [ 2, "Buffer argument was not a reference to a string scalar" ],
+        SWIRL_NOT_IMPLEMENTED => [ 3, "Not (yet) implemented"                                  ],
       };
 
     {
@@ -1101,6 +1105,10 @@ C<libcurl> was unable to create an instance.
 =item C<SWIRL_INTERNAL>
 
 An internal error.
+
+=item C<SWIRL_NOT_IMPLEMENTED>
+
+You called a method, function or option that is not yet implemented.
 
 =back
 

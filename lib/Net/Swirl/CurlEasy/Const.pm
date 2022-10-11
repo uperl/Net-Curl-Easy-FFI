@@ -133,12 +133,14 @@ package Net::Swirl::CurlEasy::Const {
   # maint/tt/Const.pm.tt
   # Please see maint/README.md for details on updating.
 
-  our @EXPORT_OK = grep /^(CURLE_|CURLPAUSE_)/, keys %Net::Swirl::CurlEasy::Const::;
-  our %EXPORT_TAGS = (
-    all       => \@EXPORT_OK,
-    errorcode => [ grep /^CURLE_/, @EXPORT_OK ],
-    pause     => [ grep /^CURLPAUSE_/, @EXPORT_OK ],
-  );
+  our @EXPORT_OK;
+  our %EXPORT_TAGS;
+
+  push @EXPORT_OK, grep /^(CURLE_|CURLPAUSE_)/, keys %Net::Swirl::CurlEasy::Const::;
+
+  $EXPORT_TAGS{all}       = \@EXPORT_OK;
+  $EXPORT_TAGS{errorcode} = [ grep /^CURLE_/, @EXPORT_OK ];
+  $EXPORT_TAGS{pause}     = [ grep /^CURLPAUSE_/, @EXPORT_OK ];
 
 };
 

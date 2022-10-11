@@ -1003,8 +1003,9 @@ on error.
 
 =head1 EXCEPTIONS
 
-In general methods should throw an exception object on failure.  In some cases L<Net::Swirl::CurlEasy>
-calls modules that may throw a string exception.
+In general methods should throw an exception object that is a subclass of L<Exception::FFI::ErrorCode>.
+In some cases L<Net::Swirl::CurlEasy> calls modules that may throw string exceptions. When identified,
+these should be converted into object exceptions (Please open an issue if you see this behavior).
 
 Here is how you might catch exceptions using the new C<try> and C<isa> features:
 
@@ -1031,14 +1032,14 @@ Here is how you might catch exceptions using the new C<try> and C<isa> features:
     ...
 
 
-   } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCod) {
+   } elsif($e isa Net::Swirl::CurlEasy::Exception::CurlCode) {
  
-    if($e->code eq 'create-failed') {
+    if($e->code == SWIRL_CREATE_FAILED) {
       # the constructor failed to create an instance
       # rare
-    } elsif($e->code eq 'internal') {
-      # internal Swirl error
-      # hopefully also rare
+    } elsif($e->code == SWIRL_BUFFER_REF) {
+      # passed the wrong arguments to a function that was
+      # expecting a buffer
     }
  
    } else {
@@ -1046,37 +1047,11 @@ Here is how you might catch exceptions using the new C<try> and C<isa> features:
    }
  }
 
-=head2 Net::Swirl::CurlEasy::Exception
+=head2 base class
 
-This is the base class for L<Net::Swirl::CurlEasy> exceptions.  It is an abstract class
-in that you should only see sub class exceptions.
-
-=over 4
-
-=item as_string
-
-A human readable diagnostic explaining the error, with the location from where the
-exception was thrown.  This looks like what a normal C<warn> or C<die> diagnostic
-would produce.  This is also what you get if you attempt to stringify the exception
-(C<"$exception">).
-
-=item filename
-
-The file in your code from which the exception was thrown.
-
-=item line
-
-The line number in your code from which the exception was thrown.
-
-=item package
-
-The package in your code from which the exception was thrown.
-
-=item strerror
-
-A human readable diagnostic explaining the error.
-
-=back
+The base class for all exceptions that this class throws should be
+L<Exception::FFI::ErrorCode::Base|Exception::FFI::ErrorCode>.  Please
+see L<Exception::FFI::ErrorCode> for details on the base class.
 
 =head2 Net::Swirl::CurlEasy::Exception::CurlCode
 
@@ -1109,22 +1084,21 @@ C<libcurl> in a way that no C<CURLcode> is provided.
 
 =item code
 
-This is the string code that classifies the type of exception.  You can check against
-these values as they should not change, where as the human readable C<strerror> may
-change in the future without notice.  Possible values include:
+This is the integer error code.  You can import these from L<Net::Swirl::CurlEasy::Const>
+using the C<:swirl_errorcode> or C<:all> tags.
 
 =over 4
 
-=item C<buffer-ref>
+=item C<SWIRL_BUFFER_REF>
 
 The L<send|/send> and L<recv|/recv> methods take a reference to a string scalar, and
 you passed in something else.
 
-=item C<create-failed>
+=item C<SWIRL_CREATE_FAILED>
 
 C<libcurl> was unable to create an instance.
 
-=item C<internal>
+=item C<SWIRL_INTERNAL>
 
 An internal error.
 

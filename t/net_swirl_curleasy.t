@@ -196,6 +196,57 @@ subtest 'xferinfo' => sub {
 
 };
 
+subtest 'xferinfo / cancel' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
+
+  my $url = URI::file->new_abs('corpus/data.txt');
+  try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";
+
+  try_ok {
+    my $content;
+    open my $fh, ">", \$content;
+    $curl->setopt( writedata => $fh );
+  } "\$curl->setopt( writedata => \$fh )";
+
+  my @xferinfo;
+
+  try_ok {
+    $curl->setopt( noprogress => 0 );
+  } '$curl->setopt( noprogress => 0 )';
+
+  my $stderr_path = Path::Tiny->tempfile( "stuffXXXXXX" );
+  my $fp = FFI::C::File->fopen("$stderr_path", "w");
+
+  try_ok {
+    $curl->setopt( stderr => $fp );
+  } '$curl->setopt( stderr => $fp )';
+
+  try_ok {
+    $curl->setopt( xferinfofunction => sub ($curl, $data, $dlt, $dln, $ult, $uln) {
+      die 'oops';
+    });
+  } '$curl->setopt( xferinfofunction => sub { die } )';
+
+  my $ex = dies { $curl->perform }; my $line = __LINE__;
+
+  is
+    $ex,
+    object {
+      call [ isa => 'Net::Swirl::CurlEasy::Exception::CurlCode' ] => T();
+      call line      => $line;
+      call filename  => __FILE__;
+      call code      => 42;
+    },
+    'the right exception';
+
+  memory_cycle_ok $curl;
+  undef $curl;
+  keep_is_empty;
+
+};
+
 subtest 'progress' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;

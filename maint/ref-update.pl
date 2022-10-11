@@ -23,6 +23,8 @@ my $missing = 0;
 my @warnings;
 my %option_init;
 my %info_init;
+my %str_enum;
+my %opt_enum;
 my @const;
 
 {
@@ -84,6 +86,55 @@ my @const;
     constants => \@ssl_backend,
     tag       => ':ssl_backend',
   };
+
+  my @str_enum =
+    # only consider the constants that we care about, extract the name, value and type
+    map { $_->{name} =~ /^(CURLUSESSL|CURL_SSLVERSION|CURL_TIMECOND|CURLPROXY|CURLAUTH|CURL_NETRC|CURL_HTTP_VERSION|CURLFTPAUTH|CURLFTPMETHOD|CURL_RTSPREQ)_(.*)?/ ?
+             ({ name => lc($2), value => $_->{init}, type => lc($1) }) : () }
+    # get the inner list of the enum
+    map { $_->{inner}->@* }
+    # consider any enum, since these enums are un-named, that have an inner list
+    grep { defined $_->{_class} && $_->{_class} eq 'Enumeration' && defined $_->{inner} }
+    # get all of the items in the header
+    $header->{inner}->@*;
+
+  foreach my $const (@str_enum)
+  {
+    my $type  = $const->{type};
+    my $name  = lc $const->{name};
+    my $value = $const->{value};
+
+    if($type eq 'curl_sslversion')
+    {
+      next if $name =~ /^max_/;
+    }
+
+    next if $name eq 'last';
+
+    $type =~ s/^curl_?/curl_/;
+
+    push $str_enum{$type}->{values}->@*, { name => $name, value => $value };
+    $str_enum{$type}->{type} = $type;
+  }
+
+  $str_enum{curl_usessl}->{opt}       = [ 'use_ssl'              ];
+  $str_enum{curl_sslversion}->{opt}   = [ 'sslversion'           ];
+  $str_enum{curl_timecond}->{opt}     = [ 'timecondition'        ];
+  $str_enum{curl_proxy}->{opt}        = [ 'proxytype'            ];
+  $str_enum{curl_netrc}->{opt}        = [ 'netrc'                ];
+  $str_enum{curl_http_version}->{opt} = [ 'http_version'         ];
+  $str_enum{curl_ftpauth}->{opt}      = [ 'ftpsslauth'           ];
+  $str_enum{curl_ftpmethod}->{opt}    = [ 'ftp_filemethod'       ];
+  $str_enum{curl_rtspreq}->{opt}      = [ 'rtsp_request'         ];
+
+  foreach my $enum (values %str_enum)
+  {
+    foreach my $opt ($enum->{opt}->@*)
+    {
+      $opt_enum{$opt} = $enum;
+    }
+  }
+
 };
 
 {
@@ -154,16 +205,29 @@ foreach my $line ($curl_h->lines)
 
     next if $name =~ /^OBSOLETE/;
 
-    if(($type =~ /^(STRINGPOINT|LONG|OFF_T|SLISTPOINT|BLOB)$/ || $Net::Swirl::CurlEasy::opt{lc $name}) && $init)
+    if(($type =~ /^(STRINGPOINT|LONG|OFF_T|SLISTPOINT|BLOB)$/ || $Net::Swirl::CurlEasy::opt{lc $name} || $opt_enum{lc $name}) && $init)
     {
-      push @options, {
+      my $xsub_name;
+
+      my %option = (
         perl_name => lc $name,
         c_name    => "CURLOPT_$name",
-        xsub_name => "_setopt_@{[ lc $type ]}",
         init      => $init,
         hand_pod  => delete $hand_pod{option}->{lc $name},
         hand_code => !!$Net::Swirl::CurlEasy::opt{lc $name},
-      };
+      );
+
+      if(my $enum = $opt_enum{lc $name})
+      {
+        $option{xsub_name} = "_setopt_@{[ $enum->{type} ]}";
+        $option{enum} = [ map { $_->{name} } $enum->{values}->@* ];
+      }
+      else
+      {
+        $option{xsub_name} = "_setopt_@{[ lc $type ]}";
+      }
+
+      push @options, \%option;
 
       if(!!$Net::Swirl::CurlEasy::opt{lc $name})
       {
@@ -238,6 +302,7 @@ my $tt = Template->new({
         infos   => [sort map { s/:.*$//r } map { $_->@* } values $missing{info}->%*  ]
       },
       const => \@const,
+      enum => [sort { $a->{type} cmp $b->{type} } values %str_enum ],
     }
   );
 

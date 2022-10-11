@@ -38,7 +38,7 @@ below.
 
 =cut
 
-  my $ffi;
+  our $ffi;
 
   BEGIN {
     $ffi = FFI::Platypus->new(

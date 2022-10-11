@@ -20,8 +20,8 @@ These options are set via the L<setopt method|Net::Swirl::CurlEasy/setopt>.
 
 =begin stopwords
 
-abstract_unix_socket CURLOPT_ABSTRACT_UNIX_SOCKET accept_encoding CURLOPT_ACCEPT_ENCODING accepttimeout_ms CURLOPT_ACCEPTTIMEOUT_MS address_scope CURLOPT_ADDRESS_SCOPE altsvc CURLOPT_ALTSVC altsvc_ctrl CURLOPT_ALTSVC_CTRL append CURLOPT_APPEND autoreferer CURLOPT_AUTOREFERER aws_sigv4 CURLOPT_AWS_SIGV4 buffersize CURLOPT_BUFFERSIZE cainfo CURLOPT_CAINFO cainfo_blob CURLOPT_CAINFO_BLOB capath CURLOPT_CAPATH certinfo CURLOPT_CERTINFO connect_only CURLOPT_CONNECT_ONLY connect_to CURLOPT_CONNECT_TO connecttimeout CURLOPT_CONNECTTIMEOUT connecttimeout_ms CURLOPT_CONNECTTIMEOUT_MS cookie CURLOPT_COOKIE cookiefile CURLOPT_COOKIEFILE cookiejar CURLOPT_COOKIEJAR cookielist CURLOPT_COOKIELIST cookiesession CURLOPT_COOKIESESSION copypostfields CURLOPT_COPYPOSTFIELDS crlf CURLOPT_CRLF crlfile CURLOPT_CRLFILE customrequest CURLOPT_CUSTOMREQUEST default_protocol CURLOPT_DEFAULT_PROTOCOL dirlistonly CURLOPT_DIRLISTONLY disallow_username_in_url CURLOPT_DISALLOW_USERNAME_IN_URL dns_cache_timeout CURLOPT_DNS_CACHE_TIMEOUT dns_interface CURLOPT_DNS_INTERFACE dns_local_ip4 CURLOPT_DNS_LOCAL_IP4 dns_local_ip6 CURLOPT_DNS_LOCAL_IP6 dns_servers CURLOPT_DNS_SERVERS dns_shuffle_addresses CURLOPT_DNS_SHUFFLE_ADDRESSES dns_use_global_cache CURLOPT_DNS_USE_GLOBAL_CACHE doh_ssl_verifyhost CURLOPT_DOH_SSL_VERIFYHOST doh_ssl_verifypeer CURLOPT_DOH_SSL_VERIFYPEER doh_ssl_verifystatus CURLOPT_DOH_SSL_VERIFYSTATUS doh_url CURLOPT_DOH_URL egdsocket CURLOPT_EGDSOCKET expect_100_timeout_ms CURLOPT_EXPECT_100_TIMEOUT_MS failonerror CURLOPT_FAILONERROR filetime CURLOPT_FILETIME followlocation CURLOPT_FOLLOWLOCATION forbid_reuse CURLOPT_FORBID_REUSE fresh_connect CURLOPT_FRESH_CONNECT ftp_account CURLOPT_FTP_ACCOUNT ftp_alternative_to_user CURLOPT_FTP_ALTERNATIVE_TO_USER ftp_create_missing_dirs CURLOPT_FTP_CREATE_MISSING_DIRS ftp_skip_pasv_ip CURLOPT_FTP_SKIP_PASV_IP ftp_ssl_ccc CURLOPT_FTP_SSL_CCC ftp_use_eprt CURLOPT_FTP_USE_EPRT ftp_use_epsv CURLOPT_FTP_USE_EPSV ftp_use_pret CURLOPT_FTP_USE_PRET ftpport CURLOPT_FTPPORT happy_eyeballs_timeout_ms CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS haproxyprotocol CURLOPT_HAPROXYPROTOCOL header CURLOPT_HEADER headerdata CURLOPT_HEADERDATA headerfunction CURLOPT_HEADERFUNCTION hsts CURLOPT_HSTS hsts_ctrl CURLOPT_HSTS_CTRL http09_allowed CURLOPT_HTTP09_ALLOWED http200aliases CURLOPT_HTTP200ALIASES http_content_decoding CURLOPT_HTTP_CONTENT_DECODING http_transfer_decoding CURLOPT_HTTP_TRANSFER_DECODING httpget CURLOPT_HTTPGET httpheader CURLOPT_HTTPHEADER httpproxytunnel CURLOPT_HTTPPROXYTUNNEL ignore_content_length CURLOPT_IGNORE_CONTENT_LENGTH infilesize CURLOPT_INFILESIZE infilesize_large CURLOPT_INFILESIZE_LARGE interface CURLOPT_INTERFACE issuercert CURLOPT_ISSUERCERT issuercert_blob CURLOPT_ISSUERCERT_BLOB keep_sending_on_error CURLOPT_KEEP_SENDING_ON_ERROR keypasswd CURLOPT_KEYPASSWD krblevel CURLOPT_KRBLEVEL localport CURLOPT_LOCALPORT localportrange CURLOPT_LOCALPORTRANGE login_options CURLOPT_LOGIN_OPTIONS low_speed_limit CURLOPT_LOW_SPEED_LIMIT low_speed_time CURLOPT_LOW_SPEED_TIME mail_auth CURLOPT_MAIL_AUTH mail_from CURLOPT_MAIL_FROM mail_rcpt CURLOPT_MAIL_RCPT mail_rcpt_alllowfails CURLOPT_MAIL_RCPT_ALLLOWFAILS max_recv_speed_large CURLOPT_MAX_RECV_SPEED_LARGE max_send_speed_large CURLOPT_MAX_SEND_SPEED_LARGE maxage_conn CURLOPT_MAXAGE_CONN maxconnects CURLOPT_MAXCONNECTS maxfilesize CURLOPT_MAXFILESIZE maxfilesize_large CURLOPT_MAXFILESIZE_LARGE maxlifetime_conn CURLOPT_MAXLIFETIME_CONN maxredirs CURLOPT_MAXREDIRS mime_options CURLOPT_MIME_OPTIONS netrc_file CURLOPT_NETRC_FILE new_directory_perms CURLOPT_NEW_DIRECTORY_PERMS new_file_perms CURLOPT_NEW_FILE_PERMS nobody CURLOPT_NOBODY noprogress CURLOPT_NOPROGRESS noproxy CURLOPT_NOPROXY nosignal CURLOPT_NOSIGNAL password CURLOPT_PASSWORD path_as_is CURLOPT_PATH_AS_IS pinnedpublickey CURLOPT_PINNEDPUBLICKEY pipewait CURLOPT_PIPEWAIT port CURLOPT_PORT post CURLOPT_POST postfields CURLOPT_POSTFIELDS postfieldsize CURLOPT_POSTFIELDSIZE postfieldsize_large CURLOPT_POSTFIELDSIZE_LARGE postquote CURLOPT_POSTQUOTE pre_proxy CURLOPT_PRE_PROXY prequote CURLOPT_PREQUOTE protocols CURLOPT_PROTOCOLS protocols_str CURLOPT_PROTOCOLS_STR proxy CURLOPT_PROXY proxy_cainfo CURLOPT_PROXY_CAINFO proxy_cainfo_blob CURLOPT_PROXY_CAINFO_BLOB proxy_capath CURLOPT_PROXY_CAPATH proxy_crlfile CURLOPT_PROXY_CRLFILE proxy_issuercert CURLOPT_PROXY_ISSUERCERT proxy_issuercert_blob CURLOPT_PROXY_ISSUERCERT_BLOB proxy_keypasswd CURLOPT_PROXY_KEYPASSWD proxy_pinnedpublickey CURLOPT_PROXY_PINNEDPUBLICKEY proxy_service_name CURLOPT_PROXY_SERVICE_NAME proxy_ssl_cipher_list CURLOPT_PROXY_SSL_CIPHER_LIST proxy_ssl_options CURLOPT_PROXY_SSL_OPTIONS proxy_ssl_verifyhost CURLOPT_PROXY_SSL_VERIFYHOST proxy_ssl_verifypeer CURLOPT_PROXY_SSL_VERIFYPEER proxy_sslcert CURLOPT_PROXY_SSLCERT proxy_sslcert_blob CURLOPT_PROXY_SSLCERT_BLOB proxy_sslcerttype CURLOPT_PROXY_SSLCERTTYPE proxy_sslkey CURLOPT_PROXY_SSLKEY proxy_sslkey_blob CURLOPT_PROXY_SSLKEY_BLOB proxy_sslkeytype CURLOPT_PROXY_SSLKEYTYPE proxy_tls13_ciphers CURLOPT_PROXY_TLS13_CIPHERS proxy_tlsauth_password CURLOPT_PROXY_TLSAUTH_PASSWORD proxy_tlsauth_type CURLOPT_PROXY_TLSAUTH_TYPE proxy_tlsauth_username CURLOPT_PROXY_TLSAUTH_USERNAME proxy_transfer_mode CURLOPT_PROXY_TRANSFER_MODE proxyheader CURLOPT_PROXYHEADER proxypassword CURLOPT_PROXYPASSWORD proxyport CURLOPT_PROXYPORT proxyusername CURLOPT_PROXYUSERNAME proxyuserpwd CURLOPT_PROXYUSERPWD put CURLOPT_PUT quote CURLOPT_QUOTE random_file CURLOPT_RANDOM_FILE range CURLOPT_RANGE readdata CURLOPT_READDATA readfunction CURLOPT_READFUNCTION redir_protocols CURLOPT_REDIR_PROTOCOLS redir_protocols_str CURLOPT_REDIR_PROTOCOLS_STR referer CURLOPT_REFERER request_target CURLOPT_REQUEST_TARGET resolve CURLOPT_RESOLVE resume_from CURLOPT_RESUME_FROM resume_from_large CURLOPT_RESUME_FROM_LARGE rtsp_client_cseq CURLOPT_RTSP_CLIENT_CSEQ rtsp_server_cseq CURLOPT_RTSP_SERVER_CSEQ rtsp_session_id CURLOPT_RTSP_SESSION_ID rtsp_stream_uri CURLOPT_RTSP_STREAM_URI rtsp_transport CURLOPT_RTSP_TRANSPORT sasl_authzid CURLOPT_SASL_AUTHZID sasl_ir CURLOPT_SASL_IR server_response_timeout CURLOPT_SERVER_RESPONSE_TIMEOUT service_name CURLOPT_SERVICE_NAME socks5_auth CURLOPT_SOCKS5_AUTH socks5_gssapi_nec CURLOPT_SOCKS5_GSSAPI_NEC socks5_gssapi_service CURLOPT_SOCKS5_GSSAPI_SERVICE ssh_compression CURLOPT_SSH_COMPRESSION ssh_host_public_key_md5 CURLOPT_SSH_HOST_PUBLIC_KEY_MD5 ssh_host_public_key_sha256 CURLOPT_SSH_HOST_PUBLIC_KEY_SHA256 ssh_knownhosts CURLOPT_SSH_KNOWNHOSTS ssh_private_keyfile CURLOPT_SSH_PRIVATE_KEYFILE ssh_public_keyfile CURLOPT_SSH_PUBLIC_KEYFILE ssl_cipher_list CURLOPT_SSL_CIPHER_LIST ssl_ec_curves CURLOPT_SSL_EC_CURVES ssl_enable_alpn CURLOPT_SSL_ENABLE_ALPN ssl_enable_npn CURLOPT_SSL_ENABLE_NPN ssl_falsestart CURLOPT_SSL_FALSESTART ssl_sessionid_cache CURLOPT_SSL_SESSIONID_CACHE ssl_verifyhost CURLOPT_SSL_VERIFYHOST ssl_verifypeer CURLOPT_SSL_VERIFYPEER ssl_verifystatus CURLOPT_SSL_VERIFYSTATUS sslcert CURLOPT_SSLCERT sslcert_blob CURLOPT_SSLCERT_BLOB sslcerttype CURLOPT_SSLCERTTYPE sslengine CURLOPT_SSLENGINE sslengine_default CURLOPT_SSLENGINE_DEFAULT sslkey CURLOPT_SSLKEY sslkey_blob CURLOPT_SSLKEY_BLOB sslkeytype CURLOPT_SSLKEYTYPE stream_weight CURLOPT_STREAM_WEIGHT suppress_connect_headers CURLOPT_SUPPRESS_CONNECT_HEADERS tcp_fastopen CURLOPT_TCP_FASTOPEN tcp_keepalive CURLOPT_TCP_KEEPALIVE tcp_keepidle CURLOPT_TCP_KEEPIDLE tcp_keepintvl CURLOPT_TCP_KEEPINTVL tcp_nodelay CURLOPT_TCP_NODELAY telnetoptions CURLOPT_TELNETOPTIONS tftp_blksize CURLOPT_TFTP_BLKSIZE tftp_no_options CURLOPT_TFTP_NO_OPTIONS timeout CURLOPT_TIMEOUT timeout_ms CURLOPT_TIMEOUT_MS timevalue CURLOPT_TIMEVALUE timevalue_large CURLOPT_TIMEVALUE_LARGE tls13_ciphers CURLOPT_TLS13_CIPHERS tlsauth_password CURLOPT_TLSAUTH_PASSWORD tlsauth_type CURLOPT_TLSAUTH_TYPE tlsauth_username CURLOPT_TLSAUTH_USERNAME transfer_encoding CURLOPT_TRANSFER_ENCODING transfertext CURLOPT_TRANSFERTEXT unix_socket_path CURLOPT_UNIX_SOCKET_PATH unrestricted_auth CURLOPT_UNRESTRICTED_AUTH upkeep_interval_ms CURLOPT_UPKEEP_INTERVAL_MS upload CURLOPT_UPLOAD upload_buffersize CURLOPT_UPLOAD_BUFFERSIZE url CURLOPT_URL useragent CURLOPT_USERAGENT username CURLOPT_USERNAME userpwd CURLOPT_USERPWD verbose CURLOPT_VERBOSE wildcardmatch CURLOPT_WILDCARDMATCH writedata CURLOPT_WRITEDATA writefunction CURLOPT_WRITEFUNCTION xoauth2_bearer CURLOPT_XOAUTH2_BEARER
-CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNCTION CONV_FROM_NETWORK_FUNCTION CONV_FROM_UTF8_FUNCTION CONV_TO_NETWORK_FUNCTION CURLU DEBUGDATA DEBUGFUNCTION ERRORBUFFER FNMATCH_DATA FNMATCH_FUNCTION FTPSSLAUTH FTP_FILEMETHOD GSSAPI_DELEGATION HEADEROPT HSTSREADDATA HSTSREADFUNCTION HSTSWRITEDATA HSTSWRITEFUNCTION HTTPAUTH HTTPPOST HTTP_VERSION INTERLEAVEDATA INTERLEAVEFUNCTION IOCTLDATA IOCTLFUNCTION IPRESOLVE MIMEPOST NETRC OPENSOCKETDATA OPENSOCKETFUNCTION POSTREDIR PREREQDATA PREREQFUNCTION PRIVATE PROGRESSFUNCTION PROXYAUTH PROXYTYPE PROXY_SSLVERSION RESOLVER_START_DATA RESOLVER_START_FUNCTION RTSP_REQUEST SEEKDATA SEEKFUNCTION SHARE SOCKOPTDATA SOCKOPTFUNCTION SSH_AUTH_TYPES SSH_HOSTKEYDATA SSH_HOSTKEYFUNCTION SSH_KEYDATA SSH_KEYFUNCTION SSLVERSION SSL_CTX_DATA SSL_CTX_FUNCTION SSL_OPTIONS STDERR STREAM_DEPENDS STREAM_DEPENDS_E TIMECONDITION TRAILERDATA TRAILERFUNCTION USE_SSL XFERINFODATA XFERINFOFUNCTION
+abstract_unix_socket CURLOPT_ABSTRACT_UNIX_SOCKET accept_encoding CURLOPT_ACCEPT_ENCODING accepttimeout_ms CURLOPT_ACCEPTTIMEOUT_MS address_scope CURLOPT_ADDRESS_SCOPE altsvc CURLOPT_ALTSVC altsvc_ctrl CURLOPT_ALTSVC_CTRL append CURLOPT_APPEND autoreferer CURLOPT_AUTOREFERER aws_sigv4 CURLOPT_AWS_SIGV4 buffersize CURLOPT_BUFFERSIZE cainfo CURLOPT_CAINFO cainfo_blob CURLOPT_CAINFO_BLOB capath CURLOPT_CAPATH certinfo CURLOPT_CERTINFO connect_only CURLOPT_CONNECT_ONLY connect_to CURLOPT_CONNECT_TO connecttimeout CURLOPT_CONNECTTIMEOUT connecttimeout_ms CURLOPT_CONNECTTIMEOUT_MS cookie CURLOPT_COOKIE cookiefile CURLOPT_COOKIEFILE cookiejar CURLOPT_COOKIEJAR cookielist CURLOPT_COOKIELIST cookiesession CURLOPT_COOKIESESSION copypostfields CURLOPT_COPYPOSTFIELDS crlf CURLOPT_CRLF crlfile CURLOPT_CRLFILE customrequest CURLOPT_CUSTOMREQUEST default_protocol CURLOPT_DEFAULT_PROTOCOL dirlistonly CURLOPT_DIRLISTONLY disallow_username_in_url CURLOPT_DISALLOW_USERNAME_IN_URL dns_cache_timeout CURLOPT_DNS_CACHE_TIMEOUT dns_interface CURLOPT_DNS_INTERFACE dns_local_ip4 CURLOPT_DNS_LOCAL_IP4 dns_local_ip6 CURLOPT_DNS_LOCAL_IP6 dns_servers CURLOPT_DNS_SERVERS dns_shuffle_addresses CURLOPT_DNS_SHUFFLE_ADDRESSES dns_use_global_cache CURLOPT_DNS_USE_GLOBAL_CACHE doh_ssl_verifyhost CURLOPT_DOH_SSL_VERIFYHOST doh_ssl_verifypeer CURLOPT_DOH_SSL_VERIFYPEER doh_ssl_verifystatus CURLOPT_DOH_SSL_VERIFYSTATUS doh_url CURLOPT_DOH_URL egdsocket CURLOPT_EGDSOCKET expect_100_timeout_ms CURLOPT_EXPECT_100_TIMEOUT_MS failonerror CURLOPT_FAILONERROR filetime CURLOPT_FILETIME followlocation CURLOPT_FOLLOWLOCATION forbid_reuse CURLOPT_FORBID_REUSE fresh_connect CURLOPT_FRESH_CONNECT ftp_account CURLOPT_FTP_ACCOUNT ftp_alternative_to_user CURLOPT_FTP_ALTERNATIVE_TO_USER ftp_create_missing_dirs CURLOPT_FTP_CREATE_MISSING_DIRS ftp_filemethod CURLOPT_FTP_FILEMETHOD ftp_skip_pasv_ip CURLOPT_FTP_SKIP_PASV_IP ftp_ssl_ccc CURLOPT_FTP_SSL_CCC ftp_use_eprt CURLOPT_FTP_USE_EPRT ftp_use_epsv CURLOPT_FTP_USE_EPSV ftp_use_pret CURLOPT_FTP_USE_PRET ftpport CURLOPT_FTPPORT ftpsslauth CURLOPT_FTPSSLAUTH happy_eyeballs_timeout_ms CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS haproxyprotocol CURLOPT_HAPROXYPROTOCOL header CURLOPT_HEADER headerdata CURLOPT_HEADERDATA headerfunction CURLOPT_HEADERFUNCTION hsts CURLOPT_HSTS hsts_ctrl CURLOPT_HSTS_CTRL http09_allowed CURLOPT_HTTP09_ALLOWED http200aliases CURLOPT_HTTP200ALIASES http_content_decoding CURLOPT_HTTP_CONTENT_DECODING http_transfer_decoding CURLOPT_HTTP_TRANSFER_DECODING http_version CURLOPT_HTTP_VERSION httpget CURLOPT_HTTPGET httpheader CURLOPT_HTTPHEADER httpproxytunnel CURLOPT_HTTPPROXYTUNNEL ignore_content_length CURLOPT_IGNORE_CONTENT_LENGTH infilesize CURLOPT_INFILESIZE infilesize_large CURLOPT_INFILESIZE_LARGE interface CURLOPT_INTERFACE issuercert CURLOPT_ISSUERCERT issuercert_blob CURLOPT_ISSUERCERT_BLOB keep_sending_on_error CURLOPT_KEEP_SENDING_ON_ERROR keypasswd CURLOPT_KEYPASSWD krblevel CURLOPT_KRBLEVEL localport CURLOPT_LOCALPORT localportrange CURLOPT_LOCALPORTRANGE login_options CURLOPT_LOGIN_OPTIONS low_speed_limit CURLOPT_LOW_SPEED_LIMIT low_speed_time CURLOPT_LOW_SPEED_TIME mail_auth CURLOPT_MAIL_AUTH mail_from CURLOPT_MAIL_FROM mail_rcpt CURLOPT_MAIL_RCPT mail_rcpt_alllowfails CURLOPT_MAIL_RCPT_ALLLOWFAILS max_recv_speed_large CURLOPT_MAX_RECV_SPEED_LARGE max_send_speed_large CURLOPT_MAX_SEND_SPEED_LARGE maxage_conn CURLOPT_MAXAGE_CONN maxconnects CURLOPT_MAXCONNECTS maxfilesize CURLOPT_MAXFILESIZE maxfilesize_large CURLOPT_MAXFILESIZE_LARGE maxlifetime_conn CURLOPT_MAXLIFETIME_CONN maxredirs CURLOPT_MAXREDIRS mime_options CURLOPT_MIME_OPTIONS netrc CURLOPT_NETRC netrc_file CURLOPT_NETRC_FILE new_directory_perms CURLOPT_NEW_DIRECTORY_PERMS new_file_perms CURLOPT_NEW_FILE_PERMS nobody CURLOPT_NOBODY noprogress CURLOPT_NOPROGRESS noproxy CURLOPT_NOPROXY nosignal CURLOPT_NOSIGNAL password CURLOPT_PASSWORD path_as_is CURLOPT_PATH_AS_IS pinnedpublickey CURLOPT_PINNEDPUBLICKEY pipewait CURLOPT_PIPEWAIT port CURLOPT_PORT post CURLOPT_POST postfields CURLOPT_POSTFIELDS postfieldsize CURLOPT_POSTFIELDSIZE postfieldsize_large CURLOPT_POSTFIELDSIZE_LARGE postquote CURLOPT_POSTQUOTE pre_proxy CURLOPT_PRE_PROXY prequote CURLOPT_PREQUOTE protocols CURLOPT_PROTOCOLS protocols_str CURLOPT_PROTOCOLS_STR proxy CURLOPT_PROXY proxy_cainfo CURLOPT_PROXY_CAINFO proxy_cainfo_blob CURLOPT_PROXY_CAINFO_BLOB proxy_capath CURLOPT_PROXY_CAPATH proxy_crlfile CURLOPT_PROXY_CRLFILE proxy_issuercert CURLOPT_PROXY_ISSUERCERT proxy_issuercert_blob CURLOPT_PROXY_ISSUERCERT_BLOB proxy_keypasswd CURLOPT_PROXY_KEYPASSWD proxy_pinnedpublickey CURLOPT_PROXY_PINNEDPUBLICKEY proxy_service_name CURLOPT_PROXY_SERVICE_NAME proxy_ssl_cipher_list CURLOPT_PROXY_SSL_CIPHER_LIST proxy_ssl_options CURLOPT_PROXY_SSL_OPTIONS proxy_ssl_verifyhost CURLOPT_PROXY_SSL_VERIFYHOST proxy_ssl_verifypeer CURLOPT_PROXY_SSL_VERIFYPEER proxy_sslcert CURLOPT_PROXY_SSLCERT proxy_sslcert_blob CURLOPT_PROXY_SSLCERT_BLOB proxy_sslcerttype CURLOPT_PROXY_SSLCERTTYPE proxy_sslkey CURLOPT_PROXY_SSLKEY proxy_sslkey_blob CURLOPT_PROXY_SSLKEY_BLOB proxy_sslkeytype CURLOPT_PROXY_SSLKEYTYPE proxy_tls13_ciphers CURLOPT_PROXY_TLS13_CIPHERS proxy_tlsauth_password CURLOPT_PROXY_TLSAUTH_PASSWORD proxy_tlsauth_type CURLOPT_PROXY_TLSAUTH_TYPE proxy_tlsauth_username CURLOPT_PROXY_TLSAUTH_USERNAME proxy_transfer_mode CURLOPT_PROXY_TRANSFER_MODE proxyheader CURLOPT_PROXYHEADER proxypassword CURLOPT_PROXYPASSWORD proxyport CURLOPT_PROXYPORT proxytype CURLOPT_PROXYTYPE proxyusername CURLOPT_PROXYUSERNAME proxyuserpwd CURLOPT_PROXYUSERPWD put CURLOPT_PUT quote CURLOPT_QUOTE random_file CURLOPT_RANDOM_FILE range CURLOPT_RANGE readdata CURLOPT_READDATA readfunction CURLOPT_READFUNCTION redir_protocols CURLOPT_REDIR_PROTOCOLS redir_protocols_str CURLOPT_REDIR_PROTOCOLS_STR referer CURLOPT_REFERER request_target CURLOPT_REQUEST_TARGET resolve CURLOPT_RESOLVE resume_from CURLOPT_RESUME_FROM resume_from_large CURLOPT_RESUME_FROM_LARGE rtsp_client_cseq CURLOPT_RTSP_CLIENT_CSEQ rtsp_request CURLOPT_RTSP_REQUEST rtsp_server_cseq CURLOPT_RTSP_SERVER_CSEQ rtsp_session_id CURLOPT_RTSP_SESSION_ID rtsp_stream_uri CURLOPT_RTSP_STREAM_URI rtsp_transport CURLOPT_RTSP_TRANSPORT sasl_authzid CURLOPT_SASL_AUTHZID sasl_ir CURLOPT_SASL_IR server_response_timeout CURLOPT_SERVER_RESPONSE_TIMEOUT service_name CURLOPT_SERVICE_NAME socks5_auth CURLOPT_SOCKS5_AUTH socks5_gssapi_nec CURLOPT_SOCKS5_GSSAPI_NEC socks5_gssapi_service CURLOPT_SOCKS5_GSSAPI_SERVICE ssh_compression CURLOPT_SSH_COMPRESSION ssh_host_public_key_md5 CURLOPT_SSH_HOST_PUBLIC_KEY_MD5 ssh_host_public_key_sha256 CURLOPT_SSH_HOST_PUBLIC_KEY_SHA256 ssh_knownhosts CURLOPT_SSH_KNOWNHOSTS ssh_private_keyfile CURLOPT_SSH_PRIVATE_KEYFILE ssh_public_keyfile CURLOPT_SSH_PUBLIC_KEYFILE ssl_cipher_list CURLOPT_SSL_CIPHER_LIST ssl_ec_curves CURLOPT_SSL_EC_CURVES ssl_enable_alpn CURLOPT_SSL_ENABLE_ALPN ssl_enable_npn CURLOPT_SSL_ENABLE_NPN ssl_falsestart CURLOPT_SSL_FALSESTART ssl_sessionid_cache CURLOPT_SSL_SESSIONID_CACHE ssl_verifyhost CURLOPT_SSL_VERIFYHOST ssl_verifypeer CURLOPT_SSL_VERIFYPEER ssl_verifystatus CURLOPT_SSL_VERIFYSTATUS sslcert CURLOPT_SSLCERT sslcert_blob CURLOPT_SSLCERT_BLOB sslcerttype CURLOPT_SSLCERTTYPE sslengine CURLOPT_SSLENGINE sslengine_default CURLOPT_SSLENGINE_DEFAULT sslkey CURLOPT_SSLKEY sslkey_blob CURLOPT_SSLKEY_BLOB sslkeytype CURLOPT_SSLKEYTYPE sslversion CURLOPT_SSLVERSION stream_weight CURLOPT_STREAM_WEIGHT suppress_connect_headers CURLOPT_SUPPRESS_CONNECT_HEADERS tcp_fastopen CURLOPT_TCP_FASTOPEN tcp_keepalive CURLOPT_TCP_KEEPALIVE tcp_keepidle CURLOPT_TCP_KEEPIDLE tcp_keepintvl CURLOPT_TCP_KEEPINTVL tcp_nodelay CURLOPT_TCP_NODELAY telnetoptions CURLOPT_TELNETOPTIONS tftp_blksize CURLOPT_TFTP_BLKSIZE tftp_no_options CURLOPT_TFTP_NO_OPTIONS timecondition CURLOPT_TIMECONDITION timeout CURLOPT_TIMEOUT timeout_ms CURLOPT_TIMEOUT_MS timevalue CURLOPT_TIMEVALUE timevalue_large CURLOPT_TIMEVALUE_LARGE tls13_ciphers CURLOPT_TLS13_CIPHERS tlsauth_password CURLOPT_TLSAUTH_PASSWORD tlsauth_type CURLOPT_TLSAUTH_TYPE tlsauth_username CURLOPT_TLSAUTH_USERNAME transfer_encoding CURLOPT_TRANSFER_ENCODING transfertext CURLOPT_TRANSFERTEXT unix_socket_path CURLOPT_UNIX_SOCKET_PATH unrestricted_auth CURLOPT_UNRESTRICTED_AUTH upkeep_interval_ms CURLOPT_UPKEEP_INTERVAL_MS upload CURLOPT_UPLOAD upload_buffersize CURLOPT_UPLOAD_BUFFERSIZE url CURLOPT_URL use_ssl CURLOPT_USE_SSL useragent CURLOPT_USERAGENT username CURLOPT_USERNAME userpwd CURLOPT_USERPWD verbose CURLOPT_VERBOSE wildcardmatch CURLOPT_WILDCARDMATCH writedata CURLOPT_WRITEDATA writefunction CURLOPT_WRITEFUNCTION xoauth2_bearer CURLOPT_XOAUTH2_BEARER
+CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNCTION CONV_FROM_NETWORK_FUNCTION CONV_FROM_UTF8_FUNCTION CONV_TO_NETWORK_FUNCTION CURLU DEBUGDATA DEBUGFUNCTION ERRORBUFFER FNMATCH_DATA FNMATCH_FUNCTION GSSAPI_DELEGATION HEADEROPT HSTSREADDATA HSTSREADFUNCTION HSTSWRITEDATA HSTSWRITEFUNCTION HTTPAUTH HTTPPOST INTERLEAVEDATA INTERLEAVEFUNCTION IOCTLDATA IOCTLFUNCTION IPRESOLVE MIMEPOST OPENSOCKETDATA OPENSOCKETFUNCTION POSTREDIR PREREQDATA PREREQFUNCTION PRIVATE PROGRESSFUNCTION PROXYAUTH PROXY_SSLVERSION RESOLVER_START_DATA RESOLVER_START_FUNCTION SEEKDATA SEEKFUNCTION SHARE SOCKOPTDATA SOCKOPTFUNCTION SSH_AUTH_TYPES SSH_HOSTKEYDATA SSH_HOSTKEYFUNCTION SSH_KEYDATA SSH_KEYFUNCTION SSL_CTX_DATA SSL_CTX_FUNCTION SSL_OPTIONS STDERR STREAM_DEPENDS STREAM_DEPENDS_E TRAILERDATA TRAILERFUNCTION XFERINFODATA XFERINFOFUNCTION
 
 =end stopwords
 
@@ -345,6 +345,28 @@ L<maxredirs|/maxredirs>.
 
 ( L<CURLOPT_FTP_CREATE_MISSING_DIRS|https://curl.se/libcurl/c/CURLOPT_FTP_CREATE_MISSING_DIRS.html> )
 
+=head2 ftp_filemethod
+
+ $curl->setopt( ftp_filemethod => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<default>
+
+=item C<multicwd>
+
+=item C<nocwd>
+
+=item C<singlecwd>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_FTP_FILEMETHOD|https://curl.se/libcurl/c/CURLOPT_FTP_FILEMETHOD.html> )
+
 =head2 ftp_skip_pasv_ip
 
  $curl->setopt( ftp_skip_pasv_ip => $value );
@@ -380,6 +402,26 @@ L<maxredirs|/maxredirs>.
  $curl->setopt( ftpport => $value );
 
 ( L<CURLOPT_FTPPORT|https://curl.se/libcurl/c/CURLOPT_FTPPORT.html> )
+
+=head2 ftpsslauth
+
+ $curl->setopt( ftpsslauth => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<default>
+
+=item C<ssl>
+
+=item C<tls>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_FTPSSLAUTH|https://curl.se/libcurl/c/CURLOPT_FTPSSLAUTH.html> )
 
 =head2 happy_eyeballs_timeout_ms
 
@@ -459,6 +501,34 @@ C API of this option:
  $curl->setopt( http_transfer_decoding => $value );
 
 ( L<CURLOPT_HTTP_TRANSFER_DECODING|https://curl.se/libcurl/c/CURLOPT_HTTP_TRANSFER_DECODING.html> )
+
+=head2 http_version
+
+ $curl->setopt( http_version => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<none>
+
+=item C<1_0>
+
+=item C<1_1>
+
+=item C<2_0>
+
+=item C<2tls>
+
+=item C<2_prior_knowledge>
+
+=item C<3>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_HTTP_VERSION|https://curl.se/libcurl/c/CURLOPT_HTTP_VERSION.html> )
 
 =head2 httpget
 
@@ -648,6 +718,26 @@ number of redirects.
  $curl->setopt( mime_options => $value );
 
 ( L<CURLOPT_MIME_OPTIONS|https://curl.se/libcurl/c/CURLOPT_MIME_OPTIONS.html> )
+
+=head2 netrc
+
+ $curl->setopt( netrc => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<ignored>
+
+=item C<optional>
+
+=item C<required>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_NETRC|https://curl.se/libcurl/c/CURLOPT_NETRC.html> )
 
 =head2 netrc_file
 
@@ -952,6 +1042,34 @@ if you have any NULLs in your POST data.
 
 ( L<CURLOPT_PROXYPORT|https://curl.se/libcurl/c/CURLOPT_PROXYPORT.html> )
 
+=head2 proxytype
+
+ $curl->setopt( proxytype => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<http>
+
+=item C<http_1_0>
+
+=item C<https>
+
+=item C<socks4>
+
+=item C<socks5>
+
+=item C<socks4a>
+
+=item C<socks5_hostname>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_PROXYTYPE|https://curl.se/libcurl/c/CURLOPT_PROXYTYPE.html> )
+
 =head2 proxyusername
 
  $curl->setopt( proxyusername => $value );
@@ -1079,6 +1197,44 @@ For a string reference
  $curl->setopt( rtsp_client_cseq => $value );
 
 ( L<CURLOPT_RTSP_CLIENT_CSEQ|https://curl.se/libcurl/c/CURLOPT_RTSP_CLIENT_CSEQ.html> )
+
+=head2 rtsp_request
+
+ $curl->setopt( rtsp_request => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<none>
+
+=item C<options>
+
+=item C<describe>
+
+=item C<announce>
+
+=item C<setup>
+
+=item C<play>
+
+=item C<pause>
+
+=item C<teardown>
+
+=item C<get_parameter>
+
+=item C<set_parameter>
+
+=item C<record>
+
+=item C<receive>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_RTSP_REQUEST|https://curl.se/libcurl/c/CURLOPT_RTSP_REQUEST.html> )
 
 =head2 rtsp_server_cseq
 
@@ -1284,6 +1440,36 @@ For a string reference
 
 ( L<CURLOPT_SSLKEYTYPE|https://curl.se/libcurl/c/CURLOPT_SSLKEYTYPE.html> )
 
+=head2 sslversion
+
+ $curl->setopt( sslversion => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<default>
+
+=item C<tlsv1>
+
+=item C<sslv2>
+
+=item C<sslv3>
+
+=item C<tlsv1_0>
+
+=item C<tlsv1_1>
+
+=item C<tlsv1_2>
+
+=item C<tlsv1_3>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_SSLVERSION|https://curl.se/libcurl/c/CURLOPT_SSLVERSION.html> )
+
 =head2 stream_weight
 
  $curl->setopt( stream_weight => $value );
@@ -1343,6 +1529,28 @@ For a string reference
  $curl->setopt( tftp_no_options => $value );
 
 ( L<CURLOPT_TFTP_NO_OPTIONS|https://curl.se/libcurl/c/CURLOPT_TFTP_NO_OPTIONS.html> )
+
+=head2 timecondition
+
+ $curl->setopt( timecondition => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<none>
+
+=item C<ifmodsince>
+
+=item C<ifunmodsince>
+
+=item C<lastmod>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_TIMECONDITION|https://curl.se/libcurl/c/CURLOPT_TIMECONDITION.html> )
 
 =head2 timeout
 
@@ -1441,6 +1649,28 @@ For a string reference
 The URL to work with.  This is the only required option.
 
 ( L<CURLOPT_URL|https://curl.se/libcurl/c/CURLOPT_URL.html> )
+
+=head2 use_ssl
+
+ $curl->setopt( use_ssl => $value );
+
+Legal string values for this option are:
+
+=over 4
+
+=item C<none>
+
+=item C<try>
+
+=item C<control>
+
+=item C<all>
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+( L<CURLOPT_USE_SSL|https://curl.se/libcurl/c/CURLOPT_USE_SSL.html> )
 
 =head2 useragent
 
@@ -1548,10 +1778,6 @@ L<Net::Swirl::CurlEasy>:
 
 =item FNMATCH_FUNCTION
 
-=item FTPSSLAUTH
-
-=item FTP_FILEMETHOD
-
 =item GSSAPI_DELEGATION
 
 =item HEADEROPT
@@ -1568,8 +1794,6 @@ L<Net::Swirl::CurlEasy>:
 
 =item HTTPPOST
 
-=item HTTP_VERSION
-
 =item INTERLEAVEDATA
 
 =item INTERLEAVEFUNCTION
@@ -1581,8 +1805,6 @@ L<Net::Swirl::CurlEasy>:
 =item IPRESOLVE
 
 =item MIMEPOST
-
-=item NETRC
 
 =item OPENSOCKETDATA
 
@@ -1600,15 +1822,11 @@ L<Net::Swirl::CurlEasy>:
 
 =item PROXYAUTH
 
-=item PROXYTYPE
-
 =item PROXY_SSLVERSION
 
 =item RESOLVER_START_DATA
 
 =item RESOLVER_START_FUNCTION
-
-=item RTSP_REQUEST
 
 =item SEEKDATA
 
@@ -1630,8 +1848,6 @@ L<Net::Swirl::CurlEasy>:
 
 =item SSH_KEYFUNCTION
 
-=item SSLVERSION
-
 =item SSL_CTX_DATA
 
 =item SSL_CTX_FUNCTION
@@ -1644,13 +1860,9 @@ L<Net::Swirl::CurlEasy>:
 
 =item STREAM_DEPENDS_E
 
-=item TIMECONDITION
-
 =item TRAILERDATA
 
 =item TRAILERFUNCTION
-
-=item USE_SSL
 
 =item XFERINFODATA
 
@@ -1661,6 +1873,106 @@ L<Net::Swirl::CurlEasy>:
 =cut
 
   package Net::Swirl::CurlEasy {
+
+    our $ffi;
+
+    $ffi->load_custom_type('::Enum', 'curl_ftpauth', { type => 'long' },
+      ['default' => 0],
+      ['ssl' => 1],
+      ['tls' => 2],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_ftpauth' ] => ['CURL','enum'] => ['curl_ftpauth'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_ftpmethod', { type => 'long' },
+      ['default' => 0],
+      ['multicwd' => 1],
+      ['nocwd' => 2],
+      ['singlecwd' => 3],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_ftpmethod' ] => ['CURL','enum'] => ['curl_ftpmethod'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_http_version', { type => 'long' },
+      ['none' => 0],
+      ['1_0' => 1],
+      ['1_1' => 2],
+      ['2_0' => 3],
+      ['2tls' => 4],
+      ['2_prior_knowledge' => 5],
+      ['3' => 30],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_http_version' ] => ['CURL','enum'] => ['curl_http_version'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_netrc', { type => 'long' },
+      ['ignored' => 0],
+      ['optional' => 1],
+      ['required' => 2],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_netrc' ] => ['CURL','enum'] => ['curl_netrc'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_proxy', { type => 'long' },
+      ['http' => 0],
+      ['http_1_0' => 1],
+      ['https' => 2],
+      ['socks4' => 4],
+      ['socks5' => 5],
+      ['socks4a' => 6],
+      ['socks5_hostname' => 7],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_proxy' ] => ['CURL','enum'] => ['curl_proxy'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_rtspreq', { type => 'long' },
+      ['none' => 0],
+      ['options' => 1],
+      ['describe' => 2],
+      ['announce' => 3],
+      ['setup' => 4],
+      ['play' => 5],
+      ['pause' => 6],
+      ['teardown' => 7],
+      ['get_parameter' => 8],
+      ['set_parameter' => 9],
+      ['record' => 10],
+      ['receive' => 11],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_rtspreq' ] => ['CURL','enum'] => ['curl_rtspreq'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_sslversion', { type => 'long' },
+      ['default' => 0],
+      ['tlsv1' => 1],
+      ['sslv2' => 2],
+      ['sslv3' => 3],
+      ['tlsv1_0' => 4],
+      ['tlsv1_1' => 5],
+      ['tlsv1_2' => 6],
+      ['tlsv1_3' => 7],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_sslversion' ] => ['CURL','enum'] => ['curl_sslversion'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_timecond', { type => 'long' },
+      ['none' => 0],
+      ['ifmodsince' => 1],
+      ['ifunmodsince' => 2],
+      ['lastmod' => 3],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_timecond' ] => ['CURL','enum'] => ['curl_timecond'] => 'enum' );
+
+    $ffi->load_custom_type('::Enum', 'curl_usessl', { type => 'long' },
+      ['none' => 0],
+      ['try' => 1],
+      ['control' => 2],
+      ['all' => 3],
+    );
+
+    $ffi->attach( [setopt => '_setopt_curl_usessl' ] => ['CURL','enum'] => ['curl_usessl'] => 'enum' );
+
     our %opt = (%opt,
       abstract_unix_socket => [ 10264, \&_setopt_stringpoint ],
       accept_encoding => [ 10102, \&_setopt_stringpoint ],
@@ -1712,12 +2024,14 @@ L<Net::Swirl::CurlEasy>:
       ftp_account => [ 10134, \&_setopt_stringpoint ],
       ftp_alternative_to_user => [ 10147, \&_setopt_stringpoint ],
       ftp_create_missing_dirs => [ 110, \&_setopt_long ],
+      ftp_filemethod => [ 138, \&_setopt_curl_ftpmethod ],
       ftp_skip_pasv_ip => [ 137, \&_setopt_long ],
       ftp_ssl_ccc => [ 154, \&_setopt_long ],
       ftp_use_eprt => [ 106, \&_setopt_long ],
       ftp_use_epsv => [ 85, \&_setopt_long ],
       ftp_use_pret => [ 188, \&_setopt_long ],
       ftpport => [ 10017, \&_setopt_stringpoint ],
+      ftpsslauth => [ 129, \&_setopt_curl_ftpauth ],
       happy_eyeballs_timeout_ms => [ 271, \&_setopt_long ],
       haproxyprotocol => [ 274, \&_setopt_long ],
       header => [ 42, \&_setopt_long ],
@@ -1727,6 +2041,7 @@ L<Net::Swirl::CurlEasy>:
       http200aliases => [ 10104, \&_setopt_slistpoint ],
       http_content_decoding => [ 158, \&_setopt_long ],
       http_transfer_decoding => [ 157, \&_setopt_long ],
+      http_version => [ 84, \&_setopt_curl_http_version ],
       httpget => [ 80, \&_setopt_long ],
       httpheader => [ 10023, \&_setopt_slistpoint ],
       httpproxytunnel => [ 61, \&_setopt_long ],
@@ -1757,6 +2072,7 @@ L<Net::Swirl::CurlEasy>:
       maxlifetime_conn => [ 314, \&_setopt_long ],
       maxredirs => [ 68, \&_setopt_long ],
       mime_options => [ 315, \&_setopt_long ],
+      netrc => [ 51, \&_setopt_curl_netrc ],
       netrc_file => [ 10118, \&_setopt_stringpoint ],
       new_directory_perms => [ 160, \&_setopt_long ],
       new_file_perms => [ 159, \&_setopt_long ],
@@ -1805,6 +2121,7 @@ L<Net::Swirl::CurlEasy>:
       proxyheader => [ 10228, \&_setopt_slistpoint ],
       proxypassword => [ 10176, \&_setopt_stringpoint ],
       proxyport => [ 59, \&_setopt_long ],
+      proxytype => [ 101, \&_setopt_curl_proxy ],
       proxyusername => [ 10175, \&_setopt_stringpoint ],
       proxyuserpwd => [ 10006, \&_setopt_stringpoint ],
       put => [ 54, \&_setopt_long ],
@@ -1819,6 +2136,7 @@ L<Net::Swirl::CurlEasy>:
       resume_from => [ 21, \&_setopt_long ],
       resume_from_large => [ 30116, \&_setopt_off_t ],
       rtsp_client_cseq => [ 193, \&_setopt_long ],
+      rtsp_request => [ 189, \&_setopt_curl_rtspreq ],
       rtsp_server_cseq => [ 194, \&_setopt_long ],
       rtsp_session_id => [ 10190, \&_setopt_stringpoint ],
       rtsp_stream_uri => [ 10191, \&_setopt_stringpoint ],
@@ -1853,6 +2171,7 @@ L<Net::Swirl::CurlEasy>:
       sslkey => [ 10087, \&_setopt_stringpoint ],
       sslkey_blob => [ 40292, \&_setopt_blob ],
       sslkeytype => [ 10088, \&_setopt_stringpoint ],
+      sslversion => [ 32, \&_setopt_curl_sslversion ],
       stream_weight => [ 239, \&_setopt_long ],
       suppress_connect_headers => [ 265, \&_setopt_long ],
       tcp_fastopen => [ 244, \&_setopt_long ],
@@ -1863,6 +2182,7 @@ L<Net::Swirl::CurlEasy>:
       telnetoptions => [ 10070, \&_setopt_slistpoint ],
       tftp_blksize => [ 178, \&_setopt_long ],
       tftp_no_options => [ 242, \&_setopt_long ],
+      timecondition => [ 33, \&_setopt_curl_timecond ],
       timeout => [ 13, \&_setopt_long ],
       timeout_ms => [ 155, \&_setopt_long ],
       timevalue => [ 34, \&_setopt_long ],
@@ -1879,6 +2199,7 @@ L<Net::Swirl::CurlEasy>:
       upload => [ 46, \&_setopt_long ],
       upload_buffersize => [ 280, \&_setopt_long ],
       url => [ 10002, \&_setopt_stringpoint ],
+      use_ssl => [ 119, \&_setopt_curl_usessl ],
       useragent => [ 10018, \&_setopt_stringpoint ],
       username => [ 10173, \&_setopt_stringpoint ],
       userpwd => [ 10005, \&_setopt_stringpoint ],

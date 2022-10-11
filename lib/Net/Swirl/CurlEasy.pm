@@ -181,14 +181,8 @@ below.
 
   package Net::Swirl::CurlEasy::Exception::CurlCode {
 
-    our @ISA = qw( Net::Swirl::CurlEasy::Exception );  ## no critic (ClassHierarchies::ProhibitExplicitISA)
-
-    sub throw ($code)
-    {
-      my $self = __PACKAGE__->new;
-      $self->{code} = $code;
-      die $self;
-    }
+    require Exception::FFI::ErrorCode;
+    our @ISA = qw( Exception::FFI::ErrorCode::Base );  ## no critic (ClassHierarchies::ProhibitExplicitISA)
 
     $ffi->attach( strerror => ['enum'] => 'string' => sub ($xsub, $self) {
       $xsub->($self->{code});
@@ -496,10 +490,10 @@ name), but these two methods should be available (even if one just throws an exc
 
   sub getinfo ($self, $key)
   {
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw(48) unless defined $info{$key};
+    Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => 48, frame => 1) unless defined $info{$key};
     my($key_id, $xsub) = $info{$key}->@*;
     my $code = $xsub->($self, $key_id, \my $value);
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => $code, frame => 1) if $code;
     return $value;
   }
 
@@ -522,7 +516,7 @@ L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::Cu
 
   $ffi->attach( pause => ['CURL','int'] => 'enum' => sub ($xsub, $self, $bitmask) {
     my $code = $xsub->($self, $bitmask);
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => $code, frame => 1) if $code;
     $self;
   });
 
@@ -540,7 +534,7 @@ L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::Cu
   $ffi->attach( perform => ['CURL'] => 'enum' => sub {
     my($xsub, $self) = @_;
     my $code = $xsub->($self);
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => $code, frame => 1) if $code;
     $self;
   });
 
@@ -601,7 +595,7 @@ in the event of an error.
     if($code != 0) {
       FFI::Platypus::Buffer::set_used_length($$buf, 0);
       return undef if $code == 81;
-      Net::Swirl::CurlEasy::Exception::CurlCode::throw($code);
+      Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => $code, frame => 1);
     }
 
     FFI::Platypus::Buffer::set_used_length($$buf, $out_size);
@@ -671,7 +665,7 @@ in the event of an error.
     if($code != 0)
     {
       return undef if $code == 81;
-      Net::Swirl::CurlEasy::Exception::CurlCode::throw($code);
+      Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => $code, frame => 1);
     }
 
     return $out_size;
@@ -995,10 +989,10 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
   sub setopt ($self, $key, $value)
   {
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw(48) unless defined $opt{$key};
+    Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => 48, frame => 1) unless defined $opt{$key};
     my($key_id, $xsub, $data_id) = $opt{$key}->@*;
     my $code = $xsub->($self, $key_id, $value, $data_id ? ($data_id) : ());
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => $code, frame => 1) if $code;
     $self;
   }
 
@@ -1046,7 +1040,7 @@ on error.
 
   $ffi->attach( upkeep => ['CURL'] => 'enum' => sub ($xsub, $self) {
     my $code = $xsub->($self);
-    Net::Swirl::CurlEasy::Exception::CurlCode::throw($code) if $code;
+    Net::Swirl::CurlEasy::Exception::CurlCode->throw(code => $code, frame => 1) if $code;
     $self;
   });
 

@@ -158,18 +158,26 @@ subtest 'invalid option, invalid info' => sub {
   my $curl = Net::Swirl::CurlEasy->new;
   note "curl-ptr = @{[ $$curl ]}";
 
+  my $ex = dies { $curl->setopt('bogus' => 'bummer') };  my $line = __LINE__;
+
   is
-    dies { $curl->setopt('bogus' => 'bummer') },
+    $ex,
     object {
       call [ isa => 'Net::Swirl::CurlEasy::Exception::CurlCode' ] => T();
+      call line => $line;
+      call filename => __FILE__;
       call code => 48;
     },
     'got the expected exception for invalid option';
 
+  $ex = dies { $curl->getinfo('bogus') }; $line = __LINE__;
+
   is
-    dies { $curl->getinfo('bogus') },
+    $ex,
     object {
       call [ isa => 'Net::Swirl::CurlEasy::Exception::CurlCode' ] => T();
+      call line => $line;
+      call filename => __FILE__;
       call code => 48;
     },
     'got the expected exception for invalid info';

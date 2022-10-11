@@ -149,10 +149,25 @@ foreach my $type (qw( file blob )) {
     }
     else
     {
-      $curl
-         ->setopt( cainfo_blob    => path('examples/tls/Swirl-CA.crt')->slurp_raw)
-         ->setopt( sslcert_blob   => path('examples/tls/client.crt')->slurp_raw)
-         ->setopt( sslkey_blob    => path('examples/tls/client.key')->slurp_raw)
+      local $@='';
+      eval {
+        $curl
+           ->setopt( cainfo_blob    => path('examples/tls/Swirl-CA.crt')->slurp_raw)
+           ->setopt( sslcert_blob   => path('examples/tls/client.crt')->slurp_raw)
+           ->setopt( sslkey_blob    => path('examples/tls/client.key')->slurp_raw)
+      }
+      if(my $ex = $@)
+      {
+        if($ex->code == 48)
+        {
+          skip_all 'This CURL does not appear to have ssl blob options';
+        }
+        else
+        {
+          fail "settng blob options failed with: $ex";
+          return;
+        }
+      }
     }
 
     $curl->setopt( url            => 'https://localhost:20204' )

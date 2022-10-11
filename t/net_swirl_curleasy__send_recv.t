@@ -194,6 +194,19 @@ foreach my $type (qw( file blob )) {
     note '$curl->getinfo("tls_session")->backend = ', $curl->getinfo('tls_session')->backend;
     note '$curl->getinfo("tls_ssl_ptr")->backend = ', $curl->getinfo('tls_ssl_ptr')->backend;
 
+    my $ex = dies { $curl->getinfo("tls_session")->internals };  my $line = __LINE__;
+
+    is
+      $ex,
+      object {
+        call [ isa => 'Net::Swirl::CurlEasy::Exception::Swirl' ] => T();
+        call filename  => __FILE__;
+        call line      => $line;
+        call code      => Net::Swirl::CurlEasy::Const::SWIRL_NOT_IMPLEMENTED();
+        call as_string => match qr/Not \(yet\) implemented/;
+      },
+      '$curl->getinfo("tls_session")->internals throws exception';
+
     msg_ok $curl, $sock, "hello world", name => 'auto-allocate';
     msg_ok $curl, $sock, "hello world", name => 'pre-allocate';
 

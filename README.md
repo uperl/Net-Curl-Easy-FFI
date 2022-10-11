@@ -669,6 +669,10 @@ This is an exception that originates in [Net::Swirl::CurlEasy](https://metacpan.
 
         An internal error.
 
+    - `SWIRL_NOT_IMPLEMENTED`
+
+        You called a method, function or option that is not yet implemented.
+
 # EXAMPLES
 
 All of the examples are provided in the `examples` subdirectory of this distribution.

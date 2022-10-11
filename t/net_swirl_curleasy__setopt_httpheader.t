@@ -6,7 +6,7 @@ use Test2::Tools::MyTest;
 use JSON::PP qw( decode_json );
 use Test2::Tools::MemoryCycle;
 
-skip_all 'set TEST_EXAMPLE=1 and install Plack to run this test' unless example_http;
+skip_all 'set TEST_EXAMPLES=1 and install Plack to run this test' unless example_http;
 
 subtest 'basic' => sub {
 

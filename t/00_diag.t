@@ -12,6 +12,7 @@ my $post_diag;
 $modules{$_} = $_ for qw(
   Alien::curl
   Alien::ghostunnel
+  Exception::FFI::ErrorCode
   ExtUtils::MakeMaker
   FFI::C
   FFI::CheckLib

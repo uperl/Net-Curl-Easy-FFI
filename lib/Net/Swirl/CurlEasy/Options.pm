@@ -1200,7 +1200,14 @@ for details on how this option works.
    ...
  });
 
-# TODO
+This is similar to the L<xferinfofunction callback|/xferinfofunction>, except C<$dltotal>,
+C<$dlnow>, C<$ultotal> and C<$ulnow> are passed in as a floating point value instead
+of as a 64 bit integer.  You are encouraged to use the L<xferinfofunction callback|/xferinfofunction>
+if at all possible.
+
+Note that this callback has the corresponding L<progressdata option|/progressdata>, but
+that is actually an alias for the L<xferinfodata option|/xferinfodata>, so the C<$progressdata>
+is actually the same as the C<$xferinfodata> that gets passed into that callback.
 
 ( L<CURLOPT_PROGRESSFUNCTION|https://curl.se/libcurl/c/CURLOPT_PROGRESSFUNCTION.html>)
 
@@ -2460,6 +2467,10 @@ This can be any Perl data type.  It is unused by C<libcurl> itself.
 This gets called during the transfer "with a frequent interval".  C<$xferinfodata> is the
 data passed into the L<xferinfodata option|/xferinfodata>.  The L<noprogress option|/noprogress>
 must be set to C<0> otherwise this callback will not be called.
+
+Note that if you set the L<noprogress option|/noprogress> to C<0> it will also turn on
+C<curl>'s internal progress meter (!) which is probably not what you want.  You can work
+around this by redirecting that output with the L<stderr option|/stderr>.
 
 ( L<CURLOPT_XFERINFOFUNCTION|https://curl.se/libcurl/c/CURLOPT_XFERINFOFUNCTION.html> )
 

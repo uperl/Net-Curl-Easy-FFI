@@ -449,7 +449,7 @@ if you have any NULLs in your POST data.
 $curl->setopt( progressdata => $progressdata );
 ```
 
-\# TODO
+This is just an alias for the ["xferinfodata option"](#xferinfodata-option).
 
 ( [CURLOPT\_PROGRESSDATA](https://curl.se/libcurl/c/CURLOPT_PROGRESSDATA.html))
 
@@ -461,7 +461,14 @@ $curl->setopt( progressfunction => sub ($curl, $progressdata, $dltotal, $dlnow, 
 });
 ```
 
-\# TODO
+This is similar to the [xferinfofunction callback](#xferinfofunction), except `$dltotal`,
+`$dlnow`, `$ultotal` and `$ulnow` are passed in as a floating point value instead
+of as a 64 bit integer.  You are encouraged to use the [xferinfofunction callback](#xferinfofunction)
+if at all possible.
+
+Note that this callback has the corresponding [progressdata option](#progressdata), but
+that is actually an alias for the [xferinfodata option](#xferinfodata), so the `$progressdata`
+is actually the same as the `$xferinfodata` that gets passed into that callback.
 
 ( [CURLOPT\_PROGRESSFUNCTION](https://curl.se/libcurl/c/CURLOPT_PROGRESSFUNCTION.html))
 
@@ -637,6 +644,10 @@ $curl->setopt(xferinfofunction => sub ($curl, $xferinfodata, $dltotal, $dlnow, $
 This gets called during the transfer "with a frequent interval".  `$xferinfodata` is the
 data passed into the [xferinfodata option](#xferinfodata).  The [noprogress option](#noprogress)
 must be set to `0` otherwise this callback will not be called.
+
+Note that if you set the [noprogress option](#noprogress) to `0` it will also turn on
+`curl`'s internal progress meter (!) which is probably not what you want.  You can work
+around this by redirecting that output with the [stderr option](#stderr).
 
 ( [CURLOPT\_XFERINFOFUNCTION](https://curl.se/libcurl/c/CURLOPT_XFERINFOFUNCTION.html) )
 

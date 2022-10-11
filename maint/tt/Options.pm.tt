@@ -32,6 +32,22 @@ These options are set via the L<setopt method|Net::Swirl::CurlEasy/setopt>.
 
  $curl->setopt( [% option.perl_name %] => $value );
 
+[%- IF option.enum %]
+Legal string values for this option are:
+
+=over 4
+
+[%- FOREACH value IN option.enum %]
+=item C<[% value %]>
+
+[%- END -%]
+
+=back
+
+Please see the C<libcurl> documentation for the meaning of these values.
+
+[%- END -%]
+
 ( L<[% option.c_name %]|https://curl.se/libcurl/c/[% option.c_name %].html> )
 
 [%- END -%]
@@ -54,6 +70,21 @@ L<Net::Swirl::CurlEasy>:
 =cut
 
   package Net::Swirl::CurlEasy {
+
+    our $ffi;
+
+    [%- FOREACH enum IN curl.enum %]
+    $ffi->load_custom_type('::Enum', '[% enum.type %]', { type => 'long' },
+      [%- FOREACH value IN enum.values %]
+      ['[% value.name %]' => [% value.value %]],
+      [%- END -%]
+
+    );
+
+    $ffi->attach( [setopt => '_setopt_[% enum.type %]' ] => ['CURL','enum'] => ['[% enum.type %]'] => 'enum' );
+
+    [%- END -%]
+
     our %opt = (%opt,
       [%- FOREACH option IN curl.options %][%- UNLESS option.hand_code %]
       [% option.perl_name %] => [ [% option.init %], \&[% option.xsub_name %] ],

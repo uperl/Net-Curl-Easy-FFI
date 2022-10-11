@@ -157,9 +157,12 @@ subtest 'xferinfo' => sub {
     $curl->setopt( noprogress => 0 );
   } '$curl->setopt( noprogress => 0 )';
 
+  my $stderr_path = Path::Tiny->tempfile( "stuffXXXXXX" );
+  my $fp = FFI::C::File->fopen("$stderr_path", "w");
+
   try_ok {
-    $curl->setopt( stderr => FFI::C::File->tmpfile );
-  } '$curl->setopt( stderr => FFI::C::File->tmpfile )';
+    $curl->setopt( stderr => $fp );
+  } '$curl->setopt( stderr => $fp )';
 
   try_ok {
     $curl->setopt( xferinfofunction => sub ($curl, $data, $dlt, $dln, $ult, $uln) {
@@ -213,9 +216,12 @@ subtest 'progress' => sub {
     $curl->setopt( noprogress => 0 );
   } '$curl->setopt( noprogress => 0 )';
 
+  my $stderr_path = Path::Tiny->tempfile( "stuffXXXXXX" );
+  my $fp = FFI::C::File->fopen("$stderr_path", "w");
+
   try_ok {
-    $curl->setopt( stderr => FFI::C::File->tmpfile );
-  } '$curl->setopt( stderr => FFI::C::File->tmpfile )';
+    $curl->setopt( stderr => $fp );
+  } '$curl->setopt( stderr => $fp )';
 
   try_ok {
     $curl->setopt( progressfunction => sub ($curl, $data, $dlt, $dln, $ult, $uln) {

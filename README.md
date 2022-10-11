@@ -449,7 +449,7 @@ if you have any NULLs in your POST data.
 $curl->setopt( progressdata => $progressdata );
 ```
 
-This is just an alias for the ["xferinfodata option"](#xferinfodata-option).
+This is just an alias for the [xferinfodata option](#xferinfodata).
 
 ( [CURLOPT\_PROGRESSDATA](https://curl.se/libcurl/c/CURLOPT_PROGRESSDATA.html))
 

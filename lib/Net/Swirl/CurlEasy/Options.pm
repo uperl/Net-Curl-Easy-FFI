@@ -29,11 +29,17 @@ CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNC
 
  $curl->setopt( abstract_unix_socket => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ABSTRACT_UNIX_SOCKET.html>
+for details on how this option works.
+
 ( L<CURLOPT_ABSTRACT_UNIX_SOCKET|https://curl.se/libcurl/c/CURLOPT_ABSTRACT_UNIX_SOCKET.html> )
 
 =head2 accept_encoding
 
  $curl->setopt( accept_encoding => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ACCEPT_ENCODING.html>
+for details on how this option works.
 
 ( L<CURLOPT_ACCEPT_ENCODING|https://curl.se/libcurl/c/CURLOPT_ACCEPT_ENCODING.html> )
 
@@ -41,11 +47,17 @@ CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNC
 
  $curl->setopt( accepttimeout_ms => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ACCEPTTIMEOUT_MS.html>
+for details on how this option works.
+
 ( L<CURLOPT_ACCEPTTIMEOUT_MS|https://curl.se/libcurl/c/CURLOPT_ACCEPTTIMEOUT_MS.html> )
 
 =head2 address_scope
 
  $curl->setopt( address_scope => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ADDRESS_SCOPE.html>
+for details on how this option works.
 
 ( L<CURLOPT_ADDRESS_SCOPE|https://curl.se/libcurl/c/CURLOPT_ADDRESS_SCOPE.html> )
 
@@ -53,11 +65,17 @@ CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNC
 
  $curl->setopt( altsvc => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ALTSVC.html>
+for details on how this option works.
+
 ( L<CURLOPT_ALTSVC|https://curl.se/libcurl/c/CURLOPT_ALTSVC.html> )
 
 =head2 altsvc_ctrl
 
  $curl->setopt( altsvc_ctrl => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ALTSVC_CTRL.html>
+for details on how this option works.
 
 ( L<CURLOPT_ALTSVC_CTRL|https://curl.se/libcurl/c/CURLOPT_ALTSVC_CTRL.html> )
 
@@ -65,11 +83,17 @@ CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNC
 
  $curl->setopt( append => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_APPEND.html>
+for details on how this option works.
+
 ( L<CURLOPT_APPEND|https://curl.se/libcurl/c/CURLOPT_APPEND.html> )
 
 =head2 autoreferer
 
  $curl->setopt( autoreferer => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_AUTOREFERER.html>
+for details on how this option works.
 
 ( L<CURLOPT_AUTOREFERER|https://curl.se/libcurl/c/CURLOPT_AUTOREFERER.html> )
 
@@ -77,11 +101,17 @@ CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNC
 
  $curl->setopt( aws_sigv4 => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_AWS_SIGV4.html>
+for details on how this option works.
+
 ( L<CURLOPT_AWS_SIGV4|https://curl.se/libcurl/c/CURLOPT_AWS_SIGV4.html> )
 
 =head2 buffersize
 
  $curl->setopt( buffersize => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_BUFFERSIZE.html>
+for details on how this option works.
 
 ( L<CURLOPT_BUFFERSIZE|https://curl.se/libcurl/c/CURLOPT_BUFFERSIZE.html> )
 
@@ -89,11 +119,17 @@ CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNC
 
  $curl->setopt( cainfo => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CAINFO.html>
+for details on how this option works.
+
 ( L<CURLOPT_CAINFO|https://curl.se/libcurl/c/CURLOPT_CAINFO.html> )
 
 =head2 cainfo_blob
 
  $curl->setopt( cainfo_blob => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CAINFO_BLOB.html>
+for details on how this option works.
 
 ( L<CURLOPT_CAINFO_BLOB|https://curl.se/libcurl/c/CURLOPT_CAINFO_BLOB.html> )
 
@@ -101,11 +137,17 @@ CHUNK_BGN_FUNCTION CHUNK_DATA CHUNK_END_FUNCTION CLOSESOCKETDATA CLOSESOCKETFUNC
 
  $curl->setopt( capath => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CAPATH.html>
+for details on how this option works.
+
 ( L<CURLOPT_CAPATH|https://curl.se/libcurl/c/CURLOPT_CAPATH.html> )
 
 =head2 certinfo
 
  $curl->setopt( certinfo => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CERTINFO.html>
+for details on how this option works.
 
 ( L<CURLOPT_CERTINFO|https://curl.se/libcurl/c/CURLOPT_CERTINFO.html> )
 
@@ -129,11 +171,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( connect_to => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CONNECT_TO.html>
+for details on how this option works.
+
 ( L<CURLOPT_CONNECT_TO|https://curl.se/libcurl/c/CURLOPT_CONNECT_TO.html> )
 
 =head2 connecttimeout
 
  $curl->setopt( connecttimeout => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CONNECTTIMEOUT.html>
+for details on how this option works.
 
 ( L<CURLOPT_CONNECTTIMEOUT|https://curl.se/libcurl/c/CURLOPT_CONNECTTIMEOUT.html> )
 
@@ -141,11 +189,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( connecttimeout_ms => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CONNECTTIMEOUT_MS.html>
+for details on how this option works.
+
 ( L<CURLOPT_CONNECTTIMEOUT_MS|https://curl.se/libcurl/c/CURLOPT_CONNECTTIMEOUT_MS.html> )
 
 =head2 cookie
 
  $curl->setopt( cookie => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_COOKIE.html>
+for details on how this option works.
 
 ( L<CURLOPT_COOKIE|https://curl.se/libcurl/c/CURLOPT_COOKIE.html> )
 
@@ -153,11 +207,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( cookiefile => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_COOKIEFILE.html>
+for details on how this option works.
+
 ( L<CURLOPT_COOKIEFILE|https://curl.se/libcurl/c/CURLOPT_COOKIEFILE.html> )
 
 =head2 cookiejar
 
  $curl->setopt( cookiejar => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_COOKIEJAR.html>
+for details on how this option works.
 
 ( L<CURLOPT_COOKIEJAR|https://curl.se/libcurl/c/CURLOPT_COOKIEJAR.html> )
 
@@ -165,11 +225,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( cookielist => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_COOKIELIST.html>
+for details on how this option works.
+
 ( L<CURLOPT_COOKIELIST|https://curl.se/libcurl/c/CURLOPT_COOKIELIST.html> )
 
 =head2 cookiesession
 
  $curl->setopt( cookiesession => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_COOKIESESSION.html>
+for details on how this option works.
 
 ( L<CURLOPT_COOKIESESSION|https://curl.se/libcurl/c/CURLOPT_COOKIESESSION.html> )
 
@@ -177,11 +243,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( copypostfields => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_COPYPOSTFIELDS.html>
+for details on how this option works.
+
 ( L<CURLOPT_COPYPOSTFIELDS|https://curl.se/libcurl/c/CURLOPT_COPYPOSTFIELDS.html> )
 
 =head2 crlf
 
  $curl->setopt( crlf => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CRLF.html>
+for details on how this option works.
 
 ( L<CURLOPT_CRLF|https://curl.se/libcurl/c/CURLOPT_CRLF.html> )
 
@@ -189,11 +261,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( crlfile => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CRLFILE.html>
+for details on how this option works.
+
 ( L<CURLOPT_CRLFILE|https://curl.se/libcurl/c/CURLOPT_CRLFILE.html> )
 
 =head2 customrequest
 
  $curl->setopt( customrequest => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_CUSTOMREQUEST.html>
+for details on how this option works.
 
 ( L<CURLOPT_CUSTOMREQUEST|https://curl.se/libcurl/c/CURLOPT_CUSTOMREQUEST.html> )
 
@@ -201,11 +279,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( default_protocol => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DEFAULT_PROTOCOL.html>
+for details on how this option works.
+
 ( L<CURLOPT_DEFAULT_PROTOCOL|https://curl.se/libcurl/c/CURLOPT_DEFAULT_PROTOCOL.html> )
 
 =head2 dirlistonly
 
  $curl->setopt( dirlistonly => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DIRLISTONLY.html>
+for details on how this option works.
 
 ( L<CURLOPT_DIRLISTONLY|https://curl.se/libcurl/c/CURLOPT_DIRLISTONLY.html> )
 
@@ -213,11 +297,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( disallow_username_in_url => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DISALLOW_USERNAME_IN_URL.html>
+for details on how this option works.
+
 ( L<CURLOPT_DISALLOW_USERNAME_IN_URL|https://curl.se/libcurl/c/CURLOPT_DISALLOW_USERNAME_IN_URL.html> )
 
 =head2 dns_cache_timeout
 
  $curl->setopt( dns_cache_timeout => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DNS_CACHE_TIMEOUT.html>
+for details on how this option works.
 
 ( L<CURLOPT_DNS_CACHE_TIMEOUT|https://curl.se/libcurl/c/CURLOPT_DNS_CACHE_TIMEOUT.html> )
 
@@ -225,11 +315,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( dns_interface => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DNS_INTERFACE.html>
+for details on how this option works.
+
 ( L<CURLOPT_DNS_INTERFACE|https://curl.se/libcurl/c/CURLOPT_DNS_INTERFACE.html> )
 
 =head2 dns_local_ip4
 
  $curl->setopt( dns_local_ip4 => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DNS_LOCAL_IP4.html>
+for details on how this option works.
 
 ( L<CURLOPT_DNS_LOCAL_IP4|https://curl.se/libcurl/c/CURLOPT_DNS_LOCAL_IP4.html> )
 
@@ -237,11 +333,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( dns_local_ip6 => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DNS_LOCAL_IP6.html>
+for details on how this option works.
+
 ( L<CURLOPT_DNS_LOCAL_IP6|https://curl.se/libcurl/c/CURLOPT_DNS_LOCAL_IP6.html> )
 
 =head2 dns_servers
 
  $curl->setopt( dns_servers => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DNS_SERVERS.html>
+for details on how this option works.
 
 ( L<CURLOPT_DNS_SERVERS|https://curl.se/libcurl/c/CURLOPT_DNS_SERVERS.html> )
 
@@ -249,11 +351,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( dns_shuffle_addresses => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DNS_SHUFFLE_ADDRESSES.html>
+for details on how this option works.
+
 ( L<CURLOPT_DNS_SHUFFLE_ADDRESSES|https://curl.se/libcurl/c/CURLOPT_DNS_SHUFFLE_ADDRESSES.html> )
 
 =head2 dns_use_global_cache
 
  $curl->setopt( dns_use_global_cache => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DNS_USE_GLOBAL_CACHE.html>
+for details on how this option works.
 
 ( L<CURLOPT_DNS_USE_GLOBAL_CACHE|https://curl.se/libcurl/c/CURLOPT_DNS_USE_GLOBAL_CACHE.html> )
 
@@ -261,11 +369,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( doh_ssl_verifyhost => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DOH_SSL_VERIFYHOST.html>
+for details on how this option works.
+
 ( L<CURLOPT_DOH_SSL_VERIFYHOST|https://curl.se/libcurl/c/CURLOPT_DOH_SSL_VERIFYHOST.html> )
 
 =head2 doh_ssl_verifypeer
 
  $curl->setopt( doh_ssl_verifypeer => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DOH_SSL_VERIFYPEER.html>
+for details on how this option works.
 
 ( L<CURLOPT_DOH_SSL_VERIFYPEER|https://curl.se/libcurl/c/CURLOPT_DOH_SSL_VERIFYPEER.html> )
 
@@ -273,11 +387,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( doh_ssl_verifystatus => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DOH_SSL_VERIFYSTATUS.html>
+for details on how this option works.
+
 ( L<CURLOPT_DOH_SSL_VERIFYSTATUS|https://curl.se/libcurl/c/CURLOPT_DOH_SSL_VERIFYSTATUS.html> )
 
 =head2 doh_url
 
  $curl->setopt( doh_url => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_DOH_URL.html>
+for details on how this option works.
 
 ( L<CURLOPT_DOH_URL|https://curl.se/libcurl/c/CURLOPT_DOH_URL.html> )
 
@@ -285,11 +405,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( egdsocket => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_EGDSOCKET.html>
+for details on how this option works.
+
 ( L<CURLOPT_EGDSOCKET|https://curl.se/libcurl/c/CURLOPT_EGDSOCKET.html> )
 
 =head2 expect_100_timeout_ms
 
  $curl->setopt( expect_100_timeout_ms => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_EXPECT_100_TIMEOUT_MS.html>
+for details on how this option works.
 
 ( L<CURLOPT_EXPECT_100_TIMEOUT_MS|https://curl.se/libcurl/c/CURLOPT_EXPECT_100_TIMEOUT_MS.html> )
 
@@ -297,11 +423,17 @@ connections marked connect only will not be allowed to get reused.
 
  $curl->setopt( failonerror => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FAILONERROR.html>
+for details on how this option works.
+
 ( L<CURLOPT_FAILONERROR|https://curl.se/libcurl/c/CURLOPT_FAILONERROR.html> )
 
 =head2 filetime
 
  $curl->setopt( filetime => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FILETIME.html>
+for details on how this option works.
 
 ( L<CURLOPT_FILETIME|https://curl.se/libcurl/c/CURLOPT_FILETIME.html> )
 
@@ -319,11 +451,17 @@ L<maxredirs|/maxredirs>.
 
  $curl->setopt( forbid_reuse => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FORBID_REUSE.html>
+for details on how this option works.
+
 ( L<CURLOPT_FORBID_REUSE|https://curl.se/libcurl/c/CURLOPT_FORBID_REUSE.html> )
 
 =head2 fresh_connect
 
  $curl->setopt( fresh_connect => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FRESH_CONNECT.html>
+for details on how this option works.
 
 ( L<CURLOPT_FRESH_CONNECT|https://curl.se/libcurl/c/CURLOPT_FRESH_CONNECT.html> )
 
@@ -331,17 +469,26 @@ L<maxredirs|/maxredirs>.
 
  $curl->setopt( ftp_account => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_ACCOUNT.html>
+for details on how this option works.
+
 ( L<CURLOPT_FTP_ACCOUNT|https://curl.se/libcurl/c/CURLOPT_FTP_ACCOUNT.html> )
 
 =head2 ftp_alternative_to_user
 
  $curl->setopt( ftp_alternative_to_user => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_ALTERNATIVE_TO_USER.html>
+for details on how this option works.
+
 ( L<CURLOPT_FTP_ALTERNATIVE_TO_USER|https://curl.se/libcurl/c/CURLOPT_FTP_ALTERNATIVE_TO_USER.html> )
 
 =head2 ftp_create_missing_dirs
 
  $curl->setopt( ftp_create_missing_dirs => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_CREATE_MISSING_DIRS.html>
+for details on how this option works.
 
 ( L<CURLOPT_FTP_CREATE_MISSING_DIRS|https://curl.se/libcurl/c/CURLOPT_FTP_CREATE_MISSING_DIRS.html> )
 
@@ -363,7 +510,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_FILEMETHOD.html>
+for the meaning of these values.
 
 ( L<CURLOPT_FTP_FILEMETHOD|https://curl.se/libcurl/c/CURLOPT_FTP_FILEMETHOD.html> )
 
@@ -371,11 +519,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ftp_skip_pasv_ip => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_SKIP_PASV_IP.html>
+for details on how this option works.
+
 ( L<CURLOPT_FTP_SKIP_PASV_IP|https://curl.se/libcurl/c/CURLOPT_FTP_SKIP_PASV_IP.html> )
 
 =head2 ftp_ssl_ccc
 
  $curl->setopt( ftp_ssl_ccc => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_SSL_CCC.html>
+for details on how this option works.
 
 ( L<CURLOPT_FTP_SSL_CCC|https://curl.se/libcurl/c/CURLOPT_FTP_SSL_CCC.html> )
 
@@ -383,11 +537,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ftp_use_eprt => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_USE_EPRT.html>
+for details on how this option works.
+
 ( L<CURLOPT_FTP_USE_EPRT|https://curl.se/libcurl/c/CURLOPT_FTP_USE_EPRT.html> )
 
 =head2 ftp_use_epsv
 
  $curl->setopt( ftp_use_epsv => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_USE_EPSV.html>
+for details on how this option works.
 
 ( L<CURLOPT_FTP_USE_EPSV|https://curl.se/libcurl/c/CURLOPT_FTP_USE_EPSV.html> )
 
@@ -395,11 +555,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ftp_use_pret => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTP_USE_PRET.html>
+for details on how this option works.
+
 ( L<CURLOPT_FTP_USE_PRET|https://curl.se/libcurl/c/CURLOPT_FTP_USE_PRET.html> )
 
 =head2 ftpport
 
  $curl->setopt( ftpport => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTPPORT.html>
+for details on how this option works.
 
 ( L<CURLOPT_FTPPORT|https://curl.se/libcurl/c/CURLOPT_FTPPORT.html> )
 
@@ -419,7 +585,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_FTPSSLAUTH.html>
+for the meaning of these values.
 
 ( L<CURLOPT_FTPSSLAUTH|https://curl.se/libcurl/c/CURLOPT_FTPSSLAUTH.html> )
 
@@ -427,17 +594,26 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( happy_eyeballs_timeout_ms => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS.html>
+for details on how this option works.
+
 ( L<CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS|https://curl.se/libcurl/c/CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS.html> )
 
 =head2 haproxyprotocol
 
  $curl->setopt( haproxyprotocol => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HAPROXYPROTOCOL.html>
+for details on how this option works.
+
 ( L<CURLOPT_HAPROXYPROTOCOL|https://curl.se/libcurl/c/CURLOPT_HAPROXYPROTOCOL.html> )
 
 =head2 header
 
  $curl->setopt( header => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HEADER.html>
+for details on how this option works.
 
 ( L<CURLOPT_HEADER|https://curl.se/libcurl/c/CURLOPT_HEADER.html> )
 
@@ -470,11 +646,17 @@ C API of this option:
 
  $curl->setopt( hsts => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HSTS.html>
+for details on how this option works.
+
 ( L<CURLOPT_HSTS|https://curl.se/libcurl/c/CURLOPT_HSTS.html> )
 
 =head2 hsts_ctrl
 
  $curl->setopt( hsts_ctrl => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HSTS_CTRL.html>
+for details on how this option works.
 
 ( L<CURLOPT_HSTS_CTRL|https://curl.se/libcurl/c/CURLOPT_HSTS_CTRL.html> )
 
@@ -482,11 +664,17 @@ C API of this option:
 
  $curl->setopt( http09_allowed => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HTTP09_ALLOWED.html>
+for details on how this option works.
+
 ( L<CURLOPT_HTTP09_ALLOWED|https://curl.se/libcurl/c/CURLOPT_HTTP09_ALLOWED.html> )
 
 =head2 http200aliases
 
  $curl->setopt( http200aliases => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HTTP200ALIASES.html>
+for details on how this option works.
 
 ( L<CURLOPT_HTTP200ALIASES|https://curl.se/libcurl/c/CURLOPT_HTTP200ALIASES.html> )
 
@@ -494,11 +682,17 @@ C API of this option:
 
  $curl->setopt( http_content_decoding => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HTTP_CONTENT_DECODING.html>
+for details on how this option works.
+
 ( L<CURLOPT_HTTP_CONTENT_DECODING|https://curl.se/libcurl/c/CURLOPT_HTTP_CONTENT_DECODING.html> )
 
 =head2 http_transfer_decoding
 
  $curl->setopt( http_transfer_decoding => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HTTP_TRANSFER_DECODING.html>
+for details on how this option works.
 
 ( L<CURLOPT_HTTP_TRANSFER_DECODING|https://curl.se/libcurl/c/CURLOPT_HTTP_TRANSFER_DECODING.html> )
 
@@ -526,13 +720,17 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HTTP_VERSION.html>
+for the meaning of these values.
 
 ( L<CURLOPT_HTTP_VERSION|https://curl.se/libcurl/c/CURLOPT_HTTP_VERSION.html> )
 
 =head2 httpget
 
  $curl->setopt( httpget => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HTTPGET.html>
+for details on how this option works.
 
 ( L<CURLOPT_HTTPGET|https://curl.se/libcurl/c/CURLOPT_HTTPGET.html> )
 
@@ -551,11 +749,17 @@ then it will remove that header from the request.
 
  $curl->setopt( httpproxytunnel => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_HTTPPROXYTUNNEL.html>
+for details on how this option works.
+
 ( L<CURLOPT_HTTPPROXYTUNNEL|https://curl.se/libcurl/c/CURLOPT_HTTPPROXYTUNNEL.html> )
 
 =head2 ignore_content_length
 
  $curl->setopt( ignore_content_length => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_IGNORE_CONTENT_LENGTH.html>
+for details on how this option works.
 
 ( L<CURLOPT_IGNORE_CONTENT_LENGTH|https://curl.se/libcurl/c/CURLOPT_IGNORE_CONTENT_LENGTH.html> )
 
@@ -563,11 +767,17 @@ then it will remove that header from the request.
 
  $curl->setopt( infilesize => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_INFILESIZE.html>
+for details on how this option works.
+
 ( L<CURLOPT_INFILESIZE|https://curl.se/libcurl/c/CURLOPT_INFILESIZE.html> )
 
 =head2 infilesize_large
 
  $curl->setopt( infilesize_large => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_INFILESIZE_LARGE.html>
+for details on how this option works.
 
 ( L<CURLOPT_INFILESIZE_LARGE|https://curl.se/libcurl/c/CURLOPT_INFILESIZE_LARGE.html> )
 
@@ -575,11 +785,17 @@ then it will remove that header from the request.
 
  $curl->setopt( interface => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_INTERFACE.html>
+for details on how this option works.
+
 ( L<CURLOPT_INTERFACE|https://curl.se/libcurl/c/CURLOPT_INTERFACE.html> )
 
 =head2 issuercert
 
  $curl->setopt( issuercert => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ISSUERCERT.html>
+for details on how this option works.
 
 ( L<CURLOPT_ISSUERCERT|https://curl.se/libcurl/c/CURLOPT_ISSUERCERT.html> )
 
@@ -587,11 +803,17 @@ then it will remove that header from the request.
 
  $curl->setopt( issuercert_blob => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_ISSUERCERT_BLOB.html>
+for details on how this option works.
+
 ( L<CURLOPT_ISSUERCERT_BLOB|https://curl.se/libcurl/c/CURLOPT_ISSUERCERT_BLOB.html> )
 
 =head2 keep_sending_on_error
 
  $curl->setopt( keep_sending_on_error => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_KEEP_SENDING_ON_ERROR.html>
+for details on how this option works.
 
 ( L<CURLOPT_KEEP_SENDING_ON_ERROR|https://curl.se/libcurl/c/CURLOPT_KEEP_SENDING_ON_ERROR.html> )
 
@@ -599,11 +821,17 @@ then it will remove that header from the request.
 
  $curl->setopt( keypasswd => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_KEYPASSWD.html>
+for details on how this option works.
+
 ( L<CURLOPT_KEYPASSWD|https://curl.se/libcurl/c/CURLOPT_KEYPASSWD.html> )
 
 =head2 krblevel
 
  $curl->setopt( krblevel => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_KRBLEVEL.html>
+for details on how this option works.
 
 ( L<CURLOPT_KRBLEVEL|https://curl.se/libcurl/c/CURLOPT_KRBLEVEL.html> )
 
@@ -611,11 +839,17 @@ then it will remove that header from the request.
 
  $curl->setopt( localport => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_LOCALPORT.html>
+for details on how this option works.
+
 ( L<CURLOPT_LOCALPORT|https://curl.se/libcurl/c/CURLOPT_LOCALPORT.html> )
 
 =head2 localportrange
 
  $curl->setopt( localportrange => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_LOCALPORTRANGE.html>
+for details on how this option works.
 
 ( L<CURLOPT_LOCALPORTRANGE|https://curl.se/libcurl/c/CURLOPT_LOCALPORTRANGE.html> )
 
@@ -623,11 +857,17 @@ then it will remove that header from the request.
 
  $curl->setopt( login_options => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_LOGIN_OPTIONS.html>
+for details on how this option works.
+
 ( L<CURLOPT_LOGIN_OPTIONS|https://curl.se/libcurl/c/CURLOPT_LOGIN_OPTIONS.html> )
 
 =head2 low_speed_limit
 
  $curl->setopt( low_speed_limit => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_LOW_SPEED_LIMIT.html>
+for details on how this option works.
 
 ( L<CURLOPT_LOW_SPEED_LIMIT|https://curl.se/libcurl/c/CURLOPT_LOW_SPEED_LIMIT.html> )
 
@@ -635,11 +875,17 @@ then it will remove that header from the request.
 
  $curl->setopt( low_speed_time => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_LOW_SPEED_TIME.html>
+for details on how this option works.
+
 ( L<CURLOPT_LOW_SPEED_TIME|https://curl.se/libcurl/c/CURLOPT_LOW_SPEED_TIME.html> )
 
 =head2 mail_auth
 
  $curl->setopt( mail_auth => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAIL_AUTH.html>
+for details on how this option works.
 
 ( L<CURLOPT_MAIL_AUTH|https://curl.se/libcurl/c/CURLOPT_MAIL_AUTH.html> )
 
@@ -647,11 +893,17 @@ then it will remove that header from the request.
 
  $curl->setopt( mail_from => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAIL_FROM.html>
+for details on how this option works.
+
 ( L<CURLOPT_MAIL_FROM|https://curl.se/libcurl/c/CURLOPT_MAIL_FROM.html> )
 
 =head2 mail_rcpt
 
  $curl->setopt( mail_rcpt => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAIL_RCPT.html>
+for details on how this option works.
 
 ( L<CURLOPT_MAIL_RCPT|https://curl.se/libcurl/c/CURLOPT_MAIL_RCPT.html> )
 
@@ -659,11 +911,17 @@ then it will remove that header from the request.
 
  $curl->setopt( mail_rcpt_alllowfails => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAIL_RCPT_ALLLOWFAILS.html>
+for details on how this option works.
+
 ( L<CURLOPT_MAIL_RCPT_ALLLOWFAILS|https://curl.se/libcurl/c/CURLOPT_MAIL_RCPT_ALLLOWFAILS.html> )
 
 =head2 max_recv_speed_large
 
  $curl->setopt( max_recv_speed_large => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAX_RECV_SPEED_LARGE.html>
+for details on how this option works.
 
 ( L<CURLOPT_MAX_RECV_SPEED_LARGE|https://curl.se/libcurl/c/CURLOPT_MAX_RECV_SPEED_LARGE.html> )
 
@@ -671,11 +929,17 @@ then it will remove that header from the request.
 
  $curl->setopt( max_send_speed_large => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAX_SEND_SPEED_LARGE.html>
+for details on how this option works.
+
 ( L<CURLOPT_MAX_SEND_SPEED_LARGE|https://curl.se/libcurl/c/CURLOPT_MAX_SEND_SPEED_LARGE.html> )
 
 =head2 maxage_conn
 
  $curl->setopt( maxage_conn => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAXAGE_CONN.html>
+for details on how this option works.
 
 ( L<CURLOPT_MAXAGE_CONN|https://curl.se/libcurl/c/CURLOPT_MAXAGE_CONN.html> )
 
@@ -683,11 +947,17 @@ then it will remove that header from the request.
 
  $curl->setopt( maxconnects => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAXCONNECTS.html>
+for details on how this option works.
+
 ( L<CURLOPT_MAXCONNECTS|https://curl.se/libcurl/c/CURLOPT_MAXCONNECTS.html> )
 
 =head2 maxfilesize
 
  $curl->setopt( maxfilesize => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAXFILESIZE.html>
+for details on how this option works.
 
 ( L<CURLOPT_MAXFILESIZE|https://curl.se/libcurl/c/CURLOPT_MAXFILESIZE.html> )
 
@@ -695,11 +965,17 @@ then it will remove that header from the request.
 
  $curl->setopt( maxfilesize_large => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAXFILESIZE_LARGE.html>
+for details on how this option works.
+
 ( L<CURLOPT_MAXFILESIZE_LARGE|https://curl.se/libcurl/c/CURLOPT_MAXFILESIZE_LARGE.html> )
 
 =head2 maxlifetime_conn
 
  $curl->setopt( maxlifetime_conn => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MAXLIFETIME_CONN.html>
+for details on how this option works.
 
 ( L<CURLOPT_MAXLIFETIME_CONN|https://curl.se/libcurl/c/CURLOPT_MAXLIFETIME_CONN.html> )
 
@@ -716,6 +992,9 @@ number of redirects.
 =head2 mime_options
 
  $curl->setopt( mime_options => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_MIME_OPTIONS.html>
+for details on how this option works.
 
 ( L<CURLOPT_MIME_OPTIONS|https://curl.se/libcurl/c/CURLOPT_MIME_OPTIONS.html> )
 
@@ -735,7 +1014,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NETRC.html>
+for the meaning of these values.
 
 ( L<CURLOPT_NETRC|https://curl.se/libcurl/c/CURLOPT_NETRC.html> )
 
@@ -743,11 +1023,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( netrc_file => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NETRC_FILE.html>
+for details on how this option works.
+
 ( L<CURLOPT_NETRC_FILE|https://curl.se/libcurl/c/CURLOPT_NETRC_FILE.html> )
 
 =head2 new_directory_perms
 
  $curl->setopt( new_directory_perms => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NEW_DIRECTORY_PERMS.html>
+for details on how this option works.
 
 ( L<CURLOPT_NEW_DIRECTORY_PERMS|https://curl.se/libcurl/c/CURLOPT_NEW_DIRECTORY_PERMS.html> )
 
@@ -755,11 +1041,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( new_file_perms => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NEW_FILE_PERMS.html>
+for details on how this option works.
+
 ( L<CURLOPT_NEW_FILE_PERMS|https://curl.se/libcurl/c/CURLOPT_NEW_FILE_PERMS.html> )
 
 =head2 nobody
 
  $curl->setopt( nobody => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NOBODY.html>
+for details on how this option works.
 
 ( L<CURLOPT_NOBODY|https://curl.se/libcurl/c/CURLOPT_NOBODY.html> )
 
@@ -767,11 +1059,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( noprogress => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NOPROGRESS.html>
+for details on how this option works.
+
 ( L<CURLOPT_NOPROGRESS|https://curl.se/libcurl/c/CURLOPT_NOPROGRESS.html> )
 
 =head2 noproxy
 
  $curl->setopt( noproxy => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NOPROXY.html>
+for details on how this option works.
 
 ( L<CURLOPT_NOPROXY|https://curl.se/libcurl/c/CURLOPT_NOPROXY.html> )
 
@@ -779,11 +1077,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( nosignal => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_NOSIGNAL.html>
+for details on how this option works.
+
 ( L<CURLOPT_NOSIGNAL|https://curl.se/libcurl/c/CURLOPT_NOSIGNAL.html> )
 
 =head2 password
 
  $curl->setopt( password => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PASSWORD.html>
+for details on how this option works.
 
 ( L<CURLOPT_PASSWORD|https://curl.se/libcurl/c/CURLOPT_PASSWORD.html> )
 
@@ -791,11 +1095,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( path_as_is => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PATH_AS_IS.html>
+for details on how this option works.
+
 ( L<CURLOPT_PATH_AS_IS|https://curl.se/libcurl/c/CURLOPT_PATH_AS_IS.html> )
 
 =head2 pinnedpublickey
 
  $curl->setopt( pinnedpublickey => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PINNEDPUBLICKEY.html>
+for details on how this option works.
 
 ( L<CURLOPT_PINNEDPUBLICKEY|https://curl.se/libcurl/c/CURLOPT_PINNEDPUBLICKEY.html> )
 
@@ -803,17 +1113,26 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( pipewait => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PIPEWAIT.html>
+for details on how this option works.
+
 ( L<CURLOPT_PIPEWAIT|https://curl.se/libcurl/c/CURLOPT_PIPEWAIT.html> )
 
 =head2 port
 
  $curl->setopt( port => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PORT.html>
+for details on how this option works.
+
 ( L<CURLOPT_PORT|https://curl.se/libcurl/c/CURLOPT_PORT.html> )
 
 =head2 post
 
  $curl->setopt( post => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_POST.html>
+for details on how this option works.
 
 ( L<CURLOPT_POST|https://curl.se/libcurl/c/CURLOPT_POST.html> )
 
@@ -842,11 +1161,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( postfieldsize_large => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_POSTFIELDSIZE_LARGE.html>
+for details on how this option works.
+
 ( L<CURLOPT_POSTFIELDSIZE_LARGE|https://curl.se/libcurl/c/CURLOPT_POSTFIELDSIZE_LARGE.html> )
 
 =head2 postquote
 
  $curl->setopt( postquote => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_POSTQUOTE.html>
+for details on how this option works.
 
 ( L<CURLOPT_POSTQUOTE|https://curl.se/libcurl/c/CURLOPT_POSTQUOTE.html> )
 
@@ -854,11 +1179,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( pre_proxy => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PRE_PROXY.html>
+for details on how this option works.
+
 ( L<CURLOPT_PRE_PROXY|https://curl.se/libcurl/c/CURLOPT_PRE_PROXY.html> )
 
 =head2 prequote
 
  $curl->setopt( prequote => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PREQUOTE.html>
+for details on how this option works.
 
 ( L<CURLOPT_PREQUOTE|https://curl.se/libcurl/c/CURLOPT_PREQUOTE.html> )
 
@@ -866,11 +1197,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( protocols => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROTOCOLS.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROTOCOLS|https://curl.se/libcurl/c/CURLOPT_PROTOCOLS.html> )
 
 =head2 protocols_str
 
  $curl->setopt( protocols_str => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROTOCOLS_STR.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROTOCOLS_STR|https://curl.se/libcurl/c/CURLOPT_PROTOCOLS_STR.html> )
 
@@ -878,11 +1215,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY|https://curl.se/libcurl/c/CURLOPT_PROXY.html> )
 
 =head2 proxy_cainfo
 
  $curl->setopt( proxy_cainfo => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_CAINFO.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_CAINFO|https://curl.se/libcurl/c/CURLOPT_PROXY_CAINFO.html> )
 
@@ -890,11 +1233,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_cainfo_blob => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_CAINFO_BLOB.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_CAINFO_BLOB|https://curl.se/libcurl/c/CURLOPT_PROXY_CAINFO_BLOB.html> )
 
 =head2 proxy_capath
 
  $curl->setopt( proxy_capath => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_CAPATH.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_CAPATH|https://curl.se/libcurl/c/CURLOPT_PROXY_CAPATH.html> )
 
@@ -902,11 +1251,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_crlfile => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_CRLFILE.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_CRLFILE|https://curl.se/libcurl/c/CURLOPT_PROXY_CRLFILE.html> )
 
 =head2 proxy_issuercert
 
  $curl->setopt( proxy_issuercert => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_ISSUERCERT.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_ISSUERCERT|https://curl.se/libcurl/c/CURLOPT_PROXY_ISSUERCERT.html> )
 
@@ -914,11 +1269,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_issuercert_blob => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_ISSUERCERT_BLOB.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_ISSUERCERT_BLOB|https://curl.se/libcurl/c/CURLOPT_PROXY_ISSUERCERT_BLOB.html> )
 
 =head2 proxy_keypasswd
 
  $curl->setopt( proxy_keypasswd => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_KEYPASSWD.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_KEYPASSWD|https://curl.se/libcurl/c/CURLOPT_PROXY_KEYPASSWD.html> )
 
@@ -926,11 +1287,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_pinnedpublickey => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_PINNEDPUBLICKEY.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_PINNEDPUBLICKEY|https://curl.se/libcurl/c/CURLOPT_PROXY_PINNEDPUBLICKEY.html> )
 
 =head2 proxy_service_name
 
  $curl->setopt( proxy_service_name => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SERVICE_NAME.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_SERVICE_NAME|https://curl.se/libcurl/c/CURLOPT_PROXY_SERVICE_NAME.html> )
 
@@ -938,11 +1305,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_ssl_cipher_list => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_CIPHER_LIST.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_SSL_CIPHER_LIST|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_CIPHER_LIST.html> )
 
 =head2 proxy_ssl_options
 
  $curl->setopt( proxy_ssl_options => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_OPTIONS.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_SSL_OPTIONS|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_OPTIONS.html> )
 
@@ -950,11 +1323,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_ssl_verifyhost => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_VERIFYHOST.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_SSL_VERIFYHOST|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_VERIFYHOST.html> )
 
 =head2 proxy_ssl_verifypeer
 
  $curl->setopt( proxy_ssl_verifypeer => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_VERIFYPEER.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_SSL_VERIFYPEER|https://curl.se/libcurl/c/CURLOPT_PROXY_SSL_VERIFYPEER.html> )
 
@@ -962,11 +1341,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_sslcert => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLCERT.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_SSLCERT|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLCERT.html> )
 
 =head2 proxy_sslcert_blob
 
  $curl->setopt( proxy_sslcert_blob => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLCERT_BLOB.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_SSLCERT_BLOB|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLCERT_BLOB.html> )
 
@@ -974,11 +1359,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_sslcerttype => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLCERTTYPE.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_SSLCERTTYPE|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLCERTTYPE.html> )
 
 =head2 proxy_sslkey
 
  $curl->setopt( proxy_sslkey => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLKEY.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_SSLKEY|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLKEY.html> )
 
@@ -986,11 +1377,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_sslkey_blob => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLKEY_BLOB.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_SSLKEY_BLOB|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLKEY_BLOB.html> )
 
 =head2 proxy_sslkeytype
 
  $curl->setopt( proxy_sslkeytype => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLKEYTYPE.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_SSLKEYTYPE|https://curl.se/libcurl/c/CURLOPT_PROXY_SSLKEYTYPE.html> )
 
@@ -998,11 +1395,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_tls13_ciphers => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_TLS13_CIPHERS.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_TLS13_CIPHERS|https://curl.se/libcurl/c/CURLOPT_PROXY_TLS13_CIPHERS.html> )
 
 =head2 proxy_tlsauth_password
 
  $curl->setopt( proxy_tlsauth_password => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_TLSAUTH_PASSWORD.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_TLSAUTH_PASSWORD|https://curl.se/libcurl/c/CURLOPT_PROXY_TLSAUTH_PASSWORD.html> )
 
@@ -1010,11 +1413,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_tlsauth_type => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_TLSAUTH_TYPE.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_TLSAUTH_TYPE|https://curl.se/libcurl/c/CURLOPT_PROXY_TLSAUTH_TYPE.html> )
 
 =head2 proxy_tlsauth_username
 
  $curl->setopt( proxy_tlsauth_username => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_TLSAUTH_USERNAME.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXY_TLSAUTH_USERNAME|https://curl.se/libcurl/c/CURLOPT_PROXY_TLSAUTH_USERNAME.html> )
 
@@ -1022,11 +1431,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxy_transfer_mode => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXY_TRANSFER_MODE.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXY_TRANSFER_MODE|https://curl.se/libcurl/c/CURLOPT_PROXY_TRANSFER_MODE.html> )
 
 =head2 proxyheader
 
  $curl->setopt( proxyheader => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXYHEADER.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXYHEADER|https://curl.se/libcurl/c/CURLOPT_PROXYHEADER.html> )
 
@@ -1034,11 +1449,17 @@ if you have any NULLs in your POST data.
 
  $curl->setopt( proxypassword => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXYPASSWORD.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXYPASSWORD|https://curl.se/libcurl/c/CURLOPT_PROXYPASSWORD.html> )
 
 =head2 proxyport
 
  $curl->setopt( proxyport => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXYPORT.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXYPORT|https://curl.se/libcurl/c/CURLOPT_PROXYPORT.html> )
 
@@ -1066,7 +1487,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXYTYPE.html>
+for the meaning of these values.
 
 ( L<CURLOPT_PROXYTYPE|https://curl.se/libcurl/c/CURLOPT_PROXYTYPE.html> )
 
@@ -1074,11 +1496,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( proxyusername => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXYUSERNAME.html>
+for details on how this option works.
+
 ( L<CURLOPT_PROXYUSERNAME|https://curl.se/libcurl/c/CURLOPT_PROXYUSERNAME.html> )
 
 =head2 proxyuserpwd
 
  $curl->setopt( proxyuserpwd => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PROXYUSERPWD.html>
+for details on how this option works.
 
 ( L<CURLOPT_PROXYUSERPWD|https://curl.se/libcurl/c/CURLOPT_PROXYUSERPWD.html> )
 
@@ -1086,11 +1514,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( put => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_PUT.html>
+for details on how this option works.
+
 ( L<CURLOPT_PUT|https://curl.se/libcurl/c/CURLOPT_PUT.html> )
 
 =head2 quote
 
  $curl->setopt( quote => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_QUOTE.html>
+for details on how this option works.
 
 ( L<CURLOPT_QUOTE|https://curl.se/libcurl/c/CURLOPT_QUOTE.html> )
 
@@ -1098,11 +1532,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( random_file => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RANDOM_FILE.html>
+for details on how this option works.
+
 ( L<CURLOPT_RANDOM_FILE|https://curl.se/libcurl/c/CURLOPT_RANDOM_FILE.html> )
 
 =head2 range
 
  $curl->setopt( range => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RANGE.html>
+for details on how this option works.
 
 ( L<CURLOPT_RANGE|https://curl.se/libcurl/c/CURLOPT_RANGE.html> )
 
@@ -1154,11 +1594,17 @@ For a string reference
 
  $curl->setopt( redir_protocols => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_REDIR_PROTOCOLS.html>
+for details on how this option works.
+
 ( L<CURLOPT_REDIR_PROTOCOLS|https://curl.se/libcurl/c/CURLOPT_REDIR_PROTOCOLS.html> )
 
 =head2 redir_protocols_str
 
  $curl->setopt( redir_protocols_str => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_REDIR_PROTOCOLS_STR.html>
+for details on how this option works.
 
 ( L<CURLOPT_REDIR_PROTOCOLS_STR|https://curl.se/libcurl/c/CURLOPT_REDIR_PROTOCOLS_STR.html> )
 
@@ -1166,11 +1612,17 @@ For a string reference
 
  $curl->setopt( referer => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_REFERER.html>
+for details on how this option works.
+
 ( L<CURLOPT_REFERER|https://curl.se/libcurl/c/CURLOPT_REFERER.html> )
 
 =head2 request_target
 
  $curl->setopt( request_target => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_REQUEST_TARGET.html>
+for details on how this option works.
 
 ( L<CURLOPT_REQUEST_TARGET|https://curl.se/libcurl/c/CURLOPT_REQUEST_TARGET.html> )
 
@@ -1178,11 +1630,17 @@ For a string reference
 
  $curl->setopt( resolve => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RESOLVE.html>
+for details on how this option works.
+
 ( L<CURLOPT_RESOLVE|https://curl.se/libcurl/c/CURLOPT_RESOLVE.html> )
 
 =head2 resume_from
 
  $curl->setopt( resume_from => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RESUME_FROM.html>
+for details on how this option works.
 
 ( L<CURLOPT_RESUME_FROM|https://curl.se/libcurl/c/CURLOPT_RESUME_FROM.html> )
 
@@ -1190,11 +1648,17 @@ For a string reference
 
  $curl->setopt( resume_from_large => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RESUME_FROM_LARGE.html>
+for details on how this option works.
+
 ( L<CURLOPT_RESUME_FROM_LARGE|https://curl.se/libcurl/c/CURLOPT_RESUME_FROM_LARGE.html> )
 
 =head2 rtsp_client_cseq
 
  $curl->setopt( rtsp_client_cseq => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RTSP_CLIENT_CSEQ.html>
+for details on how this option works.
 
 ( L<CURLOPT_RTSP_CLIENT_CSEQ|https://curl.se/libcurl/c/CURLOPT_RTSP_CLIENT_CSEQ.html> )
 
@@ -1232,7 +1696,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RTSP_REQUEST.html>
+for the meaning of these values.
 
 ( L<CURLOPT_RTSP_REQUEST|https://curl.se/libcurl/c/CURLOPT_RTSP_REQUEST.html> )
 
@@ -1240,11 +1705,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( rtsp_server_cseq => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RTSP_SERVER_CSEQ.html>
+for details on how this option works.
+
 ( L<CURLOPT_RTSP_SERVER_CSEQ|https://curl.se/libcurl/c/CURLOPT_RTSP_SERVER_CSEQ.html> )
 
 =head2 rtsp_session_id
 
  $curl->setopt( rtsp_session_id => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RTSP_SESSION_ID.html>
+for details on how this option works.
 
 ( L<CURLOPT_RTSP_SESSION_ID|https://curl.se/libcurl/c/CURLOPT_RTSP_SESSION_ID.html> )
 
@@ -1252,11 +1723,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( rtsp_stream_uri => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RTSP_STREAM_URI.html>
+for details on how this option works.
+
 ( L<CURLOPT_RTSP_STREAM_URI|https://curl.se/libcurl/c/CURLOPT_RTSP_STREAM_URI.html> )
 
 =head2 rtsp_transport
 
  $curl->setopt( rtsp_transport => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_RTSP_TRANSPORT.html>
+for details on how this option works.
 
 ( L<CURLOPT_RTSP_TRANSPORT|https://curl.se/libcurl/c/CURLOPT_RTSP_TRANSPORT.html> )
 
@@ -1264,11 +1741,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( sasl_authzid => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SASL_AUTHZID.html>
+for details on how this option works.
+
 ( L<CURLOPT_SASL_AUTHZID|https://curl.se/libcurl/c/CURLOPT_SASL_AUTHZID.html> )
 
 =head2 sasl_ir
 
  $curl->setopt( sasl_ir => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SASL_IR.html>
+for details on how this option works.
 
 ( L<CURLOPT_SASL_IR|https://curl.se/libcurl/c/CURLOPT_SASL_IR.html> )
 
@@ -1276,11 +1759,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( server_response_timeout => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SERVER_RESPONSE_TIMEOUT.html>
+for details on how this option works.
+
 ( L<CURLOPT_SERVER_RESPONSE_TIMEOUT|https://curl.se/libcurl/c/CURLOPT_SERVER_RESPONSE_TIMEOUT.html> )
 
 =head2 service_name
 
  $curl->setopt( service_name => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SERVICE_NAME.html>
+for details on how this option works.
 
 ( L<CURLOPT_SERVICE_NAME|https://curl.se/libcurl/c/CURLOPT_SERVICE_NAME.html> )
 
@@ -1288,11 +1777,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( socks5_auth => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SOCKS5_AUTH.html>
+for details on how this option works.
+
 ( L<CURLOPT_SOCKS5_AUTH|https://curl.se/libcurl/c/CURLOPT_SOCKS5_AUTH.html> )
 
 =head2 socks5_gssapi_nec
 
  $curl->setopt( socks5_gssapi_nec => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SOCKS5_GSSAPI_NEC.html>
+for details on how this option works.
 
 ( L<CURLOPT_SOCKS5_GSSAPI_NEC|https://curl.se/libcurl/c/CURLOPT_SOCKS5_GSSAPI_NEC.html> )
 
@@ -1300,11 +1795,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( socks5_gssapi_service => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SOCKS5_GSSAPI_SERVICE.html>
+for details on how this option works.
+
 ( L<CURLOPT_SOCKS5_GSSAPI_SERVICE|https://curl.se/libcurl/c/CURLOPT_SOCKS5_GSSAPI_SERVICE.html> )
 
 =head2 ssh_compression
 
  $curl->setopt( ssh_compression => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSH_COMPRESSION.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSH_COMPRESSION|https://curl.se/libcurl/c/CURLOPT_SSH_COMPRESSION.html> )
 
@@ -1312,11 +1813,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ssh_host_public_key_md5 => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSH_HOST_PUBLIC_KEY_MD5.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSH_HOST_PUBLIC_KEY_MD5|https://curl.se/libcurl/c/CURLOPT_SSH_HOST_PUBLIC_KEY_MD5.html> )
 
 =head2 ssh_host_public_key_sha256
 
  $curl->setopt( ssh_host_public_key_sha256 => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSH_HOST_PUBLIC_KEY_SHA256.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSH_HOST_PUBLIC_KEY_SHA256|https://curl.se/libcurl/c/CURLOPT_SSH_HOST_PUBLIC_KEY_SHA256.html> )
 
@@ -1324,11 +1831,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ssh_knownhosts => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSH_KNOWNHOSTS.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSH_KNOWNHOSTS|https://curl.se/libcurl/c/CURLOPT_SSH_KNOWNHOSTS.html> )
 
 =head2 ssh_private_keyfile
 
  $curl->setopt( ssh_private_keyfile => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSH_PRIVATE_KEYFILE.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSH_PRIVATE_KEYFILE|https://curl.se/libcurl/c/CURLOPT_SSH_PRIVATE_KEYFILE.html> )
 
@@ -1336,11 +1849,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ssh_public_keyfile => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSH_PUBLIC_KEYFILE.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSH_PUBLIC_KEYFILE|https://curl.se/libcurl/c/CURLOPT_SSH_PUBLIC_KEYFILE.html> )
 
 =head2 ssl_cipher_list
 
  $curl->setopt( ssl_cipher_list => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_CIPHER_LIST.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSL_CIPHER_LIST|https://curl.se/libcurl/c/CURLOPT_SSL_CIPHER_LIST.html> )
 
@@ -1348,11 +1867,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ssl_ec_curves => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_EC_CURVES.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSL_EC_CURVES|https://curl.se/libcurl/c/CURLOPT_SSL_EC_CURVES.html> )
 
 =head2 ssl_enable_alpn
 
  $curl->setopt( ssl_enable_alpn => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_ENABLE_ALPN.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSL_ENABLE_ALPN|https://curl.se/libcurl/c/CURLOPT_SSL_ENABLE_ALPN.html> )
 
@@ -1360,11 +1885,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ssl_enable_npn => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_ENABLE_NPN.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSL_ENABLE_NPN|https://curl.se/libcurl/c/CURLOPT_SSL_ENABLE_NPN.html> )
 
 =head2 ssl_falsestart
 
  $curl->setopt( ssl_falsestart => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_FALSESTART.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSL_FALSESTART|https://curl.se/libcurl/c/CURLOPT_SSL_FALSESTART.html> )
 
@@ -1372,11 +1903,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ssl_sessionid_cache => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_SESSIONID_CACHE.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSL_SESSIONID_CACHE|https://curl.se/libcurl/c/CURLOPT_SSL_SESSIONID_CACHE.html> )
 
 =head2 ssl_verifyhost
 
  $curl->setopt( ssl_verifyhost => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYHOST.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSL_VERIFYHOST|https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYHOST.html> )
 
@@ -1384,11 +1921,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( ssl_verifypeer => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYPEER.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSL_VERIFYPEER|https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYPEER.html> )
 
 =head2 ssl_verifystatus
 
  $curl->setopt( ssl_verifystatus => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYSTATUS.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSL_VERIFYSTATUS|https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYSTATUS.html> )
 
@@ -1396,11 +1939,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( sslcert => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLCERT.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSLCERT|https://curl.se/libcurl/c/CURLOPT_SSLCERT.html> )
 
 =head2 sslcert_blob
 
  $curl->setopt( sslcert_blob => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLCERT_BLOB.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSLCERT_BLOB|https://curl.se/libcurl/c/CURLOPT_SSLCERT_BLOB.html> )
 
@@ -1408,11 +1957,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( sslcerttype => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLCERTTYPE.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSLCERTTYPE|https://curl.se/libcurl/c/CURLOPT_SSLCERTTYPE.html> )
 
 =head2 sslengine
 
  $curl->setopt( sslengine => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLENGINE.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSLENGINE|https://curl.se/libcurl/c/CURLOPT_SSLENGINE.html> )
 
@@ -1420,11 +1975,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( sslengine_default => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLENGINE_DEFAULT.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSLENGINE_DEFAULT|https://curl.se/libcurl/c/CURLOPT_SSLENGINE_DEFAULT.html> )
 
 =head2 sslkey
 
  $curl->setopt( sslkey => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLKEY.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSLKEY|https://curl.se/libcurl/c/CURLOPT_SSLKEY.html> )
 
@@ -1432,11 +1993,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( sslkey_blob => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLKEY_BLOB.html>
+for details on how this option works.
+
 ( L<CURLOPT_SSLKEY_BLOB|https://curl.se/libcurl/c/CURLOPT_SSLKEY_BLOB.html> )
 
 =head2 sslkeytype
 
  $curl->setopt( sslkeytype => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLKEYTYPE.html>
+for details on how this option works.
 
 ( L<CURLOPT_SSLKEYTYPE|https://curl.se/libcurl/c/CURLOPT_SSLKEYTYPE.html> )
 
@@ -1466,7 +2033,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SSLVERSION.html>
+for the meaning of these values.
 
 ( L<CURLOPT_SSLVERSION|https://curl.se/libcurl/c/CURLOPT_SSLVERSION.html> )
 
@@ -1474,11 +2042,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( stream_weight => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_STREAM_WEIGHT.html>
+for details on how this option works.
+
 ( L<CURLOPT_STREAM_WEIGHT|https://curl.se/libcurl/c/CURLOPT_STREAM_WEIGHT.html> )
 
 =head2 suppress_connect_headers
 
  $curl->setopt( suppress_connect_headers => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_SUPPRESS_CONNECT_HEADERS.html>
+for details on how this option works.
 
 ( L<CURLOPT_SUPPRESS_CONNECT_HEADERS|https://curl.se/libcurl/c/CURLOPT_SUPPRESS_CONNECT_HEADERS.html> )
 
@@ -1486,11 +2060,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( tcp_fastopen => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TCP_FASTOPEN.html>
+for details on how this option works.
+
 ( L<CURLOPT_TCP_FASTOPEN|https://curl.se/libcurl/c/CURLOPT_TCP_FASTOPEN.html> )
 
 =head2 tcp_keepalive
 
  $curl->setopt( tcp_keepalive => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html>
+for details on how this option works.
 
 ( L<CURLOPT_TCP_KEEPALIVE|https://curl.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html> )
 
@@ -1498,11 +2078,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( tcp_keepidle => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html>
+for details on how this option works.
+
 ( L<CURLOPT_TCP_KEEPIDLE|https://curl.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html> )
 
 =head2 tcp_keepintvl
 
  $curl->setopt( tcp_keepintvl => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html>
+for details on how this option works.
 
 ( L<CURLOPT_TCP_KEEPINTVL|https://curl.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html> )
 
@@ -1510,11 +2096,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( tcp_nodelay => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TCP_NODELAY.html>
+for details on how this option works.
+
 ( L<CURLOPT_TCP_NODELAY|https://curl.se/libcurl/c/CURLOPT_TCP_NODELAY.html> )
 
 =head2 telnetoptions
 
  $curl->setopt( telnetoptions => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TELNETOPTIONS.html>
+for details on how this option works.
 
 ( L<CURLOPT_TELNETOPTIONS|https://curl.se/libcurl/c/CURLOPT_TELNETOPTIONS.html> )
 
@@ -1522,11 +2114,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( tftp_blksize => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TFTP_BLKSIZE.html>
+for details on how this option works.
+
 ( L<CURLOPT_TFTP_BLKSIZE|https://curl.se/libcurl/c/CURLOPT_TFTP_BLKSIZE.html> )
 
 =head2 tftp_no_options
 
  $curl->setopt( tftp_no_options => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TFTP_NO_OPTIONS.html>
+for details on how this option works.
 
 ( L<CURLOPT_TFTP_NO_OPTIONS|https://curl.se/libcurl/c/CURLOPT_TFTP_NO_OPTIONS.html> )
 
@@ -1548,7 +2146,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TIMECONDITION.html>
+for the meaning of these values.
 
 ( L<CURLOPT_TIMECONDITION|https://curl.se/libcurl/c/CURLOPT_TIMECONDITION.html> )
 
@@ -1556,11 +2155,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( timeout => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TIMEOUT.html>
+for details on how this option works.
+
 ( L<CURLOPT_TIMEOUT|https://curl.se/libcurl/c/CURLOPT_TIMEOUT.html> )
 
 =head2 timeout_ms
 
  $curl->setopt( timeout_ms => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TIMEOUT_MS.html>
+for details on how this option works.
 
 ( L<CURLOPT_TIMEOUT_MS|https://curl.se/libcurl/c/CURLOPT_TIMEOUT_MS.html> )
 
@@ -1568,11 +2173,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( timevalue => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TIMEVALUE.html>
+for details on how this option works.
+
 ( L<CURLOPT_TIMEVALUE|https://curl.se/libcurl/c/CURLOPT_TIMEVALUE.html> )
 
 =head2 timevalue_large
 
  $curl->setopt( timevalue_large => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TIMEVALUE_LARGE.html>
+for details on how this option works.
 
 ( L<CURLOPT_TIMEVALUE_LARGE|https://curl.se/libcurl/c/CURLOPT_TIMEVALUE_LARGE.html> )
 
@@ -1580,11 +2191,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( tls13_ciphers => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TLS13_CIPHERS.html>
+for details on how this option works.
+
 ( L<CURLOPT_TLS13_CIPHERS|https://curl.se/libcurl/c/CURLOPT_TLS13_CIPHERS.html> )
 
 =head2 tlsauth_password
 
  $curl->setopt( tlsauth_password => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TLSAUTH_PASSWORD.html>
+for details on how this option works.
 
 ( L<CURLOPT_TLSAUTH_PASSWORD|https://curl.se/libcurl/c/CURLOPT_TLSAUTH_PASSWORD.html> )
 
@@ -1592,11 +2209,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( tlsauth_type => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TLSAUTH_TYPE.html>
+for details on how this option works.
+
 ( L<CURLOPT_TLSAUTH_TYPE|https://curl.se/libcurl/c/CURLOPT_TLSAUTH_TYPE.html> )
 
 =head2 tlsauth_username
 
  $curl->setopt( tlsauth_username => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TLSAUTH_USERNAME.html>
+for details on how this option works.
 
 ( L<CURLOPT_TLSAUTH_USERNAME|https://curl.se/libcurl/c/CURLOPT_TLSAUTH_USERNAME.html> )
 
@@ -1604,11 +2227,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( transfer_encoding => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TRANSFER_ENCODING.html>
+for details on how this option works.
+
 ( L<CURLOPT_TRANSFER_ENCODING|https://curl.se/libcurl/c/CURLOPT_TRANSFER_ENCODING.html> )
 
 =head2 transfertext
 
  $curl->setopt( transfertext => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_TRANSFERTEXT.html>
+for details on how this option works.
 
 ( L<CURLOPT_TRANSFERTEXT|https://curl.se/libcurl/c/CURLOPT_TRANSFERTEXT.html> )
 
@@ -1616,11 +2245,17 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( unix_socket_path => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_UNIX_SOCKET_PATH.html>
+for details on how this option works.
+
 ( L<CURLOPT_UNIX_SOCKET_PATH|https://curl.se/libcurl/c/CURLOPT_UNIX_SOCKET_PATH.html> )
 
 =head2 unrestricted_auth
 
  $curl->setopt( unrestricted_auth => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_UNRESTRICTED_AUTH.html>
+for details on how this option works.
 
 ( L<CURLOPT_UNRESTRICTED_AUTH|https://curl.se/libcurl/c/CURLOPT_UNRESTRICTED_AUTH.html> )
 
@@ -1628,17 +2263,26 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( upkeep_interval_ms => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_UPKEEP_INTERVAL_MS.html>
+for details on how this option works.
+
 ( L<CURLOPT_UPKEEP_INTERVAL_MS|https://curl.se/libcurl/c/CURLOPT_UPKEEP_INTERVAL_MS.html> )
 
 =head2 upload
 
  $curl->setopt( upload => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_UPLOAD.html>
+for details on how this option works.
+
 ( L<CURLOPT_UPLOAD|https://curl.se/libcurl/c/CURLOPT_UPLOAD.html> )
 
 =head2 upload_buffersize
 
  $curl->setopt( upload_buffersize => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_UPLOAD_BUFFERSIZE.html>
+for details on how this option works.
 
 ( L<CURLOPT_UPLOAD_BUFFERSIZE|https://curl.se/libcurl/c/CURLOPT_UPLOAD_BUFFERSIZE.html> )
 
@@ -1668,7 +2312,8 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_USE_SSL.html>
+for the meaning of these values.
 
 ( L<CURLOPT_USE_SSL|https://curl.se/libcurl/c/CURLOPT_USE_SSL.html> )
 
@@ -1676,17 +2321,26 @@ Please see the C<libcurl> documentation for the meaning of these values.
 
  $curl->setopt( useragent => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_USERAGENT.html>
+for details on how this option works.
+
 ( L<CURLOPT_USERAGENT|https://curl.se/libcurl/c/CURLOPT_USERAGENT.html> )
 
 =head2 username
 
  $curl->setopt( username => $value );
 
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_USERNAME.html>
+for details on how this option works.
+
 ( L<CURLOPT_USERNAME|https://curl.se/libcurl/c/CURLOPT_USERNAME.html> )
 
 =head2 userpwd
 
  $curl->setopt( userpwd => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_USERPWD.html>
+for details on how this option works.
 
 ( L<CURLOPT_USERPWD|https://curl.se/libcurl/c/CURLOPT_USERPWD.html> )
 
@@ -1705,6 +2359,9 @@ debug/report problems.
 =head2 wildcardmatch
 
  $curl->setopt( wildcardmatch => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_WILDCARDMATCH.html>
+for details on how this option works.
 
 ( L<CURLOPT_WILDCARDMATCH|https://curl.se/libcurl/c/CURLOPT_WILDCARDMATCH.html> )
 
@@ -1740,6 +2397,9 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 =head2 xoauth2_bearer
 
  $curl->setopt( xoauth2_bearer => $value );
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/CURLOPT_XOAUTH2_BEARER.html>
+for details on how this option works.
 
 ( L<CURLOPT_XOAUTH2_BEARER|https://curl.se/libcurl/c/CURLOPT_XOAUTH2_BEARER.html> )
 

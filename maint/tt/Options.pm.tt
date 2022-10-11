@@ -44,7 +44,13 @@ Legal string values for this option are:
 
 =back
 
-Please see the C<libcurl> documentation for the meaning of these values.
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/[% option.c_name %].html>
+for the meaning of these values.
+
+[%- ELSE -%]
+
+Please see the L<C<libcurl> documentation|https://curl.se/libcurl/c/[% option.c_name %].html>
+for details on how this option works.
 
 [%- END -%]
 

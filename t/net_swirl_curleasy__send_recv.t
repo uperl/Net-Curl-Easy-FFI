@@ -155,7 +155,7 @@ foreach my $type (qw( file blob )) {
            ->setopt( cainfo_blob    => path('examples/tls/Swirl-CA.crt')->slurp_raw)
            ->setopt( sslcert_blob   => path('examples/tls/client.crt')->slurp_raw)
            ->setopt( sslkey_blob    => path('examples/tls/client.key')->slurp_raw)
-      }
+      };
       if(my $ex = $@)
       {
         if($ex->code == 48)

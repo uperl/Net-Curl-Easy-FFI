@@ -34,6 +34,11 @@ pod_spelling_system:
     - postfieldsize
     - readdata
     - readfunction
+    - noprogress
+    - progressdata
+    - progressfunction
+    - xferinfodata
+    - xferinfofunction
 
 pod_coverage:
   skip: 0

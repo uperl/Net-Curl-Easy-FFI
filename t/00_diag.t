@@ -15,6 +15,7 @@ $modules{$_} = $_ for qw(
   Exception::FFI::ErrorCode
   ExtUtils::MakeMaker
   FFI::C
+  FFI::C::File
   FFI::CheckLib
   FFI::Platypus
   FFI::Platypus::Buffer

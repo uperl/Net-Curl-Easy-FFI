@@ -15,6 +15,7 @@ RUN apt-get update                                   \
     libexpat1-dev                                    \
     screen                                           \
     nginx                                            \
+    libreadline-dev                                  \
  && apt-get purge libcurl4-openssl-dev               \
  && apt-get -q autoremove                            \
  && apt-get -q clean                                 \
@@ -63,6 +64,7 @@ RUN cpanm -n                                         \
     Pod::Abstract                                    \
     Net::Server::Fork                                \
     Const::Introspect::C                             \
+    Term::ReadLine::Gnu                              \
  && rm -rf ~/.cpanm
 
 ENV TEST_EXAMPLES 1

@@ -6,6 +6,7 @@ use URI::file;
 use Path::Tiny qw( path );
 use Test2::Tools::MemoryCycle;
 use FFI::C::File;
+use Data::Dumper qw( Dumper );
 use lib 't/lib';
 use Test2::Tools::MyTest;
 
@@ -224,12 +225,24 @@ subtest 'xferinfo / cancel' => sub {
   } '$curl->setopt( stderr => $fp )';
 
   try_ok {
+  
     $curl->setopt( xferinfofunction => sub ($curl, $data, $dlt, $dln, $ult, $uln) {
       die 'oops';
     });
   } '$curl->setopt( xferinfofunction => sub { die } )';
 
-  my $ex = dies { $curl->perform }; my $line = __LINE__;
+  my @warn;
+
+  my $ex = dies {
+    local $SIG{__WARN__} = sub {
+      my $message = shift;
+      if($message =~ /^oops/) {
+        push @warn, $message
+      } else {
+        warn $message;
+      }
+    };
+    $curl->perform }; my $line = __LINE__;
 
   is
     $ex,
@@ -240,6 +253,14 @@ subtest 'xferinfo / cancel' => sub {
       call code      => 42;
     },
     'the right exception';
+
+  is
+    \@warn,
+    array {
+      item match qr/^oops at/;
+      etc;
+    },
+    'warnings' or diag Dumper(\@warn);;
 
   memory_cycle_ok $curl;
   undef $curl;

@@ -2073,16 +2073,16 @@ in order to get the full output.  For example:
 
  use FFI::C::File;
  use Path::Tiny qw( path );
-
+ 
  my $fp = File::C::File->fopen("output.txt", "w");
-
+ 
  $curl->setopt( stderr => $fp )
        ->setopt( verbose => 1 )
        ->setopt( noprogress => 0 )
        ->perform;
-
+ 
  $fp->fclose;
-
+ 
  my $verbose_and_progress = path("output.txt")->slurp_raw;
 
 Unfortunately the L<noprogress option|/noprogress> needs to be set to C<0>

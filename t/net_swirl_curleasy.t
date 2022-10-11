@@ -225,7 +225,7 @@ subtest 'xferinfo / cancel' => sub {
   } '$curl->setopt( stderr => $fp )';
 
   try_ok {
-  
+
     $curl->setopt( xferinfofunction => sub ($curl, $data, $dlt, $dln, $ult, $uln) {
       die 'oops';
     });

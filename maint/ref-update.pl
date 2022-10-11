@@ -154,7 +154,7 @@ foreach my $line ($curl_h->lines)
 
     next if $name =~ /^OBSOLETE/;
 
-    if(($type =~ /^(STRINGPOINT|LONG|OFF_T|SLISTPOINT)$/ || $Net::Swirl::CurlEasy::opt{lc $name}) && $init)
+    if(($type =~ /^(STRINGPOINT|LONG|OFF_T|SLISTPOINT|BLOB)$/ || $Net::Swirl::CurlEasy::opt{lc $name}) && $init)
     {
       push @options, {
         perl_name => lc $name,

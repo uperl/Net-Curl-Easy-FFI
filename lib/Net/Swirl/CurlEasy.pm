@@ -51,11 +51,20 @@ below.
 
   $ffi->attach( [ 'curl_free' => '_free' ] => ['opaque'] );
 
+  FFI::C->ffi($ffi);
+
+  package Net::Swirl::CurlEasy::C::CurlBlob {
+    FFI::C->struct('curl_blob' => [
+      data  => 'opaque',
+      len   => 'size_t',
+      flags => 'uint',
+    ]);
+  }
+
   $ffi->mangler(sub ($name) { "curl_slist_$name" });
 
   # There is almost certainly a better way to do this.
   package Net::Swirl::CurlEasy::C::CurlSlist {
-    FFI::C->ffi($ffi);
     FFI::C->struct('curl_slist' => [
       _data => 'opaque',
       _next => 'opaque',
@@ -815,7 +824,7 @@ will be used.
 This can be useful if you have a string scalar that is larger than C<$maxsize>,
 but do not want to copy parts of the scalar before returning them.
 
-For a string reference 
+For a string reference
 
 ( L<CURLOPT_READFUNCTION|https://curl.se/libcurl/c/CURLOPT_READFUNCTION.html> )
 
@@ -879,6 +888,16 @@ its first argument, and the L<writedata|/writedata> option as its third argument
     my $slist = Net::Swirl::CurlEasy::Slist->new($items->@*);
     $keep{$$self}->{$key_id} = $slist;
     $xsub->($self, $key_id, $slist->ptr);
+  });
+
+  $ffi->attach( [setopt => '_setopt_blob'         ] => ['CURL','enum'] => ['curl_blob'] => 'enum' => sub ($xsub, $self, $key_id, $blob_content) {
+    my($data, $len) = FFI::Platypus::Buffer::scalar_to_buffer($blob_content);
+    my $blob = Net::Swirl::CurlEasy::C::CurlBlob->new({
+      data  => $data,
+      len   => $len,
+      flags => 1,   # CURL_BLOB_COPY
+    });
+    $xsub->($self, $key_id, $blob);
   });
 
   $ffi->attach( [setopt => '_setopt_writefunction_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb, $data_id) {

@@ -479,7 +479,7 @@ will be used.
 This can be useful if you have a string scalar that is larger than `$maxsize`,
 but do not want to copy parts of the scalar before returning them.
 
-For a string reference 
+For a string reference
 
 ( [CURLOPT\_READFUNCTION](https://curl.se/libcurl/c/CURLOPT_READFUNCTION.html) )
 

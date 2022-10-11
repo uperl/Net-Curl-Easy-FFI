@@ -5,6 +5,7 @@ use Test2::Require::Module 'Net::Server::Fork';
 use Net::Swirl::CurlEasy;
 use Test2::API qw( context );
 use Data::Dumper qw( Dumper );
+use Path::Tiny qw( path );
 use lib 't/lib';
 use Test2::Tools::MyTest;
 
@@ -106,7 +107,7 @@ sub msg_ok ($curl, $sock, $msg, %opt) {
 subtest_streamed 'basic' => sub {
 
   local $SIG{ALRM} = sub { die "alarm\n" };
-  alarm 10;
+  alarm 10 unless $ENV{DISABLE_ALARM};
 
   my $curl = Net::Swirl::CurlEasy->new;
 
@@ -129,52 +130,68 @@ subtest_streamed 'basic' => sub {
   keep_is_empty;
 };
 
-subtest_streamed 'tls' => sub {
-  skip_all 'test requires TLS/SSL' unless echo_tls;
+foreach my $type (qw( file blob )) {
 
-  local $SIG{ALRM} = sub { die "alarm\n" };
-  alarm 10;
+  subtest_streamed "tls $type" => sub {
+    skip_all 'test requires TLS/SSL' unless echo_tls;
 
-  my $curl = Net::Swirl::CurlEasy->new;
+    local $SIG{ALRM} = sub { die "alarm\n" };
+    alarm 10 unless $ENV{DISABLE_ALARM};
 
-  $curl->setopt( url            => 'https://localhost:20204' )
-       ->setopt( ssl_verifypeer => 1)
-       ->setopt( cainfo         => 'examples/tls/Swirl-CA.crt')
-       ->setopt( sslcert        => 'examples/tls/client.crt')
-       ->setopt( sslkey         => 'examples/tls/client.key')
-       ->setopt( keypasswd      => 'password')
-       ->setopt( connect_only   => 1 )
-       ->setopt( certinfo       => 1 )
-       ->perform;
+    my $curl = Net::Swirl::CurlEasy->new;
 
-  my $sock = $curl->getinfo('activesocket');
+    if($type eq 'file')
+    {
+      $curl
+         ->setopt( cainfo         => 'examples/tls/Swirl-CA.crt')
+         ->setopt( sslcert        => 'examples/tls/client.crt')
+         ->setopt( sslkey         => 'examples/tls/client.key')
+    }
+    else
+    {
+      $curl
+         ->setopt( cainfo_blob    => path('examples/tls/Swirl-CA.crt')->slurp_raw)
+         ->setopt( sslcert_blob   => path('examples/tls/client.crt')->slurp_raw)
+         ->setopt( sslkey_blob    => path('examples/tls/client.key')->slurp_raw)
+    }
 
-  is
-    $curl->getinfo('certinfo'),
-    array {
-      item bag {
-        item match qr/CN = localhost/;
-        item match qr/CN = Snakeoil Swirl CA/;
-        etc;
-      };
-      end;
-    },
-    '$curl->getinfo("certinfo")';
-  note Dumper($curl->getinfo('certinfo'));
-  note '$curl->getinfo("tls_session")->backend = ', $curl->getinfo('tls_session')->backend;
-  note '$curl->getinfo("tls_ssl_ptr")->backend = ', $curl->getinfo('tls_ssl_ptr')->backend;
+    $curl->setopt( url            => 'https://localhost:20204' )
+         ->setopt( ssl_verifypeer => 1)
+         ->setopt( keypasswd      => 'password')
+         ->setopt( connect_only   => 1 )
+         ->setopt( certinfo       => 1 )
+         ->perform;
 
-  msg_ok $curl, $sock, "hello world", name => 'auto-allocate';
-  msg_ok $curl, $sock, "hello world", name => 'pre-allocate';
+    my $sock = $curl->getinfo('activesocket');
 
-  my $msg = "0123456789" x 100;
-  $msg =~ s/..$//;
-  is length($msg), 998, 'message will be exactly 500 bytes';
+    is
+      $curl->getinfo('certinfo'),
+      array {
+        item bag {
+          item match qr/CN = localhost/;
+          item match qr/CN = Snakeoil Swirl CA/;
+          etc;
+        };
+        end;
+      },
+      '$curl->getinfo("certinfo")';
+    note Dumper($curl->getinfo('certinfo'));
+    note '$curl->getinfo("tls_session")->backend = ', $curl->getinfo('tls_session')->backend;
+    note '$curl->getinfo("tls_ssl_ptr")->backend = ', $curl->getinfo('tls_ssl_ptr')->backend;
 
-  msg_ok $curl, $sock, $msg, 'buf-size' => 100, 'name' => 'buf size divisible by message length';
+    msg_ok $curl, $sock, "hello world", name => 'auto-allocate';
+    msg_ok $curl, $sock, "hello world", name => 'pre-allocate';
 
-  undef $curl;
-  keep_is_empty;
+    my $msg = "0123456789" x 100;
+    $msg =~ s/..$//;
+    is length($msg), 998, 'message will be exactly 500 bytes';
+
+    msg_ok $curl, $sock, $msg, 'buf-size' => 100, 'name' => 'buf size divisible by message length';
+
+    undef $curl;
+    keep_is_empty;
+
+  }
 
 };
 

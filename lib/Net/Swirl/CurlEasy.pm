@@ -48,6 +48,7 @@ below.
   }
 
   $ffi->type( 'object(Net::Swirl::CurlEasy)' => 'CURL' );
+  $ffi->type( 'object(FFI::C::File)'         => 'FILE' );
 
   $ffi->attach( [ 'curl_free' => '_free' ] => ['opaque'] );
 
@@ -714,6 +715,16 @@ number of redirects.
 
 ( L<CURLOPT_MAXREDIRS|https://curl.se/libcurl/c/CURLOPT_MAXREDIRS.html> )
 
+=head3 noprogress
+
+ $curl->setopt( noprogress => $bool );
+
+If C<$bool> is C<1> (the default) then the progress meter will not be used.
+It also turns off calls to the L<xferinfofunction callback|/xferinfofunction>, so if
+you want to use this callback set this value to C<0>.
+
+( L<CURLOPT_NOPROGRESS|https://curl.se/libcurl/c/CURLOPT_NOPROGRESS.html> )
+
 =head3 postfields
 
  $curl->setopt( postfields => $postdata );
@@ -734,6 +745,24 @@ The size of the POST data.  You want to set this before the L<postfields option|
 if you have any NULLs in your POST data.
 
 ( L<CURLOPT_POSTFIELDSIZE|https://curl.se/libcurl/c/CURLOPT_POSTFIELDSIZE.html> )
+
+=head3 progressdata
+
+ $curl->setopt( progressdata => $progressdata );
+
+# TODO
+
+( L<CURLOPT_PROGRESSDATA|https://curl.se/libcurl/c/CURLOPT_PROGRESSDATA.html>)
+
+=head3 progressfunction
+
+ $curl->setopt( progressfunction => sub ($curl, $progressdata, $dltotal, $dlnow, $ultotal, $ulnow) {
+   ...
+ });
+
+# TODO
+
+( L<CURLOPT_PROGRESSFUNCTION|https://curl.se/libcurl/c/CURLOPT_PROGRESSFUNCTION.html>)
 
 =head3 readdata
 
@@ -778,6 +807,43 @@ but do not want to copy parts of the scalar before returning them.
 For a string reference
 
 ( L<CURLOPT_READFUNCTION|https://curl.se/libcurl/c/CURLOPT_READFUNCTION.html> )
+
+=head3 stderr
+
+ $curl->setopt( stderr => $fp );
+
+This option is for the output of the L<verbose option|/verbose> and the
+default progress meter, which is enabled via the L<noprogress option|/noprogress>.
+
+This option does NOT, as the name would suggest set C<stderr>, that is just
+the default value for this option.
+
+The default value for this is the C C<stderr> stream.  If you set this it
+must be a C C<FILE *> pointer, which you can get using L<FFI::C::File>.
+You probably also need to close the file after the transfer completes
+in order to get the full output.  For example:
+
+ use FFI::C::File;
+ use Path::Tiny qw( path );
+
+ my $fp = File::C::File->fopen("output.txt", "w");
+
+ $curl->setopt( stderr => $fp )
+       ->setopt( verbose => 1 )
+       ->setopt( noprogress => 0 )
+       ->perform;
+
+ $fp->fclose;
+
+ my $verbose_and_progress = path("output.txt")->slurp_raw;
+
+Unfortunately the L<noprogress option|/noprogress> needs to be set to C<0>
+for the L<progressfunction callback|/progressfunction> or the
+L<xferinfofunction callback|/xferinfofunction>, but setting either of those
+does not turn off the default progress meter (!) so when using those options
+you may want to set this to something else.
+
+( L<CURLOPT_STDERR|https://curl.se/libcurl/c/CURLOPT_STDERR.html> )
 
 =head3 url
 
@@ -828,12 +894,34 @@ its first argument, and the L<writedata|/writedata> option as its third argument
 
 ( L<CURLOPT_WRITEFUNCTION|https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html> )
 
+=head3 xferinfodata
+
+ $curl->setopt(xferinfodata => $xferinfodata );
+
+The C<xferinfodata> option is used by the L<xferinfofunction callback|/xferinfofunction>.
+This can be any Perl data type.  It is unused by C<libcurl> itself.
+
+( L<CURLOPT_XFERINFODATA|https://curl.se/libcurl/c/CURLOPT_XFERINFODATA.html>)
+
+=head3 xferinfofunction
+
+ $curl->setopt(xferinfofunction => sub ($curl, $xferinfodata, $dltotal, $dlnow, $ultotal, $ulnow) {
+   ...
+ });
+
+This gets called during the transfer "with a frequent interval".  C<$xferinfodata> is the
+data passed into the L<xferinfodata option|/xferinfodata>.  The L<noprogress option|/noprogress>
+must be set to C<0> otherwise this callback will not be called.
+
+( L<CURLOPT_XFERINFOFUNCTION|https://curl.se/libcurl/c/CURLOPT_XFERINFOFUNCTION.html> )
+
 =cut
 
   $ffi->attach( [setopt => '_setopt_stringpoint'  ] => ['CURL','enum'] => ['string'] => 'enum' );
-  $ffi->attach( [setopt => '_setopt_long'         ] => ['CURL','enum'] => ['long']   => 'enum' );
-  $ffi->attach( [setopt => '_setopt_off_t'        ] => ['CURL','enum'] => ['off_t']  => 'enum' );
+  $ffi->attach( [setopt => '_setopt_long'         ] => ['CURL','enum'] => ['long'  ] => 'enum' );
+  $ffi->attach( [setopt => '_setopt_off_t'        ] => ['CURL','enum'] => ['off_t' ] => 'enum' );
   $ffi->attach( [setopt => '_setopt_opaque'       ] => ['CURL','enum'] => ['opaque'] => 'enum' );
+  $ffi->attach( [setopt => '_setopt_FILE'         ] => ['CURL','enum'] => ['FILE'  ] => 'enum' );
 
   $ffi->attach( [setopt => '_setopt_slistpoint'   ] => ['CURL','enum'] => ['opaque'] => 'enum' => sub ($xsub, $self, $key_id, $items) {
     my $slist = Net::Swirl::CurlEasy::Slist->new($items->@*);
@@ -849,6 +937,32 @@ its first argument, and the L<writedata|/writedata> option as its third argument
       flags => 1,   # CURL_BLOB_COPY
     });
     $xsub->($self, $key_id, $blob);
+  });
+
+  sub _setopt_xferinfofunction_cb_wrapper ($curl, $cb, $data_id) {
+    Scalar::Util::weaken $curl;
+    return $ffi->closure(sub ($, @data) {
+      local $@ = '';
+      eval {
+        $cb->($curl, $keep{$$curl}->{$data_id}, @data);
+      };
+      if($@)
+      {
+        warn $@;
+        return 1;
+      }
+      return 0x10000001; # CURL_PROGRESSFUNC_CONTINUE
+    });
+  }
+
+  $ffi->attach( [setopt => '_setopt_xferinfofunction_cb'] => ['CURL','enum'] => ['(opaque,sint64,sint64,sint64,sint64)->int'] => 'enum' => sub ($xsub, $self, $key_id, $cb, $data_id) {
+    my $closure = $keep{$$self}->{$key_id} = _setopt_xferinfofunction_cb_wrapper($self, $cb, $data_id);
+    $xsub->($self, $key_id, $closure);
+  });
+
+  $ffi->attach( [setopt => '_setopt_progressfunction_cb'] => ['CURL','enum'] => ['(opaque,double,double,double,double)->int'] => 'enum' => sub ($xsub, $self, $key_id, $cb, $data_id) {
+    my $closure = $keep{$$self}->{$key_id} = _setopt_xferinfofunction_cb_wrapper($self, $cb, $data_id);
+    $xsub->($self, $key_id, $closure);
   });
 
   $ffi->attach( [setopt => '_setopt_writefunction_cb'] => ['CURL','enum'] => ['(opaque,size_t,size_t,opaque)->size_t'] => 'enum' => sub ($xsub, $self, $key_id, $cb, $data_id) {
@@ -931,14 +1045,19 @@ its first argument, and the L<writedata|/writedata> option as its third argument
   }
 
   our %opt = (%opt,
-    postfields     => [ 10165, \&_setopt_stringpoint             ],
-    copypostfields => [ 10165, \&_setopt_stringpoint             ],
-    writefunction  => [ 20011, \&_setopt_writefunction_cb, 10001 ],
-    writedata      => [ 10001, \&_function_data                  ],
-    readfunction   => [ 20012, \&_setopt_readfunction_cb,  10009 ],
-    readdata       => [ 10009, \&_function_data                  ],
-    headerfunction => [ 20079, \&_setopt_writefunction_cb, 10029 ],
-    headerdata     => [ 10029, sub ($self, $key_id, $value) {
+    postfields       => [ 10165, \&_setopt_stringpoint                ],
+    stderr           => [ 10037, \&_setopt_FILE                       ],
+    copypostfields   => [ 10165, \&_setopt_stringpoint                ],
+    xferinfofunction => [ 20219, \&_setopt_xferinfofunction_cb, 10057 ],
+    xferinfodata     => [ 10057, \&_function_data                     ],
+    progressfunction => [ 20056, \&_setopt_progressfunction_cb, 10057 ],
+    progressdata     => [ 10057, \&_function_data                     ],
+    writefunction    => [ 20011, \&_setopt_writefunction_cb,    10001 ],
+    writedata        => [ 10001, \&_function_data                     ],
+    readfunction     => [ 20012, \&_setopt_readfunction_cb,     10009 ],
+    readdata         => [ 10009, \&_function_data                     ],
+    headerfunction   => [ 20079, \&_setopt_writefunction_cb,    10029 ],
+    headerdata       => [ 10029, sub ($self, $key_id, $value) {
       $keep{$$self}->{$key_id} = $value;
       _setopt_opaque($self, $key_id, $value ? 1 : undef);
     }],

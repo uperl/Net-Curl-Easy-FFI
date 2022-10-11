@@ -5,6 +5,7 @@ use Net::Swirl::CurlEasy;
 use URI::file;
 use Path::Tiny qw( path );
 use Test2::Tools::MemoryCycle;
+use FFI::C::File;
 use lib 't/lib';
 use Test2::Tools::MyTest;
 
@@ -53,6 +54,64 @@ subtest 'very basic' => sub {
   keep_is_empty;
 };
 
+subtest 'verbose / stderr' => sub {
+
+  my $curl = eval { Net::Swirl::CurlEasy->new };
+  note "curl-ptr = @{[ $$curl ]}";
+
+  if(my $error = $@) {
+    if(eval { $error->isa('Net::Swirl::CurlEasy::Exception::CurlCode') })
+    {
+      diag "code = @{[ $error->code ]}";
+    }
+  }
+
+  isa_ok $curl, 'Net::Swirl::CurlEasy';
+
+  my $url = URI::file->new_abs('corpus/data.txt');
+  try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";
+
+  my $content;
+
+  try_ok {
+    $curl->setopt( writefunction => sub ($, $data, $) {
+      $content .= $data;
+    });
+  } "\$curl->setopt( writefunction => sub { ... } )";
+
+  try_ok {
+    $curl->setopt( verbose => 1 );
+  } '$curl->setopt( verbose => 1 )';
+
+  my $verbose_path = Path::Tiny->tempfile( "stuffXXXXXX" );
+  my $fp = FFI::C::File->fopen("$verbose_path", "w");
+
+  try_ok { $curl->setopt( stderr => $fp ) } '$curl->setopt( stderr => $fp )';
+
+  try_ok { $curl->perform } "\$curl->perform";
+
+  is
+    $curl,
+    object {
+      call [ isa => 'Net::Swirl::CurlEasy' ] => T();
+      call [ getinfo => 'scheme' ] => 'FILE';
+    },
+    'final object state';
+
+  is $content, path('corpus/data.txt')->slurp_raw, 'content matches';
+
+  $fp->fclose;
+
+  note "[content]\n$content";
+  note "[stderr]\n" . $verbose_path->slurp;
+
+  memory_cycle_ok $curl;
+
+  try_ok { undef $curl } 'did not crash I guess?';
+
+  keep_is_empty;
+};
+
 subtest 'writedata' => sub {
 
   my $curl = Net::Swirl::CurlEasy->new;
@@ -76,6 +135,118 @@ subtest 'writedata' => sub {
 
   try_ok { undef $curl } 'did not crash I guess?';
   keep_is_empty;
+};
+
+subtest 'xferinfo' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
+
+  my $url = URI::file->new_abs('corpus/data.txt');
+  try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";
+
+  try_ok {
+    my $content;
+    open my $fh, ">", \$content;
+    $curl->setopt( writedata => $fh );
+  } "\$curl->setopt( writedata => \$fh )";
+
+  my @xferinfo;
+
+  try_ok {
+    $curl->setopt( noprogress => 0 );
+  } '$curl->setopt( noprogress => 0 )';
+
+  try_ok {
+    $curl->setopt( stderr => FFI::C::File->tmpfile );
+  } '$curl->setopt( stderr => FFI::C::File->tmpfile )';
+
+  try_ok {
+    $curl->setopt( xferinfofunction => sub ($curl, $data, $dlt, $dln, $ult, $uln) {
+      note "xferinfofunction(... $dlt, $dln, $ult, $uln)";
+      @xferinfo = ($data, $dlt, $dln, $ult, $uln);
+      isa_ok $curl, 'Net::Swirl::CurlEasy';
+    });
+  } '$curl->setopt( xferinfofunction => sub { ... } )';
+
+  try_ok {
+    $curl->setopt(xferinfodata => [1,2,3]);
+  } '$curl->setopt(xferinfodata => [1,2,3])';
+
+  try_ok { $curl->perform } "\$curl->perform";
+
+  is
+    \@xferinfo,
+    array {
+      item [1,2,3];
+      item 13;
+      item 13;
+      item 0;
+      item 0;
+      end;
+    },
+    'expected final values for xferinfo';
+
+  memory_cycle_ok $curl;
+  undef $curl;
+  keep_is_empty;
+
+};
+
+subtest 'progress' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
+
+  my $url = URI::file->new_abs('corpus/data.txt');
+  try_ok { $curl->setopt( url => "$url" ) } "\$curl->setopt( url => '$url' )";
+
+  try_ok {
+    my $content;
+    open my $fh, ">", \$content;
+    $curl->setopt( writedata => $fh );
+  } "\$curl->setopt( writedata => \$fh )";
+
+  my @progress;
+
+  try_ok {
+    $curl->setopt( noprogress => 0 );
+  } '$curl->setopt( noprogress => 0 )';
+
+  try_ok {
+    $curl->setopt( stderr => FFI::C::File->tmpfile );
+  } '$curl->setopt( stderr => FFI::C::File->tmpfile )';
+
+  try_ok {
+    $curl->setopt( progressfunction => sub ($curl, $data, $dlt, $dln, $ult, $uln) {
+      note "progressfunction(... $dlt, $dln, $ult, $uln)";
+      @progress = ($data, $dlt, $dln, $ult, $uln);
+      isa_ok $curl, 'Net::Swirl::CurlEasy';
+    });
+  } '$curl->setopt( xferinfofunction => sub { ... } )';
+
+  try_ok {
+    $curl->setopt(xferinfodata => [1,2,3]);
+  } '$curl->setopt(xferinfodata => [1,2,3])';
+
+  try_ok { $curl->perform } "\$curl->perform";
+
+  is
+    \@progress,
+    array {
+      item [1,2,3];
+      item 13;
+      item 13;
+      item 0;
+      item 0;
+      end;
+    },
+    'expected final values for xferinfo';
+
+  memory_cycle_ok $curl;
+  undef $curl;
+  keep_is_empty;
+
 };
 
 subtest 'reset' => sub {

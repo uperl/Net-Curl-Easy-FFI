@@ -406,6 +406,18 @@ number of redirects.
 
 ( [CURLOPT\_MAXREDIRS](https://curl.se/libcurl/c/CURLOPT_MAXREDIRS.html) )
 
+### noprogress
+
+```perl
+$curl->setopt( noprogress => $bool );
+```
+
+If `$bool` is `1` (the default) then the progress meter will not be used.
+It also turns off calls to the [xferinfofunction callback](#xferinfofunction), so if
+you want to use this callback set this value to `0`.
+
+( [CURLOPT\_NOPROGRESS](https://curl.se/libcurl/c/CURLOPT_NOPROGRESS.html) )
+
 ### postfields
 
 ```perl
@@ -430,6 +442,28 @@ The size of the POST data.  You want to set this before the [postfields option](
 if you have any NULLs in your POST data.
 
 ( [CURLOPT\_POSTFIELDSIZE](https://curl.se/libcurl/c/CURLOPT_POSTFIELDSIZE.html) )
+
+### progressdata
+
+```perl
+$curl->setopt( progressdata => $progressdata );
+```
+
+\# TODO
+
+( [CURLOPT\_PROGRESSDATA](https://curl.se/libcurl/c/CURLOPT_PROGRESSDATA.html))
+
+### progressfunction
+
+```perl
+$curl->setopt( progressfunction => sub ($curl, $progressdata, $dltotal, $dlnow, $ultotal, $ulnow) {
+  ...
+});
+```
+
+\# TODO
+
+( [CURLOPT\_PROGRESSFUNCTION](https://curl.se/libcurl/c/CURLOPT_PROGRESSFUNCTION.html))
 
 ### readdata
 
@@ -482,6 +516,47 @@ but do not want to copy parts of the scalar before returning them.
 For a string reference
 
 ( [CURLOPT\_READFUNCTION](https://curl.se/libcurl/c/CURLOPT_READFUNCTION.html) )
+
+### stderr
+
+```perl
+$curl->setopt( stderr => $fp );
+```
+
+This option is for the output of the [verbose option](#verbose) and the
+default progress meter, which is enabled via the [noprogress option](#noprogress).
+
+This option does NOT, as the name would suggest set `stderr`, that is just
+the default value for this option.
+
+The default value for this is the C `stderr` stream.  If you set this it
+must be a C `FILE *` pointer, which you can get using [FFI::C::File](https://metacpan.org/pod/FFI::C::File).
+You probably also need to close the file after the transfer completes
+in order to get the full output.  For example:
+
+```perl
+use FFI::C::File;
+use Path::Tiny qw( path );
+
+my $fp = File::C::File->fopen("output.txt", "w");
+
+$curl->setopt( stderr => $fp )
+      ->setopt( verbose => 1 )
+      ->setopt( noprogress => 0 )
+      ->perform;
+
+$fp->fclose;
+
+my $verbose_and_progress = path("output.txt")->slurp_raw;
+```
+
+Unfortunately the [noprogress option](#noprogress) needs to be set to `0`
+for the [progressfunction callback](#progressfunction) or the
+[xferinfofunction callback](#xferinfofunction), but setting either of those
+does not turn off the default progress meter (!) so when using those options
+you may want to set this to something else.
+
+( [CURLOPT\_STDERR](https://curl.se/libcurl/c/CURLOPT_STDERR.html) )
 
 ### url
 
@@ -539,6 +614,31 @@ The callback also gets passed the [Net::Swirl::CurlEasy](https://metacpan.org/po
 its first argument, and the [writedata](#writedata) option as its third argument.
 
 ( [CURLOPT\_WRITEFUNCTION](https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html) )
+
+### xferinfodata
+
+```perl
+$curl->setopt(xferinfodata => $xferinfodata );
+```
+
+The `xferinfodata` option is used by the [xferinfofunction callback](#xferinfofunction).
+This can be any Perl data type.  It is unused by `libcurl` itself.
+
+( [CURLOPT\_XFERINFODATA](https://curl.se/libcurl/c/CURLOPT_XFERINFODATA.html))
+
+### xferinfofunction
+
+```perl
+$curl->setopt(xferinfofunction => sub ($curl, $xferinfodata, $dltotal, $dlnow, $ultotal, $ulnow) {
+  ...
+});
+```
+
+This gets called during the transfer "with a frequent interval".  `$xferinfodata` is the
+data passed into the [xferinfodata option](#xferinfodata).  The [noprogress option](#noprogress)
+must be set to `0` otherwise this callback will not be called.
+
+( [CURLOPT\_XFERINFOFUNCTION](https://curl.se/libcurl/c/CURLOPT_XFERINFOFUNCTION.html) )
 
 ## unescape
 

@@ -65,6 +65,7 @@ RUN cpanm -n                                         \
     Net::Server::Fork                                \
     Const::Introspect::C                             \
     Term::ReadLine::Gnu                              \
+    Exception::FFI::ErrorCode                        \
  && rm -rf ~/.cpanm
 
 ENV TEST_EXAMPLES 1

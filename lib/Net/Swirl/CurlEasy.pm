@@ -146,39 +146,6 @@ below.
 
   $ffi->mangler(sub ($name) { "curl_easy_$name" });
 
-  package Net::Swirl::CurlEasy::Exception {
-
-    use overload
-      '""' => sub { shift->as_string },
-      bool => sub { 1 }, fallback => 1;
-
-    sub new ($class)
-    {
-      my($package, $filename, $line) = caller(2);
-      bless {
-        package  => $package,
-        filename => $filename,
-        line     => $line,
-      }, $class;
-    }
-
-    sub code     ($self) { $self->{code}     }
-    sub package  ($self) { $self->{package}  }
-    sub filename ($self) { $self->{filename} }
-    sub line     ($self) { $self->{line}     }
-
-    sub strerror ($self)
-    {
-      die "not implemented";
-    }
-
-    sub as_string ($self)
-    {
-      sprintf "%s at %s line %s.", $self->strerror, $self->filename, $self->line;
-    }
-
-  }
-
   package Net::Swirl::CurlEasy::Exception::CurlCode {
 
     require Exception::FFI::ErrorCode;
@@ -192,34 +159,20 @@ below.
 
   package Net::Swirl::CurlEasy::Exception::Swirl {
 
-    our @ISA = qw( Net::Swirl::CurlEasy::Exception );  ## no critic (ClassHierarchies::ProhibitExplicitISA)
+    use Exception::FFI::ErrorCode
+      const_class => "Net::Swirl::CurlEasy::Const",
+      codes       => {
+        SWIRL_INTERNAL      => [ 0, "Internal Net::Swirl::CurlEasy error"                    ],
+        SWIRL_CREATE_FAILED => [ 1, "Could not create an instance of Net::Swirl::CurlEasy"   ],
+        SWIRL_BUFFER_REF    => [ 2, "Buffer argument was not a reference to a string scalar" ],
+      };
 
-    sub throw ($code)
     {
-      my $self = __PACKAGE__->new;
-      unless($code =~ /^(create-failed|internal|buffer-ref)$/) {
-        throw('internal');
-      }
-      $self->{code} = $code;
-      die $self;
+      my @swirl_codes = grep /^SWIRL_/, keys %Net::Swirl::CurlEasy::Const::;
+      push @Net::Swirl::CurlEasy::Const::EXPORT_OK, @swirl_codes;
+      $Net::Swirl::CurlEasy::Const::EXPORT_TAGS{swirl_errorcode} = \@swirl_codes;
+      push $Net::Swirl::CurlEasy::Const::EXPORT_TAGS->{all}->@*, \@swirl_codes;
     }
-
-    sub strerror ($self)
-    {
-      if($self->{code} eq 'create-failed')
-      {
-        return "Could not create an instance of Net::Swirl::CurlEasy";
-      }
-      elsif($self->{code} eq 'buffer-ref')
-      {
-        return "Buffer argument was not a reference to a string scalar";
-      }
-      else
-      {
-        return "Internal Net::Swirl::CurlEasy error";
-      }
-    }
-
   }
 
 =head1 CONSTRUCTOR
@@ -253,7 +206,7 @@ on failure.
   sub new ($class)
   {
     my $ptr = _new();
-    Net::Swirl::CurlEasy::Exception::Swirl::throw('create-failed') unless $ptr;
+    Net::Swirl::CurlEasy::Exception::Swirl->throw(code => Net::Swirl::CurlEasy::Const::SWIRL_CREATE_FAILED(), frame => 1) unless $ptr;
     my $self = bless \$ptr, $class;
     $self->_set_perl_defaults;
     $self;
@@ -302,7 +255,7 @@ on failure.
   sub clone ($self)
   {
     my $ptr = _clone($self);
-    Net::Swirl::CurlEasy::Exception::Swirl::throw('create-failed') unless $ptr;
+    Net::Swirl::CurlEasy::Exception::Swirl->throw(code => Net::Swirl::CurlEasy::Const::SWIRL_CREATE_FAILED(), frame => 1) unless $ptr;
     my $curl = bless \$ptr, ref($self);
     # we need to copy this, not use the same reference
     my %new_keep = $keep{$$self}->%*;
@@ -576,9 +529,9 @@ in the event of an error.
 =cut
 
   $ffi->attach( recv => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf, $size_in=undef) {
-    Net::Swirl::CurlEasy::Exception::Swirl::throw('buffer-ref') unless is_ref $buf;
+    Net::Swirl::CurlEasy::Exception::Swirl->throw(code => Net::Swirl::CurlEasy::Const::SWIRL_BUFFER_REF(), frame => 1) unless is_ref $buf;
     $$buf = '' unless defined $$buf;
-    Net::Swirl::CurlEasy::Exception::Swirl::throw('buffer-ref') unless is_scalarref $buf;
+    Net::Swirl::CurlEasy::Exception::Swirl->throw(code => Net::Swirl::CurlEasy::Const::SWIRL_BUFFER_REF(), frame => 1) unless is_scalarref $buf;
 
     my $ptr;
     if(defined $size_in)
@@ -657,7 +610,7 @@ in the event of an error.
 =cut
 
   $ffi->attach( send => ['CURL','opaque','size_t','size_t*'] => 'enum' => sub ($xsub, $self, $buf, $offset=0) {
-    Net::Swirl::CurlEasy::Exception::Swirl::throw('buffer-ref') unless is_scalarref $buf;
+    Net::Swirl::CurlEasy::Exception::Swirl->throw(code => Net::Swirl::CurlEasy::Const::SWIRL_BUFFER_REF(), frame => 1) unless is_scalarref $buf;
 
     my ($ptr,$size_in) = FFI::Platypus::Buffer::scalar_to_buffer($$buf);
 

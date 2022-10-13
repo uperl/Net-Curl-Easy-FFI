@@ -192,6 +192,12 @@ delete $info_init{NONE};
 delete $info_init{LASTONE};
 delete $option_init{LASTENTRY};
 
+my %aliases = (
+  option => {
+    xferinfodata => 'progressdata',
+  },
+);
+
 foreach my $line ($curl_h->lines)
 {
   if($line =~ /CURLOPT\(\s*CURLOPT_(\S+)\s*,\s*CURLOPTTYPE_(\S+)\s*,\s*\S+\s*\)/)
@@ -228,6 +234,17 @@ foreach my $line ($curl_h->lines)
       }
 
       push @options, \%option;
+
+      # progressdata is an alias for xinfodata
+      if(my $alias = delete $aliases{option}->{lc $name})
+      {
+        my %option = %option;
+        $option{perl_name} = $alias;
+        $option{c_name}    = 'CURLOPT_PROGRESSDATA';
+        $option{hand_pod}  = delete $hand_pod{option}->{$alias};
+        $option{hand_code} = !!$Net::Swirl::CurlEasy::opt{$alias};
+        push @options, \%option;
+      }
 
       if(!!$Net::Swirl::CurlEasy::opt{lc $name})
       {

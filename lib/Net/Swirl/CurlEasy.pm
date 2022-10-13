@@ -339,6 +339,20 @@ instead.
 
 ( L<CURLINFO_LASTSOCKET|https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html> )
 
+=head3 private
+
+ $curl->setopt( private => $data );
+ my $data = $curl->getinfo( 'private' );
+
+This field allows you to associate an arbitrary Perl data structure with the
+L<Net::Swirl::CurlEasy> instance.  It isn't used by L<Net::Swirl::CurlEasy>
+or C<libcurl> but may be useful for the application.
+
+Note that in the C API this is a C<void *> pointer, but in this API it is a
+Perl data structure.
+
+( L<CURLINFO_PRIVATE|https://curl.se/libcurl/c/CURLINFO_PRIVATE.html> )
+
 =head3 scheme
 
  my $scheme = $curl->getinfo('scheme');
@@ -444,6 +458,7 @@ name), but these two methods should be available (even if one just throws an exc
     certinfo     => [4194338, \&_getinfo_certinfo      ],
     tls_session  => [4194347, \&_getinfo_tlssessioninfo],
     tls_ssl_ptr  => [4194349, \&_getinfo_tlssessioninfo],
+    private      => [1048597, sub ($self, $key_id, $value) { $$value = $keep{$$self}->{$key_id}; return 0 } ],
   );
 
   sub getinfo ($self, $key)
@@ -724,6 +739,20 @@ It also turns off calls to the L<xferinfofunction callback|/xferinfofunction>, s
 you want to use this callback set this value to C<0>.
 
 ( L<CURLOPT_NOPROGRESS|https://curl.se/libcurl/c/CURLOPT_NOPROGRESS.html> )
+
+=head3 private
+
+ $curl->setopt( private => $data );
+ my $data = $curl->getinfo( 'private' );
+
+This field allows you to associate an arbitrary Perl data structure with the
+L<Net::Swirl::CurlEasy> instance.  It isn't used by L<Net::Swirl::CurlEasy>
+or C<libcurl> but may be useful for the application.
+
+Note that in the C API this is a C<void *> pointer, but in this API it is a
+Perl data structure.
+
+( L<CURLOPT_PRIVATE|https://curl.se/libcurl/c/CURLOPT_PRIVATE.html> )
 
 =head3 postfields
 
@@ -1060,6 +1089,7 @@ exception.
   }
 
   our %opt = (%opt,
+    private          => [ 1048597, \&_function_data                   ],
     postfields       => [ 10165, \&_setopt_stringpoint                ],
     stderr           => [ 10037, \&_setopt_FILE                       ],
     copypostfields   => [ 10165, \&_setopt_stringpoint                ],
@@ -1677,6 +1707,27 @@ We can append the data to the response buffer that we are building up.  When the
 more bytes to read we can assume the response is complete.
 
 =back
+
+=head1 CAVEATS
+
+You should not store the L<Net::Swirl::CurlEasy> instance in any data structure that you
+pass into L<Net::Swirl::CurlEasy> options like L</private> or any of the C<*data> options
+because you will almost certainly cause a memory cycle where the L<Net::Swirl::CurlEasy>
+cannot be freed (until exit).
+
+ $curl->setopt( private => $curl );  # nooooo!
+
+In addition the callbacks that you pass in should not use the L<Net::Swirl::CurlEasy>
+instance from a closure for the same reason.  This is why the L<Net::Swirl::CurlEasy>
+instance is passed into the callbacks.
+
+ $curl->setopt( progressfunction => sub {
+   $curl->getinfo( 'private' );  # nooooo!
+ });
+
+ $curl->setopt( progressfunction => sub ($callback_curl, @) {
+   $callback_curl->getinfo( 'private' );  # okay
+ });
 
 =head1 SEE ALSO
 

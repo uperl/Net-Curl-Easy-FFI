@@ -333,6 +333,7 @@ subtest 'reset' => sub {
   note "curl-ptr = @{[ $$curl ]}";
   try_ok { $curl->reset } '$curl->reset';
 
+  memory_cycle_ok $curl;
   undef $curl;
   keep_is_empty;
 };
@@ -431,6 +432,7 @@ subtest 'invalid option, invalid info' => sub {
     },
     'got the expected exception for invalid info';
 
+  memory_cycle_ok $curl;
   undef $curl;
   keep_is_empty;
 
@@ -452,6 +454,32 @@ subtest 'escape' => sub {
     "foo\0bar",
     '$curl->unescape("foo%00bar")',
   );
+
+  memory_cycle_ok $curl;
+  undef $curl;
+  keep_is_empty;
+
+};
+
+subtest 'private' => sub {
+
+  my $curl = Net::Swirl::CurlEasy->new;
+  note "curl-ptr = @{[ $$curl ]}";
+
+  try_ok {
+    $curl->setopt( private => { foo => "bar" } );
+  } '$curl->setopt( private => { foo => "bar" }';
+
+  $curl->getinfo( 'private' );
+
+  is
+    $curl->getinfo( 'private' ),
+    { foo => 'bar' },
+    'private data stored in $curl came back the same';
+
+  memory_cycle_ok $curl;
+  undef $curl;
+  keep_is_empty;
 
 };
 

@@ -20,7 +20,7 @@ foreach my $script ($path->children)
 
     script_compiles "$script";
 
-    if($script->basename =~ /ssl\.pl$/ && !example_https)
+    if($script->basename =~ /^(simplessl|simplep12)\.pl$/ && !example_https)
     {
       note "example script requires TLS/SSL";
       return;

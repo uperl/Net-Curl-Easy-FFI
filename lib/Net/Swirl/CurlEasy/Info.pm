@@ -189,7 +189,15 @@ effective_url CURLINFO_EFFECTIVE_URL response_code CURLINFO_RESPONSE_CODE total_
 
 =head2 private
 
- my $value = $getinfo('private');
+ $curl->setopt( private => $data );
+ my $data = $curl->getinfo( 'private' );
+
+This field allows you to associate an arbitrary Perl data structure with the
+L<Net::Swirl::CurlEasy> instance.  It isn't used by L<Net::Swirl::CurlEasy>
+or C<libcurl> but may be useful for the application.
+
+Note that in the C API this is a C<void *> pointer, but in this API it is a
+Perl data structure.
 
 ( L<CURLINFO_PRIVATE|https://curl.se/libcurl/c/CURLINFO_PRIVATE.html> )
 
@@ -517,7 +525,6 @@ URL scheme used for the most recent connection done.
       content_type => [ 1048594, \&_getinfo_string ],
       redirect_time => [ 3145747, \&_getinfo_double ],
       redirect_count => [ 2097172, \&_getinfo_long ],
-      private => [ 1048597, \&_getinfo_string ],
       http_connectcode => [ 2097174, \&_getinfo_long ],
       httpauth_avail => [ 2097175, \&_getinfo_long ],
       proxyauth_avail => [ 2097176, \&_getinfo_long ],

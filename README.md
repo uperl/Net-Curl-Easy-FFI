@@ -141,6 +141,22 @@ instead.
 
 ( [CURLINFO\_LASTSOCKET](https://curl.se/libcurl/c/CURLINFO_LASTSOCKET.html) )
 
+### private
+
+```perl
+$curl->setopt( private => $data );
+my $data = $curl->getinfo( 'private' );
+```
+
+This field allows you to associate an arbitrary Perl data structure with the
+[Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance.  It isn't used by [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
+or `libcurl` but may be useful for the application.
+
+Note that in the C API this is a `void *` pointer, but in this API it is a
+Perl data structure.
+
+( [CURLINFO\_PRIVATE](https://curl.se/libcurl/c/CURLINFO_PRIVATE.html) )
+
 ### scheme
 
 ```perl
@@ -417,6 +433,22 @@ It also turns off calls to the [xferinfofunction callback](#xferinfofunction), s
 you want to use this callback set this value to `0`.
 
 ( [CURLOPT\_NOPROGRESS](https://curl.se/libcurl/c/CURLOPT_NOPROGRESS.html) )
+
+### private
+
+```perl
+$curl->setopt( private => $data );
+my $data = $curl->getinfo( 'private' );
+```
+
+This field allows you to associate an arbitrary Perl data structure with the
+[Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance.  It isn't used by [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
+or `libcurl` but may be useful for the application.
+
+Note that in the C API this is a `void *` pointer, but in this API it is a
+Perl data structure.
+
+( [CURLOPT\_PRIVATE](https://curl.se/libcurl/c/CURLOPT_PRIVATE.html) )
 
 ### postfields
 
@@ -1511,6 +1543,31 @@ not be ready yet, and may come in chunks so we have to check the return value.  
 `undef` then we should once again wait on the socket, this time for bytes to read.  Otherwise
 We can append the data to the response buffer that we are building up.  When there are no
 more bytes to read we can assume the response is complete.
+
+# CAVEATS
+
+You should not store the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) instance in any data structure that you
+pass into [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy) options like ["private"](#private) or any of the `*data` options
+because you will almost certainly cause a memory cycle where the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
+cannot be freed (until exit).
+
+```perl
+$curl->setopt( private => $curl );  # nooooo!
+```
+
+In addition the callbacks that you pass in should not use the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
+instance from a closure for the same reason.  This is why the [Net::Swirl::CurlEasy](https://metacpan.org/pod/Net::Swirl::CurlEasy)
+instance is passed into the callbacks.
+
+```perl
+$curl->setopt( progressfunction => sub {
+  $curl->getinfo( 'private' );  # nooooo!
+});
+
+$curl->setopt( progressfunction => sub ($callback_curl, @) {
+  $callback_curl->getinfo( 'private' );  # okay
+});
+```
 
 # SEE ALSO
 

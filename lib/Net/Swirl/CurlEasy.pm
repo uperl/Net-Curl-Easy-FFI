@@ -954,7 +954,8 @@ C<curl>'s internal progress meter (!) which is probably not what you want.  You 
 around this by redirecting that output with the L<stderr option|/stderr>.
 
 If this callback throws an exception, then the L<perform method|Net::Swirl::CurlEasy/perform>  will cancel the transfer
-and throw a L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
+and throw a
+L<Net::Swirl::CurlEasy::Exception::CurlCode|Net::Swirl::CurlEasy/Net::Swirl::CurlEasy::Exception::CurlCode>
 exception.
 
 ( L<CURLOPT_XFERINFOFUNCTION|https://curl.se/libcurl/c/CURLOPT_XFERINFOFUNCTION.html> )

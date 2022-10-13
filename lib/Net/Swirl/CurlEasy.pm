@@ -953,7 +953,7 @@ Note that if you set the L<noprogress option|/noprogress> to C<0> it will also t
 C<curl>'s internal progress meter (!) which is probably not what you want.  You can work
 around this by redirecting that output with the L<stderr option|/stderr>.
 
-If this callback throws an exception, then the L<perform method|/perform>  will cancel the transfer
+If this callback throws an exception, then the L<perform method|Net::Swirl::CurlEasy/perform>  will cancel the transfer
 and throw a L<Net::Swirl::CurlEasy::Exception::CurlCode|/Net::Swirl::CurlEasy::Exception::CurlCode>
 exception.
 

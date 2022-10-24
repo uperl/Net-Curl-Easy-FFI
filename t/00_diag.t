@@ -39,11 +39,11 @@ $modules{$_} = $_ for qw(
 $post_diag = sub {
   local $@='';
   my $lib = eval {
-    require './lib/Net/Swirl/CurlEasy/FFI.pm';
+    require Net::Swirl::CurlEasy::FFI;
     Net::Swirl::CurlEasy::FFI->lib;
   };
-  warn $@ if $@;
-  diag "libcurl = @{[ $lib // 'undef' ]}";
+  diag "warning: $@" if $@;
+  diag "lib        = @{[ $lib // 'undef' ]}";
   $@ = '';
   my $version = eval {
     require FFI::Platypus;
@@ -51,10 +51,18 @@ $post_diag = sub {
     my $ffi = FFI::Platypus->new( api => 2, lib => [$lib] );
     $ffi->function('curl_version' => [] => 'string')->call;
   };
-  warn $@ if $@;
+  diag "warning: $@" if $@;
   if(defined $version) {
-    diag "version = $_" for split /\s+/, $version;
+    diag "version    = $_" for split /\s+/, $version;
   }
+  my @ssl_engines = eval {
+    use experimental qw( postderef );
+    require Net::Swirl::CurlEasy;
+    my $curl = Net::Swirl::CurlEasy->new;
+    $curl->getinfo('ssl_engines')->@*
+  };
+  diag "warning: $@" if $@;
+   diag "ssl_engine = $_" for @ssl_engines;
   unless($ENV{TEST_EXAMPLES}) {
     diag '';
     diag '';

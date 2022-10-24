@@ -46,8 +46,6 @@ subtest 'very basic' => sub {
 
   is $content, path('corpus/data.txt')->slurp_raw, 'content matches';
 
-  note "ssl_engines:$_" for $curl->getinfo('ssl_engines')->@*;
-
   memory_cycle_ok $curl;
 
   try_ok { undef $curl } 'did not crash I guess?';

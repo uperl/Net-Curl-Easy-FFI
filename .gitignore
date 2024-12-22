@@ -3,3 +3,7 @@ Net-Swirl-CurlEasy-*
 *.swp
 /ffi/_build
 /.test*
+/Net-Swirl-CurlEasy-*
+/.build
+*.old
+*.orig
